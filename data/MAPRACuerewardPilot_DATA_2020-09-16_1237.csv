@@ -1,0 +1,12 @@
+record_id,diagnosis___1,diagnosis___2,diagnosis___3,medication_list,date_candace_emailed_provi,provider_approved,study_staff_screening,elig_age,elig_gout,elig_meds,elig_meds_name,elig_meds_name_status,eligible,initial_visit_date,confirm_mail,baseline_gout_questionnaire_timestamp,gout_1,gout_2,gout_3,gout_4,baseline_gout_questionnaire_complete,med_list_sheet_complete,baseline_med_list_complete,med_use_1,med_use_2,med_use_3,med_use_4,med_use_5,med_use_6,med_use_7,med_use_8,med_use_9,med_use_10,med_use_11,med_use_12,med_use_13,med_use_14,med_use_15,med_use_16,med_use_17,med_use_18,med_use_19,med_use_20,baseline_medication_use_questionnaire_complete
+1,1,0,0,Ibuprofen  Allopurinol,7/15/2020,1,2,1,1,1,Allopurinol 200,1,1,7/29/2020,,8/19/2020 14:35,1,1,1,6,2,0,0,13,2,1,2,3,3,0,0,1,1,4,5,2,2,4,5,3,5,3,4,2
+2,0,0,0,,,,4,1,1,1,fkdfndkn,1,1,7/29/2020,,,1,0,0,2,0,0,0,4,2,5,4,6,5,0,0,0,1,3,4,4,2,3,3,5,1,4,2,0
+3,0,0,0,,7/31/2020,1,2,1,1,1,Allopurinol,1,1,7/31/2020,,7/31/2020 14:53,0,0,0,5,2,0,0,3,6,6,7,7,7,1,1,1,1,5,5,5,5,5,5,5,5,5,5,2
+4,0,0,0,,8/6/2020,1,3,1,1,1,allopurinol,1,1,8/6/2020,,8/6/2020 11:15,1,1,1,7,2,0,0,1,5,5,5,4,6,1,1,1,1,3,3,3,3,3,3,3,3,3,3,2
+5,0,0,0,,7/16/2020,1,4,1,1,1,"X, Y, Z",1,1,8/14/2020,,,1,1,,10,2,0,0,1,4,5,1,5,3,1,1,1,1,1,3,2,4,4,3,2,1,2,3,2
+6,0,0,0,,8/11/2020,1,2,1,1,1,Allopurinol,1,1,8/20/2020,,8/11/2020 15:26,0,0,0,5,2,0,0,,,,,,,,,,,,,,,,,,,,,0
+7,1,0,0,Allopurinol,8/27/2020,1,2,1,1,1,allopurinol,1,1,8/27/2020,,8/27/2020 16:49,0,1,1,7,2,0,0,4,5,5,7,6,4,1,1,1,0,5,2,2,2,4,1,1,1,4,5,2
+8,1,0,0,Colchicine  Acetaminophen  Loratadine,8/12/2020,1,,1,1,1,Colchicine,1,1,8/28/2020,,8/28/2020 15:15,1,1,1,7,2,0,2,30,1,5,4,3,2,1,1,0,0,3,4,2,4,4,3,4,3,5,1,2
+10,0,0,0,,,,,,,,,,,,,9/8/2020 12:27,1,1,1,7,2,0,0,7,3,3,1,5,2,1,1,0,0,2,3,3,2,2,5,2,3,2,1,2
+11,0,0,0,,,,1,1,1,1,,1,1,9/8/2020,,9/8/2020 12:49,0,0,0,7,2,2,0,6,3,2,2,4,2,1,1,0,0,3,2,3,4,4,2,2,3,1,2,2
+12,1,0,0,Allopurinol  ,9/10/2020,1,2,1,1,1,Allopurinol,1,1,9/10/2020,"50 Green St  Boston, MA 02130",9/10/2020 14:53,1,1,1,5,2,2,2,5,1,1,2,6,3,1,0,1,0,4,3,4,3,2,3,2,3,4,5,2

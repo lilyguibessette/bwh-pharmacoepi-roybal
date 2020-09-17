@@ -70,7 +70,7 @@ while keep_going:
     actions = get_actions()
 
     # <rank>
-    rank_request = RankRequest( actions=actions, context_features=context, excluded_actions=['juice'], event_id=eventid)
+    rank_request = RankRequest(actions=actions, context_features=context, excluded_actions=['juice'], event_id=eventid)
     response = client.rank(rank_request=rank_request)
     # </rank>
     
