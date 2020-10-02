@@ -38,3 +38,9 @@ def import_demographics(filepath):
 
 if __name__ == '__main__':
     importPillsy()
+
+
+
+
+## Steps - Import baseline demographics to start
+## ask julie if all patients will start on same day

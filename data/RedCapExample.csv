@@ -1,12 +1,5 @@
-patientId,Age,Sex,YearDMRx,HbA1c,ClinicLocation,ReferralType,Race,NumMD,NumRx,NumDMRx,InsulinUse,PillboxUse,Automaticity,PtActivation,ReasonDMRx,NonAdhere,EduLevel,Employed,MaritalStat,IncomeLevel,Num2XPillsyRx,NumPillsyRx,AvgAdhere7,AvgAdhere3,AvgAdhere1,NumDaySincePosFraming,NumDaySinceNegFraming,NumDaySinceHistory,NumDaySinceSocial,NumDaySince Content,NumDaySinceReflective
-5e28a508057163112dd26ce4,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+study_id,start_date,age,sex,yearDMRx,hba1c,clinicLocation,referralType,race,numMD,numRx,numDMRx,insulinUse,pillboxUse,automaticity,ptActivation,reasonDMRx,nonAdhere,eduLevel,employed,maritalStat,incomeLevel,num2XPillsy,numPillsyRx,avgAdhere7,avgAdhere3,avgAdhere3,numDaySincePosFraming,numDaySinceNegFraming,numDaySinceHistory,numDaySinceSocial,numDaySinceContent,numDaySinceReflective,day1,day2,day3,day4,day5,day6,day7,counter
+1,1/1/20,18,1,1,7.9,Longwood,Clinician,White,2,2,1,0,0,2,Yes,,2,Some college,Prefer not to say,Single,<20K,0,2,,,,,,,,,,,,,,,,,
+2,1/4/20,50,0,5,8.1,Longwood,EPIC,White,3,4,1,1,1,3,Yes,,4,Prefer not to say,Employed,Married,75-99,0,2,,,,,,,,,,,,,,,,,
+3,1/4/20,25,1,2,8.6,Faulkner,EPIC,Black,3,3,1,1,1,4,No,,3,College grad,Job-seeking,Partner,35-50,0,1,,,,,,,,,,,,,,,,,
+4,1/2/20,45,0,10,8.3,Francis,Clinician,Asian,5,6,2,1,0,1,Most,,1,Postgrad,Disabled,Divorced,20-35,1,3,,,,,,,,,,,,,,,,,

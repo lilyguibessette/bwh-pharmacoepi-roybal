@@ -1,0 +1,5 @@
+study_id,age,sex,yearDMRx,hba1c,clinicLocation,referralType,race,numMD,numRx,numDMRx,insulinUse,pillboxUse,automaticity,ptActivation,reasonDMRx,nonAdhere,eduLevel,employed,maritalStat,incomeLevel,num2XPillsy,numPillsyRx,avgAdhere7,avgAdhere3,avgAdhere3,numDaySincePosFraming,numDaySinceNegFraming,numDaySinceHistory,numDaySinceSocial,numDaySinceContent,numDaySinceReflective
+5e28a508057163112dd26ce4,18,1,1,7.9,Longwood,Clinician,White,2,2,1,0,0,2,Yes,,2,Some college,Prefer not to say,Single,<20K,0,2,,,,,,,,,
+5e28a508057163112dd26ce5,50,0,5,8.1,Longwood,EPIC,White,3,4,1,1,1,3,Yes,,4,Prefer not to say,Employed,Married,75-99,0,2,,,,,,,,,
+5e28a508057163112dd26ce6,25,1,2,8.6,Faulkner,EPIC,Black,3,3,1,1,1,4,No,,3,College grad,Job-seeking,Partner,35-50,0,1,,,,,,,,,
+5e28a508057163112dd26ce7,45,0,10,8.3,Francis,Clinician,Asian,5,6,2,1,0,1,Most,,1,Postgrad,Disabled,Divorced,20-35,1,3,,,,,,,,,
