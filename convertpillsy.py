@@ -13,6 +13,13 @@ import json
 
 #handle case of patient on 2 BID Rxs
 
+class RankCallInformation:
+    def __init__(self, study_id_list, current_call_time, last_call_time):
+        self.study_id_list = study_id_list
+        self.current_call_time = current_call_time
+        self.last_call_time = last_call_time
+
+
 class PillsyEntry:
     def __init__(self, firstname, drugName, eventValue, eventTime):
         self.study_id = firstname

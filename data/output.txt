@@ -1,0 +1,129 @@
+/Users/lilybessette/ALIGN/Resources/PyCharmPractice/venv/bin/python /Users/lilybessette/BWH_DoPE/bwh-pharmacoepi-roybal/convertpillsy.py
+datetime64[ns, pytz.FixedOffset(-240)]
+[(1, 'Medication 1 BID', 'CLOSE', Timestamp('2020-09-10 11:02:00-0400', tz='pytz.FixedOffset(-240)')), (1, 'Medication 1 BID', 'OPEN', Timestamp('2020-09-10 11:02:00-0400', tz='pytz.FixedOffset(-240)')), (1, 'Medication 1 BID', 'CLOSE', Timestamp('2020-09-10 11:05:00-0400', tz='pytz.FixedOffset(-240)')), (1, 'Medication 1 BID', 'OPEN', Timestamp('2020-09-10 11:05:00-0400', tz='pytz.FixedOffset(-240)')), (2, 'Medication 1 QD', 'CLOSE', Timestamp('2020-09-10 10:59:00-0400', tz='pytz.FixedOffset(-240)')), (2, 'Medication 1 QD', 'OPEN', Timestamp('2020-09-10 10:59:00-0400', tz='pytz.FixedOffset(-240)')), (2, 'Medication 1 QD', 'CLOSE', Timestamp('2020-09-10 11:02:00-0400', tz='pytz.FixedOffset(-240)')), (2, 'Medication 1 QD', 'OPEN', Timestamp('2020-09-10 11:02:00-0400', tz='pytz.FixedOffset(-240)')), (2, 'Medication 1 QD', 'CLOSE', Timestamp('2020-09-10 11:02:00-0400', tz='pytz.FixedOffset(-240)')), (2, 'Medication 1 QD', 'OPEN', Timestamp('2020-09-10 11:02:00-0400', tz='pytz.FixedOffset(-240)')), (2, 'Medication 1 QD', 'CLOSE', Timestamp('2020-09-10 11:15:00-0400', tz='pytz.FixedOffset(-240)')), (2, 'Medication 1 QD', 'OPEN', Timestamp('2020-09-10 11:15:00-0400', tz='pytz.FixedOffset(-240)')), (1, 'Medication 2 QD', 'OPEN', Timestamp('2020-09-10 11:02:00-0400', tz='pytz.FixedOffset(-240)')), (1, 'Medication 2 QD', 'CLOSE', Timestamp('2020-09-10 11:05:00-0400', tz='pytz.FixedOffset(-240)')), (2, 'Medication 2 QD', 'OPEN', Timestamp('2020-10-01 10:59:00-0400', tz='pytz.FixedOffset(-240)')), (2, 'Medication 2 QD', 'CLOSE', Timestamp('2020-10-01 11:59:00-0400', tz='pytz.FixedOffset(-240)'))]
+    firstname          drugName eventValue                 eventTime
+0           1  Medication 1 BID      CLOSE 2020-09-10 11:02:00-04:00
+1           1  Medication 1 BID       OPEN 2020-09-10 11:02:00-04:00
+2           1  Medication 1 BID      CLOSE 2020-09-10 11:05:00-04:00
+3           1  Medication 1 BID       OPEN 2020-09-10 11:05:00-04:00
+12          1   Medication 2 QD       OPEN 2020-09-10 11:02:00-04:00
+13          1   Medication 2 QD      CLOSE 2020-09-10 11:05:00-04:00
+['Medication 1 BID', 'Medication 2 QD']
+2
+   firstname          drugName eventValue                 eventTime
+0          1  Medication 1 BID      CLOSE 2020-09-10 11:02:00-04:00
+1          1  Medication 1 BID       OPEN 2020-09-10 11:02:00-04:00
+2          1  Medication 1 BID      CLOSE 2020-09-10 11:05:00-04:00
+3          1  Medication 1 BID       OPEN 2020-09-10 11:05:00-04:00
+OLD patient_by_drug
+0   2020-09-10 11:02:00-04:00
+1   2020-09-10 11:02:00-04:00
+2   2020-09-10 11:05:00-04:00
+3   2020-09-10 11:05:00-04:00
+Name: eventTime, dtype: datetime64[ns, pytz.FixedOffset(-240)]
+NEW patient_by_drug
+0   22 days 12:45:53.664240
+1   22 days 12:45:53.664240
+2   22 days 12:42:53.664240
+3   22 days 12:42:53.664240
+Name: new_eventTime, dtype: timedelta64[ns]
+subset patient_by_date < 1 day
+Empty DataFrame
+Columns: [firstname, drugName, eventValue, eventTime, new_eventTime]
+Index: []
+subset patient_by_date >= 0 s 
+Empty DataFrame
+Columns: [firstname, drugName, eventValue, eventTime, new_eventTime]
+Index: []
+1
+    firstname         drugName eventValue                 eventTime
+12          1  Medication 2 QD       OPEN 2020-09-10 11:02:00-04:00
+13          1  Medication 2 QD      CLOSE 2020-09-10 11:05:00-04:00
+OLD patient_by_drug
+12   2020-09-10 11:02:00-04:00
+13   2020-09-10 11:05:00-04:00
+Name: eventTime, dtype: datetime64[ns, pytz.FixedOffset(-240)]
+NEW patient_by_drug
+12   22 days 12:45:53.712194
+13   22 days 12:42:53.712194
+Name: new_eventTime, dtype: timedelta64[ns]
+subset patient_by_date < 1 day
+Empty DataFrame
+Columns: [firstname, drugName, eventValue, eventTime, new_eventTime]
+Index: []
+subset patient_by_date >= 0 s 
+Empty DataFrame
+Columns: [firstname, drugName, eventValue, eventTime, new_eventTime]
+Index: []
+    firstname         drugName eventValue                 eventTime
+4           2  Medication 1 QD      CLOSE 2020-09-10 10:59:00-04:00
+5           2  Medication 1 QD       OPEN 2020-09-10 10:59:00-04:00
+6           2  Medication 1 QD      CLOSE 2020-09-10 11:02:00-04:00
+7           2  Medication 1 QD       OPEN 2020-09-10 11:02:00-04:00
+8           2  Medication 1 QD      CLOSE 2020-09-10 11:02:00-04:00
+9           2  Medication 1 QD       OPEN 2020-09-10 11:02:00-04:00
+10          2  Medication 1 QD      CLOSE 2020-09-10 11:15:00-04:00
+11          2  Medication 1 QD       OPEN 2020-09-10 11:15:00-04:00
+14          2  Medication 2 QD       OPEN 2020-10-01 10:59:00-04:00
+15          2  Medication 2 QD      CLOSE 2020-10-01 11:59:00-04:00
+['Medication 1 QD', 'Medication 2 QD']
+1
+    firstname         drugName eventValue                 eventTime
+4           2  Medication 1 QD      CLOSE 2020-09-10 10:59:00-04:00
+5           2  Medication 1 QD       OPEN 2020-09-10 10:59:00-04:00
+6           2  Medication 1 QD      CLOSE 2020-09-10 11:02:00-04:00
+7           2  Medication 1 QD       OPEN 2020-09-10 11:02:00-04:00
+8           2  Medication 1 QD      CLOSE 2020-09-10 11:02:00-04:00
+9           2  Medication 1 QD       OPEN 2020-09-10 11:02:00-04:00
+10          2  Medication 1 QD      CLOSE 2020-09-10 11:15:00-04:00
+11          2  Medication 1 QD       OPEN 2020-09-10 11:15:00-04:00
+OLD patient_by_drug
+4    2020-09-10 10:59:00-04:00
+5    2020-09-10 10:59:00-04:00
+6    2020-09-10 11:02:00-04:00
+7    2020-09-10 11:02:00-04:00
+8    2020-09-10 11:02:00-04:00
+9    2020-09-10 11:02:00-04:00
+10   2020-09-10 11:15:00-04:00
+11   2020-09-10 11:15:00-04:00
+Name: eventTime, dtype: datetime64[ns, pytz.FixedOffset(-240)]
+NEW patient_by_drug
+4    22 days 12:48:53.808399
+5    22 days 12:48:53.808399
+6    22 days 12:45:53.808399
+7    22 days 12:45:53.808399
+8    22 days 12:45:53.808399
+9    22 days 12:45:53.808399
+10   22 days 12:32:53.808399
+11   22 days 12:32:53.808399
+Name: new_eventTime, dtype: timedelta64[ns]
+subset patient_by_date < 1 day
+Empty DataFrame
+Columns: [firstname, drugName, eventValue, eventTime, new_eventTime]
+Index: []
+subset patient_by_date >= 0 s 
+Empty DataFrame
+Columns: [firstname, drugName, eventValue, eventTime, new_eventTime]
+Index: []
+1
+    firstname         drugName eventValue                 eventTime
+14          2  Medication 2 QD       OPEN 2020-10-01 10:59:00-04:00
+15          2  Medication 2 QD      CLOSE 2020-10-01 11:59:00-04:00
+OLD patient_by_drug
+14   2020-10-01 10:59:00-04:00
+15   2020-10-01 11:59:00-04:00
+Name: eventTime, dtype: datetime64[ns, pytz.FixedOffset(-240)]
+NEW patient_by_drug
+14   1 days 12:48:53.836034
+15   1 days 11:48:53.836034
+Name: new_eventTime, dtype: timedelta64[ns]
+subset patient_by_date < 1 day
+Empty DataFrame
+Columns: [firstname, drugName, eventValue, eventTime, new_eventTime]
+Index: []
+subset patient_by_date >= 0 s 
+Empty DataFrame
+Columns: [firstname, drugName, eventValue, eventTime, new_eventTime]
+Index: []
+
+Process finished with exit code 0
