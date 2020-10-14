@@ -19,14 +19,12 @@ class RankCallInformation:
         self.current_call_time = current_call_time
         self.last_call_time = last_call_time
 
-
 class PillsyEntry:
     def __init__(self, firstname, drugName, eventValue, eventTime):
         self.study_id = firstname
         self.drugName = drugName
         self.eventValue = eventValue
         self.eventTime = eventTime
-
 
 # reward status =
 def import_Pillsy(filepath):
@@ -108,6 +106,7 @@ def find_rewards(pillsy, study_ids_list):
             print(patient_by_drug["eventTime"])
             print("NEW patient_by_drug")
             print(patient_by_drug["new_eventTime"])
+            ## change to last time called instead of 24 hours
             patient_by_date = patient_by_drug[patient_by_drug.new_eventTime.copy() < pd.Timedelta('1 days')]
             print("subset patient_by_date < 1 day")
             print(patient_by_date)
@@ -116,7 +115,7 @@ def find_rewards(pillsy, study_ids_list):
             print(patient_by_date)
             if not patient_by_date.empty:
                 lastOpen= datetime(2000, 1, 1, tzinfo=None)
-                lastClose = datetime(2020, 1, 1, tzinfo=None)
+                lastClose = datetime(2040, 1, 1, tzinfo=None)
                 print("preset lastOpen, preset lastClose")
                 print(lastOpen, ' --- ', lastClose)
 
@@ -136,9 +135,12 @@ def find_rewards(pillsy, study_ids_list):
                         print(reward_counter)
                         print("close - open:")
                         print(diff)
+                        lastOpen = datetime(2000, 1, 1, tzinfo=None)
+                        lastClose = datetime(2040, 1, 1, tzinfo=None)
                         if reward_counter == drug_freq:
-                            reward = True
                             print("True")
+                            ## handle case if they only took a BID med 1x
+                            ## for BID meds should the patient
 
     return
 
@@ -153,4 +155,5 @@ if __name__ == '__main__':
 
 
 
-
+# Will need for Constance to run on Windows
+# https://docs.python.org/3/faq/windows.html
