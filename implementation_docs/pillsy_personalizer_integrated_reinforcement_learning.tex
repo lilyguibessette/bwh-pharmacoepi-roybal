@@ -1,0 +1,92 @@
+%Documentation on Pillsy-Personalizer integration for Reinforcement Learning
+\documentclass[twoside]{article}
+
+\usepackage{epsfig}
+\usepackage{natbib}
+\usepackage{units}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage[english,ngerman]{babel}
+
+
+\setlength{\oddsidemargin}{0 in}
+\setlength{\evensidemargin}{0 in}
+\setlength{\topmargin}{-0.6 in}
+\setlength{\textwidth}{6.5 in}
+\setlength{\textheight}{8.5 in}
+\setlength{\headsep}{0.75 in}
+\setlength{\parindent}{0 in}
+\setlength{\parskip}{0.1 in}
+
+\newcommand{\lecture}[3]{
+   \pagestyle{myheadings}
+   \thispagestyle{plain}
+   \newpage
+   \setcounter{page}{1}
+   \noindent
+   \begin{center}
+   \framebox{
+      \vbox{\vspace{2mm}
+    \hbox to 6.28in { {\bf Technical Protocol\hfill} }
+       \vspace{6mm}
+       \hbox to 6.28in { {\Large \hfill #1  \hfill} }
+       \vspace{6mm}
+       \hbox to 6.28in { {\it Date: #2 \hfill Programmer: #3} }
+      \vspace{2mm}}
+   }
+   \end{center}
+   \markboth{#1}{#1}
+   \vspace*{4mm}
+}
+
+\begin{document}
+
+% to have alphanumeric enumeration (Hasan's command)
+\renewcommand{\labelenumi}{\alph{enumi})}
+
+\lecture{Pillsy-Personalizer Platform Integration for Reinforcement Learning}{11/03/2020}{Programmer: Lily Bessette}
+
+\begin{center}
+\textbf{Definition of a Patient}
+\end{center}
+Patient : Object
+\begin{itemize}
+	\item studyID: int
+	\item startDate : datetime
+	\item daysFromStartCounter - int
+	\item demographics : a Demographics object
+	\item clinical : a Clinical object
+	\item motivational : a Motivational object
+	\item rxUse : a RxUse object
+\end{itemize}
+
+\begin{center}
+\textbf{Import Patient Baseline Data - Adding new patients}
+\end{center}
+\begin{enumerate}
+\item Original dataset creation
+\item Adding new patients
+
+\end{enumerate}
+
+\begin{center}
+\textbf{Extraction of Pillsy data}
+\end{center}
+\begin{enumerate}
+\item Find Yesterday's Pill Taking History - On the Patient Level
+\item 
+\end{enumerate}
+
+\begin{center}
+\textbf{Calculate Reward Score}
+\end{center}
+
+
+\begin{enumerate}
+\item Find Yesterday's Pill Taking History
+
+\end{enumerate}
+
+
+
+\end{document}

@@ -1,0 +1,1944 @@
+Received: from MN2PR04MB5709.namprd04.prod.outlook.com (2603:10b6:208:a0::10)
+ by MN2PR04MB5550.namprd04.prod.outlook.com with HTTPS; Thu, 17 Sep 2020
+ 19:39:08 +0000
+Authentication-Results: bwh.harvard.edu; dkim=none (message not signed)
+ header.d=none;bwh.harvard.edu; dmarc=none action=none
+ header.from=BWH.HARVARD.EDU;
+Received: from MN2PR04MB5966.namprd04.prod.outlook.com (2603:10b6:208:e6::31)
+ by MN2PR04MB5709.namprd04.prod.outlook.com (2603:10b6:208:a0::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3391.15; Thu, 17 Sep
+ 2020 19:39:07 +0000
+Received: from MN2PR04MB5966.namprd04.prod.outlook.com
+ ([fe80::98f6:ed8:eb69:99c2]) by MN2PR04MB5966.namprd04.prod.outlook.com
+ ([fe80::98f6:ed8:eb69:99c2%7]) with mapi id 15.20.3391.015; Thu, 17 Sep 2020
+ 19:39:07 +0000
+From: "Lauffenburger, Julie,PHARM.D.,Ph.D." <JLAUFFENBURGER@BWH.HARVARD.EDU>
+To: "Bessette, Lily Gui" <lgbessette@bwh.harvard.edu>
+CC: "Fontanet, Constance P." <cfontanet@bwh.harvard.edu>
+Subject: Medication names for RL
+Thread-Topic: Medication names for RL
+Thread-Index: AdaNKga1RYGgJNfURbSq95Z8Soh1xw==
+Date: Thu, 17 Sep 2020 19:39:07 +0000
+Message-ID:
+ <MN2PR04MB596690DBA0736BD424032FFA853E0@MN2PR04MB5966.namprd04.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-Mentions: lgbessette@bwh.harvard.edu
+X-MS-Has-Attach: yes
+X-MS-Exchange-Organization-SCL: -1
+X-MS-TNEF-Correlator:
+ <MN2PR04MB596690DBA0736BD424032FFA853E0@MN2PR04MB5966.namprd04.prod.outlook.com>
+MIME-Version: 1.0
+X-MS-Exchange-Organization-MessageDirectionality: Originating
+X-MS-Exchange-Organization-AuthSource: MN2PR04MB5966.namprd04.prod.outlook.com
+X-MS-Exchange-Organization-AuthAs: Internal
+X-MS-Exchange-Organization-AuthMechanism: 04
+X-Originating-IP: [170.223.176.61]
+X-MS-Exchange-Organization-Network-Message-Id:
+ 6664f373-ae16-44ee-36c2-08d85b4157b2
+X-MS-PublicTrafficType: Email
+Return-Path: JLAUFFENBURGER@BWH.HARVARD.EDU
+X-MS-Exchange-Organization-ExpirationStartTime: 17 Sep 2020 19:39:07.5809
+ (UTC)
+X-MS-Exchange-Organization-ExpirationStartTimeReason: OriginalSubmit
+X-MS-Exchange-Organization-ExpirationInterval: 1:00:00:00.0000000
+X-MS-Exchange-Organization-ExpirationIntervalReason: OriginalSubmit
+X-MS-Office365-Filtering-Correlation-Id: 6664f373-ae16-44ee-36c2-08d85b4157b2
+X-MS-TrafficTypeDiagnostic: MN2PR04MB5709:
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-Microsoft-Antispam: BCL:0;
+X-Forefront-Antispam-Report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:-1;SRV:;IPV:NLI;SFV:SKI;H:MN2PR04MB5966.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:;DIR:INB;
+X-MS-Exchange-AntiSpam-MessageData:
+ P5GW293oIKyM1Ws6XXHgTpJnFzh3f84tTbq2nppkHTanOprJEuLbxG4Io4tg2T1z8Nz93CM1OtAbc7SyRqDIrzbkEyTVboakURtN5vR99WcW4CUAMcACjcmtNQagG0fVAhsK8Gm1b96sbNZlW/eiuPZk06+ljVmVz5nRfqZetG0CQgFEmWszrd7qMekjKyaVUKNwMrvqRXbne+aDAzNoGZM233fsSQvdXqDK1Uxpww4KOiLZiXVhyU4FB4d/ih4QzhlXqq3KAiHuMF8zDNk7+jixb5MSMqPfAnSfsit8Jmqutk27CEOok05M1bNQPSczH8/kvCXevF2fREMeMk40lpNFq5L85G8P3oPdmECauFp44WkT1xEGPtml6/B79pyMmausIOftpUlJhS4b4InVgJqm05mqE/EegIcYQ7oKDT97SFxoa7WAY/ikpjA8Q3sLrJuAWU2HL/YllA6Eo+tXcXoLZLLsDuevaNVxpkt4YaNf2tA67GIOsMGf3RZmyyBQuE0hQIadv/vRUjaFySNy3ZOqBAlmVdgIE6rzhxITMoDy/na4PJNaf1xsapjp23qGcBGasZQLYan+HG/pZaVK5w+yZeuwua05TEl5HgmzcEWPNQXlM2OoRauyl8qE00r45hdMABqsaHGUXWE7KZRnpQ==
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Sep 2020 19:39:07.3825
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 720edb1f-5c4e-4043-8141-214a63a7ead5
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR04MB5966.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6664f373-ae16-44ee-36c2-08d85b4157b2
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: DvNVDABf/mUtU4gHmcwrssBt+s/VMclVtPDfbvmhNng0LQDw+MNlheej8E94IvdvVrdeuoK11ZOaqVIJb9K31Wwqe3m0ho79L9lMy7ZiW1A=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR04MB5709
+X-MS-Exchange-Transport-EndToEndLatency: 00:00:00.8164927
+X-MS-Exchange-Processed-By-BccFoldering: 15.20.3391.014
+X-Microsoft-Antispam-Mailbox-Delivery:
+	ucf:0;jmr:0;auth:0;dest:I;ENG:(750128)(520011016)(706158)(944506458)(944626604);
+X-Microsoft-Antispam-Message-Info:
+	qzbxmvhMRwyRBkhwlDVZychn2w7cNXEYXqWR+2wVm45r7QXbw57/KMLjp1RkgOL1dCAJCyBzVQxz3lCya8EypBGTq79HEmjfmldYJJeMp05JRxl+vCDNFlmXl9pNkUERVJJFA47CJSS80Yikxtvm41b7w+uHjzcTKQo0nUJkQnZf9PgeTnCD0KGQyRXEoHhSDDuwKcV/ro+YfglffnoCXhBKweVXb6RACprZT773B7BiWNQeWUTMRiHklnEA/TvNCsMoRPVbXriqTYX9Rl3hGJCMTUe8e/rbbXzA48f62rHmU42K4D07iKCzqJVXJehjmL1g/3chEkf8tkuOEeTclztI9g4E7FlTLKnr694AsvVvDXIpgbglZQk24zwX56C/KGkXgHFYk3RH0+mBbP6EqepJXaK72Ze90oEcL3y5KmM=
+Content-type: multipart/mixed;
+	boundary="B_3687283037_242681032"
+
+> This message is in MIME format. Since your mail reader does not understand
+this format, some or all of this message may not be legible.
+
+--B_3687283037_242681032
+Content-type: multipart/alternative;
+	boundary="B_3687283037_2135598953"
+
+
+--B_3687283037_2135598953
+Content-type: text/plain;
+	charset="UTF-8"
+Content-transfer-encoding: quoted-printable
+
+Hi Lily,
+
+=20
+
+I=E2=80=99ve updated the spreadsheet from the last version I had including medica=
+tion names. I think by class is best (I=E2=80=99ve included all of the eligible ge=
+neric names in the comments). Let me know if we should provide this to you i=
+n a different form. We can have this pull in however you like (but this woul=
+d be coded during the screening). Thanks!
+
+=20
+
+Best,
+
+Julie=20
+
+=20
+
+--
+
+Julie Lauffenburger, PharmD, PhD
+
+617-525-8865
+
+jlauffenburger@bwh.harvard.edu
+
+=20
+
+From: Lauffenburger, Julie,PHARM.D.,Ph.D.=20
+Sent: Thursday, September 17, 2020 10:01 AM
+To: Bessette, Lily Gui <lgbessette@bwh.harvard.edu>; Elad Yom-Tov <eladyt@m=
+icrosoft.com>
+Cc: Fontanet, Constance P. <cfontanet@bwh.harvard.edu>
+Subject: RE: Roybal RL meeting tomorrow at 11:30a EST
+
+=20
+
+Hi Lily, Elad
+
+=20
+For @Julie, to think on, we=E2=80=99re also debating whether we should have which=
+ medications they are using as part of the contextFeatures =E2=80=93 i.e. Metformi=
+n Yes/No due to variations in pill size etc. and their possible influence on=
+ adherence.=20
+@Bessette, Lily Gui, I think we=E2=80=99re going to include medication name too. =
+Constance is putting together a list by generic name, but we should include =
+those as binary (yes/no) features, which will be collected at baseline.=20
+Also, more of a @Julie question, I thought about the calendar day idea for =
+assessing reward result. To confirm, we are saying that if a patient took th=
+eir medication appropriately (i.e. all doses) on 9/16/2020 and the text mess=
+age was sent on 9/16/2020, then reward is 1. It is NOT if the text message w=
+as sent on 9/15/2020 and then the patient took all their doses appropriately=
+ on 9/16/2020 that we are evaluating, correct? My other thought here is, do =
+we care if the text message (i.e. 5pm 9/16/2020) was received later on the s=
+ame day that they took their medication (i.e. 6am 9/16/2020)? Just thinking =
+through the timing of everything to make sure I=E2=80=99m not missing something in=
+ regards to choosing a 24 hr window vs a calendar day assessment for reward.=
+=20
+@Bessette, Lily Gui, I think the current plan is to send texts in the morni=
+ng every day. I know I said =E2=80=9Ccalendar day=E2=80=9D measurement yesterday, but I =
+think the actual measurement for the RL algorithm should probably be anchore=
+d on =E2=80=9Csince the algorithm was run last=E2=80=9D, which would be ~24 hours ago, t=
+o capture that exact issue. The temporality is a problem.
+Elad, do you have any thoughts about this?
+=20
+
+Thanks!
+
+=20
+
+Best,
+
+Julie=20
+
+=20
+
+--
+
+Julie Lauffenburger, PharmD, PhD
+
+617-525-8865
+
+jlauffenburger@bwh.harvard.edu
+
+=20
+
+From: Bessette, Lily Gui=20
+Sent: Wednesday, September 16, 2020 7:29 PM
+To: Elad Yom-Tov <eladyt@microsoft.com>
+Cc: Fontanet, Constance P. <cfontanet@bwh.harvard.edu>; Lauffenburger, Juli=
+e,PHARM.D.,Ph.D. <JLAUFFENBURGER@BWH.HARVARD.EDU>
+Subject: Re: Roybal RL meeting tomorrow at 11:30a EST
+
+=20
+
+Hi Elad,
+
+=20
+
+I=E2=80=99m starting to code everything for the Reinforcement Learning Project an=
+d I have a few questions that have come up.
+
+=20
+First, we were wondering if categorizing the features with Namespaces makes=
+ any difference to the model and if so, what are the advantages and disadvan=
+tages in doing so? (https://docs.microsoft.com/en-us/azure/cognitive-service=
+s/personalizer/concepts-features#categorize-features-with-namespaces)=20
+Additionally, in terms of denseness of our features, should we convert any =
+of our continuous variables i.e. Age, HbA1c, etc. into buckets/categorical v=
+ariables? Or are they okay as-is as continuous variables? (https://docs.micr=
+osoft.com/en-us/azure/cognitive-services/personalizer/concepts-features#make=
+-features-more-dense)
+We also wanted to confirm that the =E2=80=9Chidden factors for evaluation=E2=80=9D are =
+not incorporated anywhere in the Rank calls of within the contextFeatures. i=
+.e. These are only for post study analysis and will not contribute to the te=
+xt message choices.
+Another clarification I had is whether eventIDs with missing/null reward va=
+lues automatically get assumed to be 0 in Personalizer. Therefore, if a pati=
+ent is missing all doses for a day =E2=80=93 i.e. reward result of 0 =E2=80=93 then shou=
+ld I not send the Reward call of 0 for that eventID incase it is due to a te=
+chnological glitch (i.e. loss of internet connection) and we want to update =
+the Reward appropriately if data later becomes available? In general, what s=
+hould happen when we=E2=80=99re missing pill bottle data for a patient?
+Again confirming the sequential approach to our rank calls:
+Rank call for Framing =E2=80=93 Pos/Neg/Neutral
+Receive and add resulting Framing choice/response from RankRequest call to =
+Context Features
+Rank call for History =E2=80=93 Y/N
+Receive and add resulting History choice/response from RankRequest call to =
+Context Features
+Rank call for Social =E2=80=93 Y/N
+Receive and add resulting Social choice/response from RankRequest call to C=
+ontext Features
+Rank call for Content =E2=80=93 Y/N
+Receive and add resulting Content choice/response from RankRequest call to =
+Context Features
+Rank call for Reflective =E2=80=93 Y/N
+Receive resulting Reflective choice/response from RankRequest call.
+Use resulting combination of framing, history, social, content, reflective =
+action responses to choose the unique factor set of text messages.
+Randomly choose one out of the two/three messages in that unique factor set=
+.
+Record this data and output the chosen text message for this eventID.
+Use this data to update number of days since each type (framing/history/soc=
+ial/content/reflective) of message was sent.
+For @Julie, to think on, we=E2=80=99re also debating whether we should have which=
+ medications they are using as part of the contextFeatures =E2=80=93 i.e. Metformi=
+n Yes/No due to variations in pill size etc. and their possible influence on=
+ adherence.=20
+Also, more of a @Julie question, I thought about the calendar day idea for =
+assessing reward result. To confirm, we are saying that if a patient took th=
+eir medication appropriately (i.e. all doses) on 9/16/2020 and the text mess=
+age was sent on 9/16/2020, then reward is 1. It is NOT if the text message w=
+as sent on 9/15/2020 and then the patient took all their doses appropriately=
+ on 9/16/2020 that we are evaluating, correct? My other thought here is, do =
+we care if the text message (i.e. 5pm 9/16/2020) was received later on the s=
+ame day that they took their medication (i.e. 6am 9/16/2020)? Just thinking =
+through the timing of everything to make sure I=E2=80=99m not missing something in=
+ regards to choosing a 24 hr window vs a calendar day assessment for reward.=
+=20
+=20
+
+Let me know if any of this doesn=E2=80=99t make sense and if you=E2=80=99d prefer to me=
+et via Zoom to discuss.
+
+=20
+
+Thank you!
+
+Best,
+Lily
+
+=20
+
+Lily Bessette
+Project Coordinator=20
+Division of Pharmacoepidemiology and Pharmacoeconomics=20
+Department of Medicine=20
+Brigham and Women's Hospital  | Harvard Medical School
+
+41 Avenue Louis Pasteur,  Suite 116, Boston, MA 02115
+
+p. (617) 264-3099 | lgbessette@bwh.harvard.edu |Research Assistant Request =
+Form
+
+=20
+
+From: "Lauffenburger, Julie,PHARM.D.,Ph.D." <JLAUFFENBURGER@BWH.HARVARD.EDU=
+>
+Date: Wednesday, September 9, 2020 at 1:39 PM
+To: "McDonnell, Marie E.,M.D." <MMCDONNELL@BWH.HARVARD.EDU>, "Choudhry, Nit=
+eesh Kumar,M.D.,Ph.D." <NKCHOUDHRY@BWH.HARVARD.EDU>, Elad Yom-Tov <eladyt@mi=
+crosoft.com>, "Keller, Punam A." <Punam.A.Keller@tuck.dartmouth.edu>
+Cc: "Barlev, Renee A." <rbarlev@bwh.harvard.edu>, "Haff, Nancy,M.D." <NHAFF=
+@PARTNERS.ORG>, "philip.rosenfield@microsoft.com" <philip.rosenfield@microso=
+ft.com>, "Hanken, Kaitlin Elizabeth" <khanken@bwh.harvard.edu>, "Sears, Elle=
+n Sawka" <essears@bwh.harvard.edu>, "Fontanet, Constance P." <cfontanet@bwh.=
+harvard.edu>, "Kim, Erin" <ekim55@bwh.harvard.edu>, "Bessette, Lily Gui" <lg=
+bessette@bwh.harvard.edu>
+Subject: Roybal RL meeting tomorrow at 11:30a EST
+
+=20
+
+Hi everyone,
+
+=20
+
+I hope you all are doing well. We=E2=80=99re planning to use our 30 minutes tomor=
+row to review the algorithm development within the Azure platform. If you ha=
+ve interested in attending, feel free, but the plan is to focus on that. Tha=
+nks!
+
+=20
+
+Other study updates:
+All regulatory, IRB, and RISO approvals have been obtained.
+We=E2=80=99ve received the pillbottles and pillbottle caps! Everything with regar=
+d to mailing the pillbottles is basically ready to go.
+The text messaging platform environment is being set up for us now (and tex=
+t messages have been finalized). We expect to set up the texts within the ne=
+xt few weeks.
+The REDCap database and other patient recruitment components are in process=
+, nearing completion.=20
+=20
+
+I=E2=80=99ve also included our minutes from last time. Thanks!
+
+=20
+
+Best,
+
+Julie=20
+
+=20
+
+--
+
+Julie Lauffenburger, PharmD, PhD
+
+617-525-8865
+
+jlauffenburger@bwh.harvard.edu
+
+=20
+
+From: Lauffenburger, Julie,PHARM.D.,Ph.D.=20
+Sent: Tuesday, September 01, 2020 4:42 PM
+To: McDonnell, Marie E.,M.D. <MMCDONNELL@BWH.HARVARD.EDU>; Choudhry, Nitees=
+h Kumar,M.D.,Ph.D. <NKCHOUDHRY@BWH.HARVARD.EDU>; 'Elad Yom-Tov' <eladyt@micr=
+osoft.com>; 'Keller, Punam A.' <Punam.A.Keller@tuck.dartmouth.edu>
+Cc: Barlev, Renee A. <rbarlev@bwh.harvard.edu>; Haff, Nancy,M.D. <NHAFF@PAR=
+TNERS.ORG>; 'philip.rosenfield@microsoft.com' <philip.rosenfield@microsoft.c=
+om>; Hanken, Kaitlin Elizabeth <khanken@bwh.harvard.edu>; Sears, Ellen Sawka=
+ <essears@bwh.harvard.edu>; Fontanet, Constance P. <cfontanet@bwh.harvard.ed=
+u>; Kim, Erin <ekim55@bwh.harvard.edu>
+Subject: Updated text messages for our Roybal pilot
+
+=20
+
+Hi all,
+
+=20
+
+I=E2=80=99m attaching the updated, hopefully close to final, version of the text =
+messages for our Roybal pilot. Many thanks to all who gave input and helped =
+draft messages, especially Punam, Kaitlin, and Constance on this round! Any =
+questions, please let me know.
+
+=20
+
+Best,
+
+Julie=20
+
+=20
+
+--
+
+Julie Lauffenburger, PharmD, PhD
+
+617-525-8865
+
+jlauffenburger@bwh.harvard.edu
+
+=20
+
+From: Lauffenburger, Julie,PHARM.D.,Ph.D.=20
+Sent: Wednesday, August 12, 2020 11:00 AM
+To: McDonnell, Marie E.,M.D. <MMCDONNELL@BWH.HARVARD.EDU>; Choudhry, Nitees=
+h Kumar,M.D.,Ph.D. <NKCHOUDHRY@BWH.HARVARD.EDU>; Elad Yom-Tov <eladyt@micros=
+oft.com>; Keller, Punam A. <Punam.A.Keller@tuck.dartmouth.edu>
+Cc: Barlev, Renee A. <rbarlev@bwh.harvard.edu>; Haff, Nancy,M.D. <NHAFF@PAR=
+TNERS.ORG>; philip.rosenfield@microsoft.com; Hanken, Kaitlin Elizabeth <khan=
+ken@bwh.harvard.edu>; Sears, Ellen Sawka <essears@bwh.harvard.edu>; Fontanet=
+, Constance P. <cfontanet@bwh.harvard.edu>; Kim, Erin <ekim55@bwh.harvard.ed=
+u>
+Subject: Roybal Reinforcement learning meeting tomorrow at 1pm EST
+
+=20
+
+Dear team,
+
+=20
+
+I=E2=80=99m looking forward to our Reinforcement learning meeting tomorrow (Thurs=
+, 1pm EST). I=E2=80=99ve attached the minutes from our last full call, proposed te=
+xt messages for review, and a list of potential predictors for discussion.=20
+
+=20
+
+Proposed agenda:
+Brief study updates
+Pillsy pillbottles
+Text messaging platform
+Algorithm development
+Discussion points
+Review proposed text messages (attachment)=20
+Clarify prediction model inputs/elements (attachment)
+=20
+
+Thanks! Any questions, let me know.
+
+=20
+
+Best,
+
+Julie=20
+
+=20
+
+--
+
+Julie Lauffenburger, PharmD, PhD
+
+617-525-8865
+
+jlauffenburger@bwh.harvard.edu
+
+=20
+
+From: Lauffenburger, Julie,PHARM.D.,Ph.D.=20
+Sent: Thursday, August 06, 2020 10:41 AM
+To: McDonnell, Marie E.,M.D. <MMCDONNELL@BWH.HARVARD.EDU>; Choudhry, Nitees=
+h Kumar,M.D.,Ph.D. <NKCHOUDHRY@BWH.HARVARD.EDU>; Elad Yom-Tov <eladyt@micros=
+oft.com>; Keller, Punam A. <Punam.A.Keller@tuck.dartmouth.edu>
+Cc: Barlev, Renee A. <rbarlev@bwh.harvard.edu>; Haff, Nancy,M.D. <NHAFF@PAR=
+TNERS.ORG>; philip.rosenfield@microsoft.com; Hanken, Kaitlin Elizabeth <khan=
+ken@bwh.harvard.edu>; Sears, Ellen Sawka <essears@bwh.harvard.edu>; Fontanet=
+, Constance P. <cfontanet@bwh.harvard.edu>; Kim, Erin <ekim55@bwh.harvard.ed=
+u>
+Subject: Roybal Reinforcement learning text messages for review
+
+=20
+
+Dear team,
+
+=20
+
+We=E2=80=99ve been hard at work on the text messages! I=E2=80=99ve attached the list of=
+ proposed text messages for your review (Excel). We=E2=80=99re hoping to finalize =
+these as best as possible after our meeting next Thursday (8/13).=20
+
+=20
+
+Notes:
+We are going with 5 main factors (Framing, Observed feedback, Social, Conte=
+nt, Reflective) =C3=A0 this means we need at least 48 unique text messages to me=
+et all those levels.
+For each level, we added a second message, so that there could be more vari=
+ation, bringing us to a total of 96 messages.
+Observed feedback: We decided to stick with the past 7 days for simplicity.
+The =E2=80=9CHidden=E2=80=9D factors are other variables that could be evaluated post-h=
+oc, so each message is also coded for whether it meets any of those criteria=
+ (for example: quantitative or doctor), but we do not have to have unique me=
+ssages for these.
+=20
+
+Specific ask: Please review these messages and suggest any modifications; m=
+ost happy to also entertain other options or replacements!
+
+=20
+
+Huge thanks to Kaitlin, Ellen, Constance, and our other RA, Erin, for their=
+ help with these! I=E2=80=99ve also attached our July meeting minutes as a refresh=
+er. Any questions, please let me know. Thank you!
+
+=20
+
+Best,
+
+Julie=20
+
+
+--B_3687283037_2135598953
+Content-type: text/html;
+	charset="UTF-8"
+Content-transfer-encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-microsof=
+t-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" xmlns:m=
+=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http://www.w3.org=
+/TR/REC-html40"><head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8"><meta na=
+me=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)"><!--[if !mso]><=
+style>v\:* {behavior:url(#default#VML);}
+o\:* {behavior:url(#default#VML);}
+w\:* {behavior:url(#default#VML);}
+.shape {behavior:url(#default#VML);}
+</style><![endif]--><style><!--
+/* Font Definitions */
+@font-face
+	{font-family:Wingdings;
+	panose-1:5 0 0 0 0 0 0 0 0 0;}
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#0563C1;
+	text-decoration:underline;}
+a:visited, span.MsoHyperlinkFollowed
+	{mso-style-priority:99;
+	color:#954F72;
+	text-decoration:underline;}
+p.MsoListParagraph, li.MsoListParagraph, div.MsoListParagraph
+	{mso-style-priority:34;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:.5in;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+p.msonormal0, li.msonormal0, div.msonormal0
+	{mso-style-name:msonormal;
+	mso-margin-top-alt:auto;
+	margin-right:0in;
+	mso-margin-bottom-alt:auto;
+	margin-left:0in;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+span.EmailStyle19
+	{mso-style-type:personal;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+span.EmailStyle20
+	{mso-style-type:personal;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+span.EmailStyle21
+	{mso-style-type:personal;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+span.EmailStyle22
+	{mso-style-type:personal;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+span.EmailStyle23
+	{mso-style-type:personal;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+span.EmailStyle24
+	{mso-style-type:personal;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+span.EmailStyle25
+	{mso-style-type:personal;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+span.EmailStyle26
+	{mso-style-type:personal;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+span.EmailStyle27
+	{mso-style-type:personal;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+span.EmailStyle28
+	{mso-style-type:personal;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+span.EmailStyle29
+	{mso-style-type:personal;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+span.EmailStyle30
+	{mso-style-type:personal;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+span.EmailStyle31
+	{mso-style-type:personal;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+span.EmailStyle32
+	{mso-style-type:personal;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+span.EmailStyle33
+	{mso-style-type:personal;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+span.EmailStyle34
+	{mso-style-type:personal;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+span.EmailStyle35
+	{mso-style-type:personal;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+span.EmailStyle36
+	{mso-style-type:personal;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+span.EmailStyle37
+	{mso-style-type:personal;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+span.EmailStyle38
+	{mso-style-type:personal;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+span.EmailStyle39
+	{mso-style-type:personal;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+span.EmailStyle40
+	{mso-style-type:personal;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+span.EmailStyle41
+	{mso-style-type:personal;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+span.EmailStyle42
+	{mso-style-type:personal;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+span.EmailStyle43
+	{mso-style-type:personal;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+span.EmailStyle44
+	{mso-style-type:personal;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+span.EmailStyle45
+	{mso-style-type:personal;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+span.EmailStyle46
+	{mso-style-type:personal;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+span.EmailStyle47
+	{mso-style-type:personal;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+span.EmailStyle48
+	{mso-style-type:personal;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+span.EmailStyle49
+	{mso-style-type:personal;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+span.EmailStyle50
+	{mso-style-type:personal;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+span.EmailStyle51
+	{mso-style-type:personal;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+span.EmailStyle52
+	{mso-style-type:personal;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+span.EmailStyle53
+	{mso-style-type:personal;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+span.EmailStyle54
+	{mso-style-type:personal;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+span.EmailStyle57
+	{mso-style-type:personal-reply;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-size:10.0pt;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+/* List Definitions */
+@list l0
+	{mso-list-id:256863052;
+	mso-list-type:hybrid;
+	mso-list-template-ids:-295672246 102164840 67698691 67698693 67698689 6769=
+8691 67698693 67698689 67698691 67698693;}
+@list l0:level1
+	{mso-level-start-at:0;
+	mso-level-number-format:bullet;
+	mso-level-text:-;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	font-family:"Calibri",sans-serif;
+	mso-fareast-font-family:Calibri;}
+@list l0:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	font-family:"Courier New";}
+@list l0:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:=EF=82=A7;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	font-family:Wingdings;}
+@list l0:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:=EF=82=B7;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	font-family:Symbol;}
+@list l0:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	font-family:"Courier New";}
+@list l0:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:=EF=82=A7;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	font-family:Wingdings;}
+@list l0:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:=EF=82=B7;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	font-family:Symbol;}
+@list l0:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	font-family:"Courier New";}
+@list l0:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:=EF=82=A7;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	font-family:Wingdings;}
+@list l1
+	{mso-list-id:1034768920;
+	mso-list-type:hybrid;
+	mso-list-template-ids:-963102186 -1508189236 67698691 67698693 67698689 67=
+698691 67698693 67698689 67698691 67698693;}
+@list l1:level1
+	{mso-level-start-at:0;
+	mso-level-number-format:bullet;
+	mso-level-text:-;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	font-family:"Calibri",sans-serif;
+	mso-fareast-font-family:Calibri;}
+@list l1:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	font-family:"Courier New";}
+@list l1:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:=EF=82=A7;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	font-family:Wingdings;}
+@list l1:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:=EF=82=B7;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	font-family:Symbol;}
+@list l1:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	font-family:"Courier New";}
+@list l1:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:=EF=82=A7;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	font-family:Wingdings;}
+@list l1:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:=EF=82=B7;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	font-family:Symbol;}
+@list l1:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	font-family:"Courier New";}
+@list l1:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:=EF=82=A7;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	font-family:Wingdings;}
+@list l2
+	{mso-list-id:1090926425;
+	mso-list-type:hybrid;
+	mso-list-template-ids:-1356024634 542657286 67698691 67698693 67698689 676=
+98691 67698693 67698689 67698691 67698693;}
+@list l2:level1
+	{mso-level-start-at:0;
+	mso-level-number-format:bullet;
+	mso-level-text:-;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	font-family:"Calibri",sans-serif;
+	mso-fareast-font-family:Calibri;}
+@list l2:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	font-family:"Courier New";}
+@list l2:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:=EF=82=A7;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	font-family:Wingdings;}
+@list l2:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:=EF=82=B7;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	font-family:Symbol;}
+@list l2:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	font-family:"Courier New";}
+@list l2:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:=EF=82=A7;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	font-family:Wingdings;}
+@list l2:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:=EF=82=B7;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	font-family:Symbol;}
+@list l2:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	font-family:"Courier New";}
+@list l2:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:=EF=82=A7;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	font-family:Wingdings;}
+@list l3
+	{mso-list-id:1982542364;
+	mso-list-type:hybrid;
+	mso-list-template-ids:1554524020 67698689 67698703 67698693 67698689 67698=
+691 67698693 67698689 67698691 67698693;}
+@list l3:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:=EF=82=B7;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	font-family:Symbol;}
+@list l3:level2
+	{mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l3:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:=EF=82=A7;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	font-family:Wingdings;}
+@list l3:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:=EF=82=B7;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	font-family:Symbol;}
+@list l3:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	font-family:"Courier New";}
+@list l3:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:=EF=82=A7;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	font-family:Wingdings;}
+@list l3:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:=EF=82=B7;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	font-family:Symbol;}
+@list l3:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	font-family:"Courier New";}
+@list l3:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:=EF=82=A7;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	font-family:Wingdings;}
+ol
+	{margin-bottom:0in;}
+ul
+	{margin-bottom:0in;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]--></head><body lang=3D"EN-US" link=3D"#0563C1" =
+vlink=3D"#954F72"><div class=3D"WordSection1"><p class=3D"MsoNormal">Hi Lily,<o:p>=
+</o:p></p><p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p><p class=3D"MsoNormal">I=E2=80=
+=99ve updated the spreadsheet from the last version I had including medication=
+ names. I think by class is best (I=E2=80=99ve included all of the eligible generi=
+c names in the comments). Let me know if we should provide this to you in a =
+different form. We can have this pull in however you like (but this would be=
+ coded during the screening). Thanks!<o:p></o:p></p><p class=3D"MsoNormal"><o:=
+p>&nbsp;</o:p></p><div><p class=3D"MsoNormal">Best,<o:p></o:p></p><p class=3D"Ms=
+oNormal">Julie <o:p></o:p></p><p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p><p c=
+lass=3D"MsoNormal">--<o:p></o:p></p><p class=3D"MsoNormal">Julie Lauffenburger, =
+PharmD, PhD<o:p></o:p></p><p class=3D"MsoNormal">617-525-8865<o:p></o:p></p><p=
+ class=3D"MsoNormal">jlauffenburger@bwh.harvard.edu<o:p></o:p></p></div><p cla=
+ss=3D"MsoNormal"><o:p>&nbsp;</o:p></p><div><div style=3D"border:none;border-top:=
+solid #E1E1E1 1.0pt;padding:3.0pt 0in 0in 0in"><p class=3D"MsoNormal"><b>From:=
+</b> Lauffenburger, Julie,PHARM.D.,Ph.D. <br><b>Sent:</b> Thursday, Septembe=
+r 17, 2020 10:01 AM<br><b>To:</b> Bessette, Lily Gui &lt;lgbessette@bwh.harv=
+ard.edu&gt;; Elad Yom-Tov &lt;eladyt@microsoft.com&gt;<br><b>Cc:</b> Fontane=
+t, Constance P. &lt;cfontanet@bwh.harvard.edu&gt;<br><b>Subject:</b> RE: Roy=
+bal RL meeting tomorrow at 11:30a EST<o:p></o:p></p></div></div><p class=3D"Ms=
+oNormal"><o:p>&nbsp;</o:p></p><p class=3D"MsoNormal">Hi Lily, Elad<o:p></o:p><=
+/p><p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p><ul style=3D"margin-top:0in" type=
+=3D"disc"><li class=3D"MsoListParagraph" style=3D"margin-left:0in;mso-list:l3 leve=
+l1 lfo1">For <span style=3D"background:yellow;mso-highlight:yellow">@Julie</sp=
+an>, to think on, we=E2=80=99re also debating whether we should have which medicat=
+ions they are using as part of the contextFeatures =E2=80=93 i.e. Metformin Yes/No=
+ due to variations in pill size etc. and their possible influence on adheren=
+ce. <o:p></o:p></li><ol style=3D"margin-top:0in" start=3D"1" type=3D"1"><li class=3D=
+"MsoListParagraph" style=3D"margin-left:0in;mso-list:l3 level2 lfo1"><span sty=
+le=3D"color:red"><a id=3D"OWAAMCE3C554C12594959A5352A563811D16C" href=3D"mailto:lg=
+bessette@bwh.harvard.edu"><span style=3D"font-family:&quot;Calibri&quot;,sans-=
+serif;text-decoration:none">@Bessette, Lily Gui</span></a>, I think we=E2=80=99re =
+going to include medication name too. Constance is putting together a list b=
+y generic name, but we should include those as binary (yes/no) features, whi=
+ch will be collected at baseline. </span><o:p></o:p></li></ol><li class=3D"Mso=
+ListParagraph" style=3D"margin-left:0in;mso-list:l3 level1 lfo1">Also, more of=
+ a <span style=3D"background:yellow;mso-highlight:yellow">@Julie</span> questi=
+on, I thought about the calendar day idea for assessing reward result. To co=
+nfirm, we are saying that if a patient took their medication appropriately (=
+i.e. all doses) on 9/16/2020 and the text message was sent on 9/16/2020, the=
+n reward is 1. It is NOT if the text message was sent on 9/15/2020 and then =
+the patient took all their doses appropriately on 9/16/2020 that we are eval=
+uating, correct? My other thought here is, do we care if the text message (i=
+.e. 5pm 9/16/2020) was received later on the same day that they took their m=
+edication (i.e. 6am 9/16/2020)? Just thinking through the timing of everythi=
+ng to make sure I=E2=80=99m not missing something in regards to choosing a 24 hr w=
+indow vs a calendar day assessment for reward. <o:p></o:p></li><ol style=3D"ma=
+rgin-top:0in" start=3D"1" type=3D"1"><li class=3D"MsoListParagraph" style=3D"margin-=
+left:0in;mso-list:l3 level2 lfo1"><span style=3D"color:red"><a id=3D"OWAAMB6A0ED=
+E1E9CA48FB8BA8E6B1B4630800" href=3D"mailto:lgbessette@bwh.harvard.edu"><span s=
+tyle=3D"font-family:&quot;Calibri&quot;,sans-serif;text-decoration:none">@Bess=
+ette, Lily Gui</span></a>, I think the current plan is to send texts in the =
+morning every day. I know I said =E2=80=9Ccalendar day=E2=80=9D measurement yesterday, b=
+ut I think the actual measurement for the RL algorithm should probably be an=
+chored on =E2=80=9Csince the algorithm was run last=E2=80=9D, which would be ~24 hours a=
+go, to capture that exact issue. The temporality is a problem.</span><o:p></=
+o:p></li><ul style=3D"margin-top:0in" type=3D"square"><li class=3D"MsoListParagrap=
+h" style=3D"margin-left:0in;mso-list:l3 level3 lfo1"><b>Elad, do you have any =
+thoughts about this?<o:p></o:p></b></li></ul></ol></ul><p class=3D"MsoNormal">=
+<o:p>&nbsp;</o:p></p><p class=3D"MsoNormal">Thanks!<o:p></o:p></p><p class=3D"Ms=
+oNormal"><o:p>&nbsp;</o:p></p><div><p class=3D"MsoNormal">Best,<o:p></o:p></p>=
+<p class=3D"MsoNormal">Julie <o:p></o:p></p><p class=3D"MsoNormal"><o:p>&nbsp;</=
+o:p></p><p class=3D"MsoNormal">--<o:p></o:p></p><p class=3D"MsoNormal">Julie Lau=
+ffenburger, PharmD, PhD<o:p></o:p></p><p class=3D"MsoNormal">617-525-8865<o:p>=
+</o:p></p><p class=3D"MsoNormal"><a href=3D"mailto:jlauffenburger@bwh.harvard.ed=
+u">jlauffenburger@bwh.harvard.edu</a><o:p></o:p></p></div><p class=3D"MsoNorma=
+l"><o:p>&nbsp;</o:p></p><div><div style=3D"border:none;border-top:solid #E1E1E=
+1 1.0pt;padding:3.0pt 0in 0in 0in"><p class=3D"MsoNormal"><b>From:</b> Bessett=
+e, Lily Gui <br><b>Sent:</b> Wednesday, September 16, 2020 7:29 PM<br><b>To:=
+</b> Elad Yom-Tov &lt;<a href=3D"mailto:eladyt@microsoft.com">eladyt@microsoft=
+.com</a>&gt;<br><b>Cc:</b> Fontanet, Constance P. &lt;<a href=3D"mailto:cfonta=
+net@bwh.harvard.edu">cfontanet@bwh.harvard.edu</a>&gt;; Lauffenburger, Julie=
+,PHARM.D.,Ph.D. &lt;<a href=3D"mailto:JLAUFFENBURGER@BWH.HARVARD.EDU">JLAUFFEN=
+BURGER@BWH.HARVARD.EDU</a>&gt;<br><b>Subject:</b> Re: Roybal RL meeting tomo=
+rrow at 11:30a EST<o:p></o:p></p></div></div><p class=3D"MsoNormal"><o:p>&nbsp=
+;</o:p></p><p class=3D"MsoNormal">Hi Elad,<o:p></o:p></p><p class=3D"MsoNormal">=
+<o:p>&nbsp;</o:p></p><p class=3D"MsoNormal">I=E2=80=99m starting to code everything =
+for the Reinforcement Learning Project and I have a few questions that have =
+come up.<o:p></o:p></p><p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p><ul style=3D"=
+margin-top:0in" type=3D"disc"><li class=3D"MsoListParagraph" style=3D"margin-left:=
+0in;mso-list:l3 level1 lfo1">First, we were wondering if categorizing the fe=
+atures with Namespaces makes any difference to the model and if so, what are=
+ the advantages and disadvantages in doing so? (<a href=3D"https://docs.micros=
+oft.com/en-us/azure/cognitive-services/personalizer/concepts-features#catego=
+rize-features-with-namespaces">https://docs.microsoft.com/en-us/azure/cognit=
+ive-services/personalizer/concepts-features#categorize-features-with-namespa=
+ces</a>) <o:p></o:p></li><li class=3D"MsoListParagraph" style=3D"margin-left:0in=
+;mso-list:l3 level1 lfo1">Additionally, in terms of denseness of our feature=
+s, should we convert any of our continuous variables i.e. Age, HbA1c, etc. i=
+nto buckets/categorical variables? Or are they okay as-is as continuous vari=
+ables? (<a href=3D"https://docs.microsoft.com/en-us/azure/cognitive-services/p=
+ersonalizer/concepts-features#make-features-more-dense">https://docs.microso=
+ft.com/en-us/azure/cognitive-services/personalizer/concepts-features#make-fe=
+atures-more-dense</a>)<o:p></o:p></li><li class=3D"MsoListParagraph" style=3D"ma=
+rgin-left:0in;mso-list:l3 level1 lfo1">We also wanted to confirm that the =E2=80=
+=9Chidden factors for evaluation=E2=80=9D are not incorporated anywhere in the Rank =
+calls of within the contextFeatures. i.e. These are only for post study anal=
+ysis and will not contribute to the text message choices.<o:p></o:p></li><li=
+ class=3D"MsoListParagraph" style=3D"margin-left:0in;mso-list:l3 level1 lfo1">An=
+other clarification I had is whether eventIDs with missing/null reward value=
+s automatically get assumed to be 0 in Personalizer. Therefore, if a patient=
+ is missing all doses for a day =E2=80=93 i.e. reward result of 0 =E2=80=93 then should =
+I not send the Reward call of 0 for that eventID incase it is due to a techn=
+ological glitch (i.e. loss of internet connection) and we want to update the=
+ Reward appropriately if data later becomes available? In general, what shou=
+ld happen when we=E2=80=99re missing pill bottle data for a patient?<o:p></o:p></l=
+i><li class=3D"MsoListParagraph" style=3D"margin-left:0in;mso-list:l3 level1 lfo=
+1">Again confirming the sequential approach to our rank calls:<o:p></o:p></l=
+i><ol style=3D"margin-top:0in" start=3D"1" type=3D"1"><li class=3D"MsoListParagraph"=
+ style=3D"margin-left:0in;mso-list:l3 level2 lfo1">Rank call for Framing =E2=80=93 P=
+os/Neg/Neutral<o:p></o:p></li><li class=3D"MsoListParagraph" style=3D"margin-lef=
+t:0in;mso-list:l3 level2 lfo1">Receive and add resulting Framing choice/resp=
+onse from RankRequest call to Context Features<o:p></o:p></li><li class=3D"Mso=
+ListParagraph" style=3D"margin-left:0in;mso-list:l3 level2 lfo1">Rank call for=
+ History =E2=80=93 Y/N<o:p></o:p></li><li class=3D"MsoListParagraph" style=3D"margin-l=
+eft:0in;mso-list:l3 level2 lfo1">Receive and add resulting History choice/re=
+sponse from RankRequest call to Context Features<o:p></o:p></li><li class=3D"M=
+soListParagraph" style=3D"margin-left:0in;mso-list:l3 level2 lfo1">Rank call f=
+or Social =E2=80=93 Y/N<o:p></o:p></li><li class=3D"MsoListParagraph" style=3D"margin-=
+left:0in;mso-list:l3 level2 lfo1">Receive and add resulting Social choice/re=
+sponse from RankRequest call to Context Features<o:p></o:p></li><li class=3D"M=
+soListParagraph" style=3D"margin-left:0in;mso-list:l3 level2 lfo1">Rank call f=
+or Content =E2=80=93 Y/N<o:p></o:p></li><li class=3D"MsoListParagraph" style=3D"margin=
+-left:0in;mso-list:l3 level2 lfo1">Receive and add resulting Content choice/=
+response from RankRequest call to Context Features<o:p></o:p></li><li class=3D=
+"MsoListParagraph" style=3D"margin-left:0in;mso-list:l3 level2 lfo1">Rank call=
+ for Reflective =E2=80=93 Y/N<o:p></o:p></li><li class=3D"MsoListParagraph" style=3D"m=
+argin-left:0in;mso-list:l3 level2 lfo1">Receive resulting Reflective choice/=
+response from RankRequest call.<o:p></o:p></li><li class=3D"MsoListParagraph" =
+style=3D"margin-left:0in;mso-list:l3 level2 lfo1">Use resulting combination of=
+ framing, history, social, content, reflective action responses to choose th=
+e unique factor set of text messages.<o:p></o:p></li><li class=3D"MsoListParag=
+raph" style=3D"margin-left:0in;mso-list:l3 level2 lfo1">Randomly choose one ou=
+t of the two/three messages in that unique factor set.<o:p></o:p></li><li cl=
+ass=3D"MsoListParagraph" style=3D"margin-left:0in;mso-list:l3 level2 lfo1">Recor=
+d this data and output the chosen text message for this eventID.<o:p></o:p><=
+/li><li class=3D"MsoListParagraph" style=3D"margin-left:0in;mso-list:l3 level2 l=
+fo1">Use this data to update number of days since each type (framing/history=
+/social/content/reflective) of message was sent.<o:p></o:p></li></ol><li cla=
+ss=3D"MsoListParagraph" style=3D"margin-left:0in;mso-list:l3 level1 lfo1">For <s=
+pan style=3D"background:yellow;mso-highlight:yellow">@Julie</span>, to think o=
+n, we=E2=80=99re also debating whether we should have which medications they are u=
+sing as part of the contextFeatures =E2=80=93 i.e. Metformin Yes/No due to variati=
+ons in pill size etc. and their possible influence on adherence. <o:p></o:p>=
+</li><li class=3D"MsoListParagraph" style=3D"margin-left:0in;mso-list:l3 level1 =
+lfo1">Also, more of a <span style=3D"background:yellow;mso-highlight:yellow">@=
+Julie</span> question, I thought about the calendar day idea for assessing r=
+eward result. To confirm, we are saying that if a patient took their medicat=
+ion appropriately (i.e. all doses) on 9/16/2020 and the text message was sen=
+t on 9/16/2020, then reward is 1. It is NOT if the text message was sent on =
+9/15/2020 and then the patient took all their doses appropriately on 9/16/20=
+20 that we are evaluating, correct? My other thought here is, do we care if =
+the text message (i.e. 5pm 9/16/2020) was received later on the same day tha=
+t they took their medication (i.e. 6am 9/16/2020)? Just thinking through the=
+ timing of everything to make sure I=E2=80=99m not missing something in regards to=
+ choosing a 24 hr window vs a calendar day assessment for reward. <o:p></o:p=
+></li></ul><p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p><p class=3D"MsoNormal">Le=
+t me know if any of this doesn=E2=80=99t make sense and if you=E2=80=99d prefer to meet =
+via Zoom to discuss.<o:p></o:p></p><p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p=
+><p class=3D"MsoNormal">Thank you!<o:p></o:p></p><p class=3D"MsoNormal">Best,<br=
+>Lily<o:p></o:p></p><p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p><div><p class=3D=
+"MsoNormal"><b><span style=3D"color:black">Lily Bessette</span></b><span style=
+=3D"color:black"><br><i>Project Coordinator&nbsp;<br></i>Division of Pharmacoe=
+pidemiology and Pharmacoeconomics&nbsp;<br>Department of Medicine<i>&nbsp;<b=
+r></i>Brigham and Women's Hospital&nbsp; | Harvard Medical School<o:p></o:p>=
+</span></p><p class=3D"MsoNormal"><span style=3D"color:black">41 Avenue Louis Pa=
+steur,&nbsp; Suite 116, Boston, MA 02115<o:p></o:p></span></p><p class=3D"MsoN=
+ormal"><span style=3D"color:black">p. (617) 264-3099 |<i>&nbsp;<a href=3D"mailto=
+:lgbessette@bwh.harvard.edu"><span style=3D"font-style:normal">lgbessette@bwh.=
+harvard.edu</span></a></i> |<a href=3D"https://forms.gle/ys3kZsb6muWcat5F8">Re=
+search Assistant Request Form</a><o:p></o:p></span></p></div><p class=3D"MsoNo=
+rmal"><span style=3D"color:#212121"><img border=3D"0" width=3D"289" height=3D"46" st=
+yle=3D"width:3.0104in;height:.4791in" id=3D"Picture_x0020_1" src=3D"cid:image001.p=
+ng@01D68D08.ACF3C540" alt=3D"cid:image001.png@01D51AF1.BFE14630"></span><o:p><=
+/o:p></p><p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p><div style=3D"border:none;b=
+order-top:solid #B5C4DF 1.0pt;padding:3.0pt 0in 0in 0in"><p class=3D"MsoNormal=
+"><b><span style=3D"font-size:12.0pt;color:black">From: </span></b><span style=
+=3D"font-size:12.0pt;color:black">&quot;Lauffenburger, Julie,PHARM.D.,Ph.D.&qu=
+ot; &lt;<a href=3D"mailto:JLAUFFENBURGER@BWH.HARVARD.EDU">JLAUFFENBURGER@BWH.H=
+ARVARD.EDU</a>&gt;<br><b>Date: </b>Wednesday, September 9, 2020 at 1:39 PM<b=
+r><b>To: </b>&quot;McDonnell, Marie E.,M.D.&quot; &lt;<a href=3D"mailto:MMCDON=
+NELL@BWH.HARVARD.EDU">MMCDONNELL@BWH.HARVARD.EDU</a>&gt;, &quot;Choudhry, Ni=
+teesh Kumar,M.D.,Ph.D.&quot; &lt;<a href=3D"mailto:NKCHOUDHRY@BWH.HARVARD.EDU"=
+>NKCHOUDHRY@BWH.HARVARD.EDU</a>&gt;, Elad Yom-Tov &lt;<a href=3D"mailto:eladyt=
+@microsoft.com">eladyt@microsoft.com</a>&gt;, &quot;Keller, Punam A.&quot; &=
+lt;<a href=3D"mailto:Punam.A.Keller@tuck.dartmouth.edu">Punam.A.Keller@tuck.da=
+rtmouth.edu</a>&gt;<br><b>Cc: </b>&quot;Barlev, Renee A.&quot; &lt;<a href=3D"=
+mailto:rbarlev@bwh.harvard.edu">rbarlev@bwh.harvard.edu</a>&gt;, &quot;Haff,=
+ Nancy,M.D.&quot; &lt;<a href=3D"mailto:NHAFF@PARTNERS.ORG">NHAFF@PARTNERS.ORG=
+</a>&gt;, &quot;<a href=3D"mailto:philip.rosenfield@microsoft.com">philip.rose=
+nfield@microsoft.com</a>&quot; &lt;<a href=3D"mailto:philip.rosenfield@microso=
+ft.com">philip.rosenfield@microsoft.com</a>&gt;, &quot;Hanken, Kaitlin Eliza=
+beth&quot; &lt;<a href=3D"mailto:khanken@bwh.harvard.edu">khanken@bwh.harvard.=
+edu</a>&gt;, &quot;Sears, Ellen Sawka&quot; &lt;<a href=3D"mailto:essears@bwh.=
+harvard.edu">essears@bwh.harvard.edu</a>&gt;, &quot;Fontanet, Constance P.&q=
+uot; &lt;<a href=3D"mailto:cfontanet@bwh.harvard.edu">cfontanet@bwh.harvard.ed=
+u</a>&gt;, &quot;Kim, Erin&quot; &lt;<a href=3D"mailto:ekim55@bwh.harvard.edu"=
+>ekim55@bwh.harvard.edu</a>&gt;, &quot;Bessette, Lily Gui&quot; &lt;<a href=3D=
+"mailto:lgbessette@bwh.harvard.edu">lgbessette@bwh.harvard.edu</a>&gt;<br><b=
+>Subject: </b>Roybal RL meeting tomorrow at 11:30a EST<o:p></o:p></span></p>=
+</div><div><p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p></div><p class=3D"MsoNorm=
+al">Hi everyone,<o:p></o:p></p><p class=3D"MsoNormal">&nbsp;<o:p></o:p></p><p =
+class=3D"MsoNormal">I hope you all are doing well. We=E2=80=99re planning to use our=
+ 30 minutes tomorrow to review the algorithm development within the Azure pl=
+atform. If you have interested in attending, feel free, but the plan is to f=
+ocus on that. Thanks!<o:p></o:p></p><p class=3D"MsoNormal">&nbsp;<o:p></o:p></=
+p><p class=3D"MsoNormal">Other study updates:<o:p></o:p></p><ul style=3D"margin-=
+top:0in" type=3D"disc"><li class=3D"MsoListParagraph" style=3D"margin-left:0in;mso=
+-list:l1 level1 lfo2">All regulatory, IRB, and RISO approvals have been obta=
+ined.<o:p></o:p></li><li class=3D"MsoListParagraph" style=3D"margin-left:0in;mso=
+-list:l1 level1 lfo2">We=E2=80=99ve received the pillbottles and pillbottle caps! =
+Everything with regard to mailing the pillbottles is basically ready to go.<=
+o:p></o:p></li><li class=3D"MsoListParagraph" style=3D"margin-left:0in;mso-list:=
+l1 level1 lfo2">The text messaging platform environment is being set up for =
+us now (and text messages have been finalized). We expect to set up the text=
+s within the next few weeks.<o:p></o:p></li><li class=3D"MsoListParagraph" sty=
+le=3D"margin-left:0in;mso-list:l1 level1 lfo2">The REDCap database and other p=
+atient recruitment components are in process, nearing completion. <o:p></o:p=
+></li></ul><p class=3D"MsoNormal">&nbsp;<o:p></o:p></p><p class=3D"MsoNormal">I=E2=
+=80=99ve also included our minutes from last time. Thanks!<o:p></o:p></p><p clas=
+s=3D"MsoNormal">&nbsp;<o:p></o:p></p><div><p class=3D"MsoNormal">Best,<o:p></o:p=
+></p><p class=3D"MsoNormal">Julie <o:p></o:p></p><p class=3D"MsoNormal">&nbsp;<o=
+:p></o:p></p><p class=3D"MsoNormal">--<o:p></o:p></p><p class=3D"MsoNormal">Juli=
+e Lauffenburger, PharmD, PhD<o:p></o:p></p><p class=3D"MsoNormal">617-525-8865=
+<o:p></o:p></p><p class=3D"MsoNormal"><a href=3D"mailto:jlauffenburger@bwh.harva=
+rd.edu">jlauffenburger@bwh.harvard.edu</a><o:p></o:p></p></div><p class=3D"Mso=
+Normal">&nbsp;<o:p></o:p></p><div><div style=3D"border:none;border-top:solid #=
+E1E1E1 1.0pt;padding:3.0pt 0in 0in 0in"><p class=3D"MsoNormal"><b>From:</b> La=
+uffenburger, Julie,PHARM.D.,Ph.D. <br><b>Sent:</b> Tuesday, September 01, 20=
+20 4:42 PM<br><b>To:</b> McDonnell, Marie E.,M.D. &lt;<a href=3D"mailto:MMCDON=
+NELL@BWH.HARVARD.EDU">MMCDONNELL@BWH.HARVARD.EDU</a>&gt;; Choudhry, Niteesh =
+Kumar,M.D.,Ph.D. &lt;<a href=3D"mailto:NKCHOUDHRY@BWH.HARVARD.EDU">NKCHOUDHRY@=
+BWH.HARVARD.EDU</a>&gt;; 'Elad Yom-Tov' &lt;<a href=3D"mailto:eladyt@microsoft=
+.com">eladyt@microsoft.com</a>&gt;; 'Keller, Punam A.' &lt;<a href=3D"mailto:P=
+unam.A.Keller@tuck.dartmouth.edu">Punam.A.Keller@tuck.dartmouth.edu</a>&gt;<=
+br><b>Cc:</b> Barlev, Renee A. &lt;<a href=3D"mailto:rbarlev@bwh.harvard.edu">=
+rbarlev@bwh.harvard.edu</a>&gt;; Haff, Nancy,M.D. &lt;<a href=3D"mailto:NHAFF@=
+PARTNERS.ORG">NHAFF@PARTNERS.ORG</a>&gt;; 'philip.rosenfield@microsoft.com' =
+&lt;<a href=3D"mailto:philip.rosenfield@microsoft.com">philip.rosenfield@micro=
+soft.com</a>&gt;; Hanken, Kaitlin Elizabeth &lt;<a href=3D"mailto:khanken@bwh.=
+harvard.edu">khanken@bwh.harvard.edu</a>&gt;; Sears, Ellen Sawka &lt;<a href=
+=3D"mailto:essears@bwh.harvard.edu">essears@bwh.harvard.edu</a>&gt;; Fontanet,=
+ Constance P. &lt;<a href=3D"mailto:cfontanet@bwh.harvard.edu">cfontanet@bwh.h=
+arvard.edu</a>&gt;; Kim, Erin &lt;<a href=3D"mailto:ekim55@bwh.harvard.edu">ek=
+im55@bwh.harvard.edu</a>&gt;<br><b>Subject:</b> Updated text messages for ou=
+r Roybal pilot<o:p></o:p></p></div></div><p class=3D"MsoNormal">&nbsp;<o:p></o=
+:p></p><p class=3D"MsoNormal">Hi all,<o:p></o:p></p><p class=3D"MsoNormal">&nbsp=
+;<o:p></o:p></p><p class=3D"MsoNormal">I=E2=80=99m attaching the updated, hopefully =
+close to final, version of the text messages for our Roybal pilot. Many than=
+ks to all who gave input and helped draft messages, especially Punam, Kaitli=
+n, and Constance on this round! Any questions, please let me know.<o:p></o:p=
+></p><p class=3D"MsoNormal">&nbsp;<o:p></o:p></p><div><p class=3D"MsoNormal">Bes=
+t,<o:p></o:p></p><p class=3D"MsoNormal">Julie <o:p></o:p></p><p class=3D"MsoNorm=
+al">&nbsp;<o:p></o:p></p><p class=3D"MsoNormal">--<o:p></o:p></p><p class=3D"Mso=
+Normal">Julie Lauffenburger, PharmD, PhD<o:p></o:p></p><p class=3D"MsoNormal">=
+617-525-8865<o:p></o:p></p><p class=3D"MsoNormal"><a href=3D"mailto:jlauffenburg=
+er@bwh.harvard.edu">jlauffenburger@bwh.harvard.edu</a><o:p></o:p></p></div><=
+p class=3D"MsoNormal">&nbsp;<o:p></o:p></p><div><div style=3D"border:none;border=
+-top:solid #E1E1E1 1.0pt;padding:3.0pt 0in 0in 0in"><p class=3D"MsoNormal"><b>=
+From:</b> Lauffenburger, Julie,PHARM.D.,Ph.D. <br><b>Sent:</b> Wednesday, Au=
+gust 12, 2020 11:00 AM<br><b>To:</b> McDonnell, Marie E.,M.D. &lt;<a href=3D"m=
+ailto:MMCDONNELL@BWH.HARVARD.EDU">MMCDONNELL@BWH.HARVARD.EDU</a>&gt;; Choudh=
+ry, Niteesh Kumar,M.D.,Ph.D. &lt;<a href=3D"mailto:NKCHOUDHRY@BWH.HARVARD.EDU"=
+>NKCHOUDHRY@BWH.HARVARD.EDU</a>&gt;; Elad Yom-Tov &lt;<a href=3D"mailto:eladyt=
+@microsoft.com">eladyt@microsoft.com</a>&gt;; Keller, Punam A. &lt;<a href=3D"=
+mailto:Punam.A.Keller@tuck.dartmouth.edu">Punam.A.Keller@tuck.dartmouth.edu<=
+/a>&gt;<br><b>Cc:</b> Barlev, Renee A. &lt;<a href=3D"mailto:rbarlev@bwh.harva=
+rd.edu">rbarlev@bwh.harvard.edu</a>&gt;; Haff, Nancy,M.D. &lt;<a href=3D"mailt=
+o:NHAFF@PARTNERS.ORG">NHAFF@PARTNERS.ORG</a>&gt;; <a href=3D"mailto:philip.ros=
+enfield@microsoft.com">philip.rosenfield@microsoft.com</a>; Hanken, Kaitlin =
+Elizabeth &lt;<a href=3D"mailto:khanken@bwh.harvard.edu">khanken@bwh.harvard.e=
+du</a>&gt;; Sears, Ellen Sawka &lt;<a href=3D"mailto:essears@bwh.harvard.edu">=
+essears@bwh.harvard.edu</a>&gt;; Fontanet, Constance P. &lt;<a href=3D"mailto:=
+cfontanet@bwh.harvard.edu">cfontanet@bwh.harvard.edu</a>&gt;; Kim, Erin &lt;=
+<a href=3D"mailto:ekim55@bwh.harvard.edu">ekim55@bwh.harvard.edu</a>&gt;<br><b=
+>Subject:</b> Roybal Reinforcement learning meeting tomorrow at 1pm EST<o:p>=
+</o:p></p></div></div><p class=3D"MsoNormal">&nbsp;<o:p></o:p></p><p class=3D"Ms=
+oNormal">Dear team,<o:p></o:p></p><p class=3D"MsoNormal">&nbsp;<o:p></o:p></p>=
+<p class=3D"MsoNormal">I=E2=80=99m looking forward to our Reinforcement learning mee=
+ting tomorrow (Thurs, 1pm EST). I=E2=80=99ve attached the minutes from our last fu=
+ll call, proposed text messages for review, and a list of potential predicto=
+rs for discussion. <o:p></o:p></p><p class=3D"MsoNormal">&nbsp;<o:p></o:p></p>=
+<p class=3D"MsoNormal">Proposed agenda:<o:p></o:p></p><ul style=3D"margin-top:0i=
+n" type=3D"disc"><li class=3D"MsoListParagraph" style=3D"margin-left:0in;mso-list:=
+l2 level1 lfo3">Brief study updates<o:p></o:p></li><ul style=3D"margin-top:0in=
+" type=3D"circle"><li class=3D"MsoListParagraph" style=3D"margin-left:0in;mso-list=
+:l2 level2 lfo3">Pillsy pillbottles<o:p></o:p></li><li class=3D"MsoListParagra=
+ph" style=3D"margin-left:0in;mso-list:l2 level2 lfo3">Text messaging platform<=
+o:p></o:p></li><li class=3D"MsoListParagraph" style=3D"margin-left:0in;mso-list:=
+l2 level2 lfo3">Algorithm development<o:p></o:p></li></ul><li class=3D"MsoList=
+Paragraph" style=3D"margin-left:0in;mso-list:l2 level1 lfo3">Discussion points=
+<o:p></o:p></li><ul style=3D"margin-top:0in" type=3D"circle"><li class=3D"MsoListP=
+aragraph" style=3D"margin-left:0in;mso-list:l2 level2 lfo3">Review proposed te=
+xt messages (attachment) <o:p></o:p></li><li class=3D"MsoListParagraph" style=3D=
+"margin-left:0in;mso-list:l2 level2 lfo3">Clarify prediction model inputs/el=
+ements (attachment)<o:p></o:p></li></ul></ul><p class=3D"MsoNormal">&nbsp;<o:p=
+></o:p></p><p class=3D"MsoNormal">Thanks! Any questions, let me know.<o:p></o:=
+p></p><p class=3D"MsoNormal">&nbsp;<o:p></o:p></p><div><p class=3D"MsoNormal">Be=
+st,<o:p></o:p></p><p class=3D"MsoNormal">Julie <o:p></o:p></p><p class=3D"MsoNor=
+mal">&nbsp;<o:p></o:p></p><p class=3D"MsoNormal">--<o:p></o:p></p><p class=3D"Ms=
+oNormal">Julie Lauffenburger, PharmD, PhD<o:p></o:p></p><p class=3D"MsoNormal"=
+>617-525-8865<o:p></o:p></p><p class=3D"MsoNormal"><a href=3D"mailto:jlauffenbur=
+ger@bwh.harvard.edu">jlauffenburger@bwh.harvard.edu</a><o:p></o:p></p></div>=
+<p class=3D"MsoNormal">&nbsp;<o:p></o:p></p><div><div style=3D"border:none;borde=
+r-top:solid #E1E1E1 1.0pt;padding:3.0pt 0in 0in 0in"><p class=3D"MsoNormal"><b=
+>From:</b> Lauffenburger, Julie,PHARM.D.,Ph.D. <br><b>Sent:</b> Thursday, Au=
+gust 06, 2020 10:41 AM<br><b>To:</b> McDonnell, Marie E.,M.D. &lt;<a href=3D"m=
+ailto:MMCDONNELL@BWH.HARVARD.EDU">MMCDONNELL@BWH.HARVARD.EDU</a>&gt;; Choudh=
+ry, Niteesh Kumar,M.D.,Ph.D. &lt;<a href=3D"mailto:NKCHOUDHRY@BWH.HARVARD.EDU"=
+>NKCHOUDHRY@BWH.HARVARD.EDU</a>&gt;; Elad Yom-Tov &lt;<a href=3D"mailto:eladyt=
+@microsoft.com">eladyt@microsoft.com</a>&gt;; Keller, Punam A. &lt;<a href=3D"=
+mailto:Punam.A.Keller@tuck.dartmouth.edu">Punam.A.Keller@tuck.dartmouth.edu<=
+/a>&gt;<br><b>Cc:</b> Barlev, Renee A. &lt;<a href=3D"mailto:rbarlev@bwh.harva=
+rd.edu">rbarlev@bwh.harvard.edu</a>&gt;; Haff, Nancy,M.D. &lt;<a href=3D"mailt=
+o:NHAFF@PARTNERS.ORG">NHAFF@PARTNERS.ORG</a>&gt;; <a href=3D"mailto:philip.ros=
+enfield@microsoft.com">philip.rosenfield@microsoft.com</a>; Hanken, Kaitlin =
+Elizabeth &lt;<a href=3D"mailto:khanken@bwh.harvard.edu">khanken@bwh.harvard.e=
+du</a>&gt;; Sears, Ellen Sawka &lt;<a href=3D"mailto:essears@bwh.harvard.edu">=
+essears@bwh.harvard.edu</a>&gt;; Fontanet, Constance P. &lt;<a href=3D"mailto:=
+cfontanet@bwh.harvard.edu">cfontanet@bwh.harvard.edu</a>&gt;; Kim, Erin &lt;=
+<a href=3D"mailto:ekim55@bwh.harvard.edu">ekim55@bwh.harvard.edu</a>&gt;<br><b=
+>Subject:</b> Roybal Reinforcement learning text messages for review<o:p></o=
+:p></p></div></div><p class=3D"MsoNormal">&nbsp;<o:p></o:p></p><p class=3D"MsoNo=
+rmal">Dear team,<o:p></o:p></p><p class=3D"MsoNormal">&nbsp;<o:p></o:p></p><p =
+class=3D"MsoNormal">We=E2=80=99ve been hard at work on the text messages! <b>I=E2=80=99ve =
+attached the list of proposed text messages for your review (Excel).</b> We=E2=
+=80=99re hoping to finalize these as best as possible after our meeting <u>next =
+Thursday (8/13).</u> <o:p></o:p></p><p class=3D"MsoNormal">&nbsp;<o:p></o:p></=
+p><p class=3D"MsoNormal">Notes:<o:p></o:p></p><ul style=3D"margin-top:0in" type=3D=
+"disc"><li class=3D"MsoListParagraph" style=3D"margin-left:0in;mso-list:l0 level=
+1 lfo4">We are going with 5 main factors (Framing, Observed feedback, Social=
+, Content, Reflective) <span style=3D"font-family:Wingdings">=C3=A0</span> this me=
+ans we need at least 48 unique text messages to meet all those levels.<o:p><=
+/o:p></li><ul style=3D"margin-top:0in" type=3D"circle"><li class=3D"MsoListParagra=
+ph" style=3D"margin-left:0in;mso-list:l0 level2 lfo4">For each level, we added=
+ a second message, so that there could be more variation, bringing us to a t=
+otal of 96 messages.<o:p></o:p></li><li class=3D"MsoListParagraph" style=3D"marg=
+in-left:0in;mso-list:l0 level2 lfo4">Observed feedback: We decided to stick =
+with the past 7 days for simplicity.<o:p></o:p></li></ul><li class=3D"MsoListP=
+aragraph" style=3D"margin-left:0in;mso-list:l0 level1 lfo4">The =E2=80=9CHidden=E2=80=9D f=
+actors are other variables that could be evaluated post-hoc, so each message=
+ is also coded for whether it meets any of those criteria (for example: quan=
+titative or doctor), but we do not have to have unique messages for these.<o=
+:p></o:p></li></ul><p class=3D"MsoNormal">&nbsp;<o:p></o:p></p><p class=3D"MsoNo=
+rmal"><b>Specific ask: </b>Please review these messages and suggest any modi=
+fications; most happy to also entertain other options or replacements!<o:p><=
+/o:p></p><p class=3D"MsoNormal">&nbsp;<o:p></o:p></p><p class=3D"MsoNormal">Huge=
+ thanks to Kaitlin, Ellen, Constance, and our other RA, Erin, for their help=
+ with these! I=E2=80=99ve also attached our July meeting minutes as a refresher. A=
+ny questions, please let me know. Thank you!<o:p></o:p></p><p class=3D"MsoNorm=
+al">&nbsp;<o:p></o:p></p><div><p class=3D"MsoNormal">Best,<o:p></o:p></p><p cl=
+ass=3D"MsoNormal">Julie <o:p></o:p></p></div></div></body></html>
+
+--B_3687283037_2135598953--
+
+
+--B_3687283037_242681032
+Content-type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet; name="Prediction model elements 9-17-20.xlsx";
+ x-mac-creator="4F50494D"
+Content-disposition: attachment;
+	filename="Prediction model elements 9-17-20.xlsx"
+Content-transfer-encoding: base64
+
+UEsDBBQABgAIAAAAIQCh6Rx9iQEAAOQFAAATAAgCW0NvbnRlbnRfVHlwZXNdLnhtbCCiBAIo
+oAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACsVEtuwjAQ3VfqHSJvq8TQRVVVBBalXbZI
+0AO48ZBYJLblGX6378QUVFVAhGCTKLHfZ2bsNxhtmjpZQUDjbC76WU8kYAunjS1z8TV7T59F
+gqSsVrWzkIstoBgN7+8Gs60HTBhtMRcVkX+REosKGoWZ82B5Ze5Co4g/Qym9KhaqBPnY6z3J
+wlkCSym1HGI4GMNcLWtK3jb8e+fk21iRvO72tVK5UN7XplDERuXK6n8iqZvPTQHaFcuGqTP0
+AZTGCoCaOvPBsGKYAhEXhkIe1QxQ42Wiv1VljIzGsDIeH7j0EwrtyumqTuNWZ3Hd3WD8OKg1
+194a++R5B6MhmahAH6rh5spNLdcuLL6dW2TnXV7a+ziDrFHG7htzRj9uRhlf/RsbaeuLxB0+
+iA8xyPi83kKk6RBE2taAt257JO1SrlQAPSW+HuXNDfzl7vBRuKa9tXjrke95z8lzZEyC88ip
+FODyIewjoEWnnokgkIFDCBw76wdFjrSrpw5tZmrQR7RlzOjhDwAAAP//AwBQSwMEFAAGAAgA
+AAAhALVVMCP0AAAATAIAAAsACAJfcmVscy8ucmVscyCiBAIooAACAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAACskk1PwzAMhu9I/IfI99XdkBBCS3dBSLshVH6ASdwPtY2jJBvdvyccEFQa
+gwNHf71+/Mrb3TyN6sgh9uI0rIsSFDsjtnethpf6cXUHKiZylkZxrOHEEXbV9dX2mUdKeSh2
+vY8qq7iooUvJ3yNG0/FEsRDPLlcaCROlHIYWPZmBWsZNWd5i+K4B1UJT7a2GsLc3oOqTz5t/
+15am6Q0/iDlM7NKZFchzYmfZrnzIbCH1+RpVU2g5abBinnI6InlfZGzA80SbvxP9fC1OnMhS
+IjQS+DLPR8cloPV/WrQ08cudecQ3CcOryPDJgosfqN4BAAD//wMAUEsDBBQABgAIAAAAIQCB
+PpSX8wAAALoCAAAaAAgBeGwvX3JlbHMvd29ya2Jvb2sueG1sLnJlbHMgogQBKKAAAQAAAAAA
+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
+TwLGXvNwrS0Q
+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
+upiMXdd5XTjEsPkJft9uXoaqbiH7XXFASSQ45QqYqVXy1JYFOBvWZhnIz1bloCI80/tdlkyb
+rV17VoC4P1weObfZV4ZS41MgHBuTjqVOylv48JiuURL4ge/6C5eQlCxoeENJ8NGn+DPfxx4v
+qmOWf4lLl9ylZEnDOxqQGfEESCJ89lWSHwAAAP//AwBQSwECLQAUAAYACAAAACEAoekcfYkB
+AADkBQAAEwAAAAAAAAAAAAAAAAAAAAAAW0NvbnRlbnRfVHlwZXNdLnhtbFBLAQItABQABgAI
+AAAAIQC1VTAj9AAAAEwCAAALAAAAAAAAAAAAAAAAAMIDAABfcmVscy8ucmVsc1BLAQItABQA
+BgAIAAAAIQCBPpSX8wAAALoCAAAaAAAAAAAAAAAAAAAAAOcGAAB4bC9fcmVscy93b3JrYm9v
+ay54bWwucmVsc1BLAQItABQABgAIAAAAIQD3KfsvrgMAACoIAAAPAAAAAAAAAAAAAAAAABoJ
+AAB4bC93b3JrYm9vay54bWxQSwECLQAUAAYACAAAACEAiR949g8KAACjHwAAFAAAAAAAAAAA
+AAAAAAD1DAAAeGwvc2hhcmVkU3RyaW5ncy54bWxQSwECLQAUAAYACAAAACEA1Tg7PfAAAABd
+AgAAIwAAAAAAAAAAAAAAAAA2FwAAeGwvd29ya3NoZWV0cy9fcmVscy9zaGVldDEueG1sLnJl
+bHNQSwECLQAUAAYACAAAACEAwRcQvk4HAADGIAAAEwAAAAAAAAAAAAAAAABnGAAAeGwvdGhl
+bWUvdGhlbWUxLnhtbFBLAQItABQABgAIAAAAIQC47uuiowMAAJoQAAANAAAAAAAAAAAAAAAA
+AOYfAAB4bC9zdHlsZXMueG1sUEsBAi0AFAAGAAgAAAAhAIt19xKQDQAA+k8AABgAAAAAAAAA
+AAAAAAAAtCMAAHhsL3dvcmtzaGVldHMvc2hlZXQxLnhtbFBLAQItABQABgAIAAAAIQBXYs0H
+dQIAALIEAAAbAAAAAAAAAAAAAAAAAHoxAAB4bC9kcmF3aW5ncy92bWxEcmF3aW5nMS52bWxQ
+SwECLQAUAAYACAAAACEAYUkJEIkBAAARAwAAEAAAAAAAAAAAAAAAAAAoNAAAZG9jUHJvcHMv
+YXBwLnhtbFBLAQItABQABgAIAAAAIQBAg5t7xAEAADADAAAQAAAAAAAAAAAAAAAAAOc2AAB4
+bC9jb21tZW50czEueG1sUEsBAi0AFAAGAAgAAAAhAOH894A6AQAALAQAACcAAAAAAAAAAAAA
+AAAA2TgAAHhsL3ByaW50ZXJTZXR0aW5ncy9wcmludGVyU2V0dGluZ3MxLmJpblBLAQItABQA
+BgAIAAAAIQD5qoPKUQEAAHcCAAARAAAAAAAAAAAAAAAAAFg6AABkb2NQcm9wcy9jb3JlLnht
+bFBLBQYAAAAADgAOAK0DAADgPAAAAAA=
+--B_3687283037_242681032
+Content-type: image/png; name="image001.png";
+ x-mac-creator="4F50494D";
+ x-mac-type="504E4766"
+Content-ID: <image001.png@01D68D08.ACF3C540>
+Content-disposition: inline;
+	filename="image001.png"
+Content-transfer-encoding: base64
+
+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
+Qh8WSvI1V1H6
+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
+rkJgggAAAAAA
+--B_3687283037_242681032--
+

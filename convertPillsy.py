@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 import sys
 import os
 import re
@@ -83,13 +84,16 @@ def identify_drug_freq(drugName):
 def subtract_today(date1, date2):
     return date1 - date2
 
-def find_rewards(pillsy, study_ids_list):
+def find_rewards(pillsy, study_ids_list, pt_dict):
     for study_id in study_ids_list:
         patient_entries = pillsy[pillsy["firstname"] == study_id].copy()
         print(patient_entries)
         patient_drugNames = get_drugName_list(patient_entries)
         print(patient_drugNames)
+        todays_adherence_by_drug = [0] * len(patient_drugNames)
+        drug_num = 0
         for drug in patient_drugNames:
+            drug_num += 1
             drug_freq = identify_drug_freq(drug)
             reward_counter = 0
             print(drug_freq)
@@ -129,7 +133,7 @@ def find_rewards(pillsy, study_ids_list):
                     print(lastOpen, " --- ", lastClose, " --- ", diff)
                 #print(lastClose)
                 #print(diff)
-                    if  pd.Timedelta('0 days 0 hours 0 seconds') <= diff < pd.Timedelta('0 days 3 hours'):
+                    if pd.Timedelta('0 days 0 hours 0 seconds') <= diff < pd.Timedelta('0 days 3 hours'):
                         reward_counter += 1
                         print("reward_counter:")
                         print(reward_counter)
@@ -137,14 +141,12 @@ def find_rewards(pillsy, study_ids_list):
                         print(diff)
                         lastOpen = datetime(2000, 1, 1, tzinfo=None)
                         lastClose = datetime(2040, 1, 1, tzinfo=None)
-                        if reward_counter == drug_freq:
-                            print("True")
+            this_adherence = reward_counter / drug_freq
+            todays_adherence_by_drug.append(this_adherence)
                             ## handle case if they only took a BID med 1x
                             ## for BID meds should the patient
-
+        patient = pt_dict.get(study_id)
     return
-
-
 
 if __name__ == '__main__':
     pillsy = import_Pillsy("/Users/lilybessette/BWH_DoPE/bwh-pharmacoepi-roybal/data/Naming Convention - for Lily.csv")

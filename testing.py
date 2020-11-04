@@ -37,9 +37,22 @@ def import_demographics(filepath):
 
 
 if __name__ == '__main__':
-    importPillsy()
+    lastOpen = datetime(2000, 1, 1, tzinfo=None)
+    lastClose = datetime(2040, 1, 1, tzinfo=None)
+    print("preset lastOpen, preset lastClose")
+    print(lastOpen, ' --- ', lastClose)
 
-
+    for index, row in patient_by_date.iterrows():
+        if row['eventValue'] == "OPEN":
+            lastOpen = row['eventTime']
+        elif row['eventValue'] == "CLOSE":
+            lastClose = row['eventTime']
+        diff = lastClose.replace(tzinfo=None) - lastOpen.replace(tzinfo=None)
+        print("lastOpen, lastClose, diff")
+        print(lastOpen, " --- ", lastClose, " --- ", diff)
+        # print(lastClose)
+        # print(diff)
+        if pd.Timedelta('0 days 0 hours 0 seconds') <= diff < pd.Timedelta('0 days 3 hours'):
 
 
 ## Steps - Import baseline demographics to start
