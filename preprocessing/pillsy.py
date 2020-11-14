@@ -1,0 +1,212 @@
+import pandas as pd
+import numpy as np
+import sys
+import os
+import re
+import gc
+import time
+import datetime
+from datetime import datetime, date, timedelta
+from collections import Counter
+import string
+import pickle
+import json
+
+
+# Imports Pillsy File and Convert to Numpy array
+def import_Pillsy(filepath):
+    date_cols = ["eventTime"]
+    pillsy = pd.read_csv(filepath, sep=',', parse_dates=date_cols)
+    pillsy.drop("patientId", axis=1, inplace=True)
+    pillsy.drop("lastname", axis=1, inplace=True)
+    pillsy.drop("method", axis=1, inplace=True)
+    pillsy.drop("platform", axis=1, inplace=True)
+    pillsy = pillsy.to_numpy()
+    return pillsy
+
+def get_drugName_list(patient_entries):
+    drugNames_df = patient_entries['drugName']
+    unique_drugNames_df = drugNames_df.drop_duplicates()
+    unique_drugNames_df_list = unique_drugNames_df.values.tolist()
+    return unique_drugNames_df_list
+
+def get_pillsy_study_ids(pillsy):
+    # Subsets the firstname column to find the unique study_id's available in the Pillsy data to update adherence
+    study_ids_df = pillsy['firstname']
+    unique_study_ids_df = study_ids_df.drop_duplicates()
+    unique_study_ids_list = unique_study_ids_df.values.tolist()
+    return unique_study_ids_list
+
+
+def identify_drug_freq(drugName):
+    # drugName is a String
+    # .find returns -1 if it doesn't find the String QD or BID in the drugName String
+    # If the drugName does contain QD or BID, then .find() will return an int > -1 (0 or more)
+    # at the index of the first occurence of the BID or QD string
+    if drugName.find('QD') > -1:
+        drugFreq = 1
+    elif drugName.find('BID') > -1:
+        drugFreq = 2
+    # Returns the number of doses that the given Medication is
+    return drugFreq
+
+
+def process_Pillsy(pillsy, pt_dict):
+    # pillsy is an numpy array
+    pillsy_study_ids_list = get_pillsy_study_ids(pillsy)
+    pt_dict_with_reward, pt_dict_without_reward = find_rewards(pillsy,pillsy_study_ids_list,pt_dict)
+    updated_pt_dict = {**pt_dict_with_reward, **pt_dict_without_reward}
+    return updated_pt_dict
+
+def subtract_today(date1, date2):
+        return date1 - date2
+
+def find_rewards(pillsy, pillsy_study_ids_list, pt_dict):
+        pt_dict_with_reward = {}
+        for study_id in pillsy_study_ids_list:
+            patient_entries = pillsy[pillsy["firstname"] == study_id].copy()
+            print(patient_entries)
+            patient_drugNames = get_drugName_list(patient_entries)
+            print(patient_drugNames)
+            todays_adherence_by_drug = [0] * len(patient_drugNames)
+            drug_num = 0
+            for drug in patient_drugNames:
+                drug_num += 1
+                drug_freq = identify_drug_freq(drug)
+                reward_counter = 0
+                print(drug_freq)
+                patient_by_drug = patient_entries[patient_entries["drugName"] == drug].copy()
+                print(patient_by_drug)
+                currentday = datetime.now()
+                currentday = currentday.replace(tzinfo=None)
+                # print("Current Date: " + currentday.__str__())
+                # print("DF Date: ")
+                # print(patient_by_drug["eventTime"].dtypes)
+                new_eventTime = currentday - patient_by_drug.eventTime.astype('datetime64[ns]')
+                patient_by_drug['new_eventTime'] = new_eventTime
+                print("OLD patient_by_drug")
+                print(patient_by_drug["eventTime"])
+                print("NEW patient_by_drug")
+                print(patient_by_drug["new_eventTime"])
+                ## change to last time called instead of 24 hours
+                patient_by_date = patient_by_drug[patient_by_drug.new_eventTime.copy() < pd.Timedelta('1 days')]
+                print("subset patient_by_date < 1 day")
+                print(patient_by_date)
+                patient_by_date = patient_by_date[patient_by_date.new_eventTime.copy() >= pd.Timedelta('0 second')]
+                print("subset patient_by_date >= 0 s ")
+                print(patient_by_date)
+                if not patient_by_date.empty:
+                    lastOpen = datetime(2000, 1, 1, tzinfo=None)
+                    lastClose = datetime(2040, 1, 1, tzinfo=None)
+                    print("preset lastOpen, preset lastClose")
+                    print(lastOpen, ' --- ', lastClose)
+
+                    for index, row in patient_by_date.iterrows():
+                        # *********** TO DO ******************
+                        # NEED TO EDIT TO THE NEW ALGORITHM WITH THE CASES OF 3 MEDICATIONS AND BID VS QD
+                        # *********** TO DO ******************
+                        if row['eventValue'] == "OPEN":
+                            lastOpen = row['eventTime']
+                        elif row['eventValue'] == "CLOSE":
+                            lastClose = row['eventTime']
+                        diff = lastClose.replace(tzinfo=None) - lastOpen.replace(tzinfo=None)
+                        print("lastOpen, lastClose, diff")
+                        print(lastOpen, " --- ", lastClose, " --- ", diff)
+                        # print(lastClose)
+                        # print(diff)
+                        if pd.Timedelta('0 days 0 hours 0 seconds') <= diff < pd.Timedelta('0 days 3 hours'):
+                            reward_counter += 1
+                            print("reward_counter:")
+                            print(reward_counter)
+                            print("close - open:")
+                            print(diff)
+                            lastOpen = datetime(2000, 1, 1, tzinfo=None)
+                            lastClose = datetime(2040, 1, 1, tzinfo=None)
+                this_adherence = reward_counter / drug_freq
+                todays_adherence_by_drug.append(this_adherence)
+                ## handle case if they only took a BID med 1x
+                ## for BID meds should the patient
+
+
+            # PLAN FOR UPDATING PATIENT DICTIONARY ONCE ADHERENCE IS FOUND FOR EACH DRUG = COMPLETED
+            today_overall_adherence = 0
+            todays_avg_adherence = 0
+            for i in todays_adherence_by_drug:
+                today_overall_adherence += i
+            # Computes today's final average adherence for all medications for this patient
+            todays_avg_adherence = todays_adherence_by_drug / len(patient_drugNames)
+
+            # Calls and stores the old patient data for this study_id
+            patient_to_update = pt_dict.get(study_id)
+            # Shifts the adherence for each day backwards by 1 day to make day1 = newest found avg_adherence
+            # and day2 = old day, day3 = old day 2... etc day7 = old day 6
+            patient_to_update.shift_day_adherences(todays_avg_adherence)
+            # We update the avg adherences at days 1,3,7 with updated shifted daily adherence values:
+            patient_to_update.calc_avg_adherence()
+            # Add this updated patient with new data to the patient to the pt_dict_with_reward that will be used
+            # to updated Personalizer of rewards
+            pt_dict_with_reward[study_id] = patient_to_update
+
+
+        # ************ TO DO ******************
+        # Account for the early_rx_use_before_sms for patients taking medication early before text
+        # Subset Pillsy data to the morning of this algorithm being run to find patients that took med early
+        # repeat above algorithm
+
+
+
+        # Now that we've iterated through all patients in the Pillsy data, we identify the patients not found at all
+        # Therefore these patients do not have any rewards to send to Personalizer, but we still need to update them and
+        # shift their adherence and also add indicators that they may be disconnected.
+        pt_dict_without_reward = {}
+
+        # Store Yesterday's date if needed
+        yesterday = date.today() - timedelta(days=1)
+        for pt, pt_data_to_update in pt_dict.items():
+            # If patient was not in Pillsy data,
+            if pt not in pillsy_study_ids_list:
+                # Then update their adherence by shifting over a day
+                pt_data_to_update.shift_day_adherences(0)
+                pt_data_to_update.shift_dichot_day_adherences(0)
+                # We update the avg adherences at days 1,3,7 with updated shifted daily adherence values:
+                pt_data_to_update.calc_avg_adherence()
+                # Now since adherence for yesterday was 0, we update whether the patient could have been disconnected
+                # for multiple (i.e. 2+) days.
+                # If patient was also disconnected as evaluated yesterday aka 1 day ago,
+                if pt_data_to_update.possibly_disconnected_day1 == True:
+                    # Then we shift that indicator back a day and keep day1 disconnect true
+                    pt_data_to_update.possibly_disconnected_day2 = True
+                    # We update the current variable that yes, today they were possibly_disconnected after 2 days
+                    # of 0 adherence / not in Pillsy data
+                    pt_data_to_update.possibly_disconnected = True
+                    # We increment the number of times this patient was flagged for possibly disconnected
+                    pt_data_to_update.num_possibly_disconnected_indicator_true += 1
+                    # We add yesterday's date to the possibly disconnected date and list of those dates as well
+                    pt_data_to_update.possibly_disconnected_date = yesterday
+                    pt_data_to_update.dates_possibly_disconnected.append(yesterday)
+                else:
+                    # Else if the patient was not disconnected as evaluated yesterday aka 1 day ago,
+                    # We can shift the False on day1 to day2 and update day1 (yesterday's disconnection) to day1
+                    # But we do not update the disconnected flag and date/date list because it has only been 1 day
+                    # of lack of Pillsy data
+                    pt_data_to_update.possibly_disconnected_day2 = False
+                    pt_data_to_update.possibly_disconnected_day1 = True
+
+            # Now we have updated the patient data to add for the patients without any Pillsy entries from yesterday
+            pt_dict_without_reward[pt] = pt_data_to_update
+
+        return pt_dict_with_reward, pt_dict_without_reward
+
+def get_reward_update(updated_pt_dict):
+    #subset updated_pt_dict to what we need for rank calls and put in numpy array
+    # create an Empty DataFrame object
+    column_values = ['reward', 'frame_id', 'history_id', 'social_id', 'content_id', 'reflective_id', 'study_id', 'trial_day_counter']
+    reward_updates = pd.DataFrame(columns=column_values)
+
+    for pt, data in updated_pt_dict:
+        # Reward value, Rank_Id's
+        new_row = [data.adherence_day1, data.rank_id_framing, data.rank_id_history,
+                   data.rank_id_social, data.rank_id_content, data.rank_id_reflective,
+                   data.study_id, data.trial_day_counter]
+        reward_updates.loc[len(reward_updates)] = new_row
+    return reward_updates
