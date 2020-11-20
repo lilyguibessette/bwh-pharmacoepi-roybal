@@ -19,6 +19,9 @@ def compare_existing_for_new_ids(unique_study_ids_list_redcap, redcap, pt_dict):
     for record_id in unique_study_ids_list_redcap:
         if record_id not in pt_dict_keys:
             row = redcap.loc[redcap['record_id'] == record_id]
+            ## NEED TO ENSURE CATEGORIES COMING IN ARE RECODED TO APPROPRIATE STRINGS
+            # i.e. CATEGORY from redcap = 1 => age 18-25 (rough example) ->
+            # shouldn't be continuous, needs to be string to become categorical to personalizer
             patient = Patient(str(record_id),
                               row['start_date'],
                               date.today(),
