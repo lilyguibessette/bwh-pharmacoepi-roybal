@@ -6,12 +6,12 @@ import os
 import re
 import gc
 import time
-from datetime import datetime
+from datetime import datetime, date
 from collections import Counter
 import string
 import pickle
 import json
-
+from data_classes import ContextFeatures
 
 class Patient:
     def __init__(self, study_id,
@@ -27,6 +27,8 @@ class Patient:
                  race_black,
                  race_asian,
                  race_hispanic,
+                 race_native,
+                 race_pacific,
                  race_other,
                  num_physicians,
                  num_rx,
@@ -47,7 +49,7 @@ class Patient:
                  pillsy_meds_sglt2,
                  pillsy_meds_sulfonylurea,
                  pillsy_meds_thiazolidinedione,
-                 num_pillsy_meds,
+                 #num_pillsy_meds,
                  avg_adherence_7day,
                  avg_adherence_3day,
                  avg_adherence_1day,
@@ -117,6 +119,8 @@ class Patient:
         self.race_black = race_black
         self.race_asian = race_asian
         self.race_hispanic = race_hispanic
+        self.race_native = race_native
+        self.race_pacific = race_pacific
         self.race_other = race_other
         self.num_physicians = num_physicians
         self.num_rx = num_rx
@@ -137,7 +141,7 @@ class Patient:
         self.pillsy_meds_sglt2 = pillsy_meds_sglt2
         self.pillsy_meds_sulfonylurea = pillsy_meds_sulfonylurea
         self.pillsy_meds_thiazolidinedione = pillsy_meds_thiazolidinedione
-        self.num_pillsy_meds = num_pillsy_meds
+       # self.num_pillsy_meds = num_pillsy_meds
         self.avg_adherence_7day = avg_adherence_7day
         self.avg_adherence_3day = avg_adherence_3day
         self.avg_adherence_1day = avg_adherence_1day
@@ -218,45 +222,115 @@ class Patient:
         self.adherence_day1 = todays_avg_adherence
 
     def calc_avg_adherence(self):
-        if self.daysFromStartCounter < 3:
-            self.avgAdhere7 = None
-            self.avgAdhere3 = None
-            self.avgAdhere1 = self.day1
+        if self.trial_day_counter < 3:
+            self.avg_adherence_7day = None
+            self.avg_adherence_3day = None
+            self.avg_adherence_1day = self.adherence_day1
         elif 3 <= self.daysFromStartCounter < 7:
-            self.avgAdhere7 = None
-            self.avgAdhere3 = (self.day1 + self.day2 + self.day3) / 3
-            self.avgAdhere1 = self.day1
+            self.avg_adherence_7day = None
+            self.avg_adherence_3day = (self.adherence_day1 + self.adherence_day2 + self.adherence_day3) / 3
+            self.avg_adherence_1day = self.adherence_day1
         elif self.daysFromStartCounter >= 7:
-            self.avgAdhere7 = (self.day1 + self.day2 + self.day3 + self.day4 + self.day5 + self.day6 + self.day7) / 7
-            self.avgAdhere3 = (self.day1 + self.day2 + self.day3) / 3
-            self.avgAdhere1 = self.day1
-        self.observedFeedback = ObservedFeedback(self.avgAdhere7, self.avgAdhere3, self.avgAdhere1)
+            self.avg_adherence_7day = (self.adherence_day1 + self.adherence_day2 + self.adherence_day3 + self.adherence_day4 + self.adherence_day5 + self.adherence_day6 + self.adherence_day7) / 7
+            self.avg_adherence_3day = (self.adherence_day1 + self.adherence_day2 + self.adherence_day3) / 3
+            self.avg_adherence_1day = self.adherence_day1
 
-    def update_days_since_SMS(self, num_day_since_pos_framing,
-                              num_day_since_neg_framing,
-                              num_day_since_history,
-                              num_day_since_social,
-                              num_day_since_content,
-                              num_day_since_reflective):
-        self.num_day_since_pos_framing = num_day_since_pos_framing
-        self.num_day_since_neg_framing = num_day_since_neg_framing
-        self.num_day_since_history = num_day_since_history
-        self.num_day_since_social = num_day_since_social
-        self.num_day_since_content = num_day_since_content
-        self.num_day_since_reflective = num_day_since_reflective
-
-    # fix depending on how rank outputs
     def update_framing_ranking(self, response_action_id_framing):
         self.response_action_id_framing = response_action_id_framing
+        if self.response_action_id_framing == "posFrame":
+            self.framing_sms = 1
+        elif self.response_action_id_framing == "ngeFrame":
+            self.framing_sms = 2
+        elif self.response_action_id_framing == "neutFrame":
+            self.framing_sms = 0
 
     def update_history_ranking(self, response_action_id_history):
         self.response_action_id_history = response_action_id_history
+        if self.response_action_id_history == "yesHistory":
+            self.history_sms = 1
+        elif self.response_action_id_history == "noHistory":
+            self.history_sms = 0
 
     def update_social_ranking(self, response_action_id_social):
         self.response_action_id_social = response_action_id_social
+        if self.response_action_id_social == "yesSocial":
+            self.social_sms = 1
+        elif self.response_action_id_social == "noSocial":
+            self.social_sms = 0
 
     def update_content_ranking(self, response_action_id_content):
         self.response_action_id_content = response_action_id_content
+        if self.response_action_id_content == "yesContent":
+            self.content_sms = 1
+        elif self.response_action_id_content == "noContent":
+            self.content_sms = 0
+
 
     def update_reflective_ranking(self, response_action_id_reflective):
         self.response_action_id_reflective = response_action_id_reflective
+        if self.response_action_id_reflective == "yesReflective":
+            self.reflective_sms = 1
+        elif self.response_action_id_reflective == "noReflective":
+            self.reflective_sms = 0
+
+
+    def update_num_day_sms(self):
+        if self.response_action_id_framing == "posFrame":
+            self.num_day_since_pos_framing = 0
+            self.num_day_since_neg_framing += 1
+            self.num_day_since_no_sms = 0
+        elif self.response_action_id_framing == "ngeFrame":
+            self.num_day_since_neg_framing = 0
+            self.num_day_since_pos_framing += 1
+            self.num_day_since_no_sms = 0
+        elif self.response_action_id_framing == "neutFrame":
+            self.num_day_since_neg_framing += 1
+            self.num_day_since_pos_framing += 1
+
+        if self.response_action_id_history == "yesHistory":
+            self.num_day_since_history = 0
+            self.num_day_since_no_sms = 0
+        elif self.response_action_id_history == "noHistory":
+            self.num_day_since_history += 1
+
+        if self.response_action_id_social == "yesSocial":
+            self.num_day_since_social = 0
+            self.num_day_since_no_sms = 0
+        elif self.response_action_id_social == "noSocial":
+            self.num_day_since_social += 1
+
+        if self.response_action_id_content == "yesContent":
+            self.num_day_since_content = 0
+            self.num_day_since_no_sms = 0
+        elif self.response_action_id_content == "noContent":
+            self.num_day_since_content += 1
+
+        if self.response_action_id_reflective == "yesReflective":
+            self.num_day_since_reflective = 0
+            self.num_day_since_no_sms = 0
+        elif self.response_action_id_reflective == "noReflective":
+            self.num_day_since_reflective += 1
+
+        if self.response_action_id_framing == "neutFrame":
+            if self.response_action_id_history == "noHistory" and self.response_action_id_social == "noSocial" and self.response_action_id_content == "noContent" and self.response_action_id_reflective == "noReflective":
+                self.num_day_since_no_sms += 1
+
+    def updated_sms_today(self, filepath):
+        filepath = "/Users/lilybessette/Dropbox (Partners HealthCare)/SHARED -- REINFORCEMENT LEARNING/Protocol_Documents/sms_choices_vF_10-6-20.csv"
+        sms_choices = pd.read_csv(filepath)
+
+    def get_framing_context(self):
+        return json.dump(ContextFeatures.FramingContext(self))
+
+    def get_history_context(self):
+        return ContextFeatures.HistoryContext(self)
+
+    def get_social_context(self):
+        return ContextFeatures.SocialContext(self)
+
+    def get_content_context(self):
+        return ContextFeatures.ContentContext(self)
+
+    def get_reflective_context(self):
+        return ContextFeatures.ReflectiveContext(self)
+

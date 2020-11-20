@@ -11,18 +11,7 @@ from collections import Counter
 import string
 import pickle
 import json
-
-
-# Imports Pillsy File and Convert to Numpy array
-def import_Pillsy(filepath):
-    date_cols = ["eventTime"]
-    pillsy = pd.read_csv(filepath, sep=',', parse_dates=date_cols)
-    pillsy.drop("patientId", axis=1, inplace=True)
-    pillsy.drop("lastname", axis=1, inplace=True)
-    pillsy.drop("method", axis=1, inplace=True)
-    pillsy.drop("platform", axis=1, inplace=True)
-    pillsy = pillsy.to_numpy()
-    return pillsy
+from input.data_input_functions import import_Pillsy
 
 def get_drugName_list(patient_entries):
     drugNames_df = patient_entries['drugName']
@@ -51,10 +40,7 @@ def identify_drug_freq(drugName):
     return drugFreq
 
 
-def process_Pillsy(pillsy, pt_dict):
-    # pillsy is an numpy array
-    pillsy_study_ids_list = get_pillsy_study_ids(pillsy)
-    pt_dict_with_reward, pt_dict_without_reward = find_rewards(pillsy,pillsy_study_ids_list,pt_dict)
+def update_pt_dict(pt_dict_with_reward, pt_dict_without_reward):
     updated_pt_dict = {**pt_dict_with_reward, **pt_dict_without_reward}
     return updated_pt_dict
 
@@ -65,16 +51,14 @@ def find_rewards(pillsy, pillsy_study_ids_list, pt_dict):
         pt_dict_with_reward = {}
         for study_id in pillsy_study_ids_list:
             patient_entries = pillsy[pillsy["firstname"] == study_id].copy()
-            print(patient_entries)
             patient_drugNames = get_drugName_list(patient_entries)
-            print(patient_drugNames)
             todays_adherence_by_drug = [0] * len(patient_drugNames)
             drug_num = 0
             for drug in patient_drugNames:
                 drug_num += 1
                 drug_freq = identify_drug_freq(drug)
                 reward_counter = 0
-                print(drug_freq)
+
                 patient_by_drug = patient_entries[patient_entries["drugName"] == drug].copy()
                 print(patient_by_drug)
                 currentday = datetime.now()
@@ -128,7 +112,7 @@ def find_rewards(pillsy, pillsy_study_ids_list, pt_dict):
                 ## for BID meds should the patient
 
 
-            # PLAN FOR UPDATING PATIENT DICTIONARY ONCE ADHERENCE IS FOUND FOR EACH DRUG = COMPLETED
+            # PLAN FOR UPDATING PATIENT DICTIONARY ONCE ADHERENCE IS FOUND FOR EACH DRUG [COMPLETED]
             today_overall_adherence = 0
             todays_avg_adherence = 0
             for i in todays_adherence_by_drug:
@@ -145,6 +129,7 @@ def find_rewards(pillsy, pillsy_study_ids_list, pt_dict):
             patient_to_update.calc_avg_adherence()
             # Add this updated patient with new data to the patient to the pt_dict_with_reward that will be used
             # to updated Personalizer of rewards
+            patient_to_update.reward_value = todays_avg_adherence
             pt_dict_with_reward[study_id] = patient_to_update
 
 
@@ -187,26 +172,29 @@ def find_rewards(pillsy, pillsy_study_ids_list, pt_dict):
                 else:
                     # Else if the patient was not disconnected as evaluated yesterday aka 1 day ago,
                     # We can shift the False on day1 to day2 and update day1 (yesterday's disconnection) to day1
-                    # But we do not update the disconnected flag and date/date list because it has only been 1 day
+                    # But w  e do not update the disconnected flag and date/date list because it has only been 1 day
                     # of lack of Pillsy data
                     pt_data_to_update.possibly_disconnected_day2 = False
                     pt_data_to_update.possibly_disconnected_day1 = True
 
             # Now we have updated the patient data to add for the patients without any Pillsy entries from yesterday
+            pt_data_to_update.reward_value = 0
             pt_dict_without_reward[pt] = pt_data_to_update
 
         return pt_dict_with_reward, pt_dict_without_reward
 
-def get_reward_update(updated_pt_dict):
-    #subset updated_pt_dict to what we need for rank calls and put in numpy array
+def get_reward_update(pt_dict_with_reward):
+    # Subset updated_pt_dict to what we need for rank calls and put in dataframe
     # create an Empty DataFrame object
     column_values = ['reward', 'frame_id', 'history_id', 'social_id', 'content_id', 'reflective_id', 'study_id', 'trial_day_counter']
     reward_updates = pd.DataFrame(columns=column_values)
 
-    for pt, data in updated_pt_dict:
+    for pt, data in pt_dict_with_reward:
         # Reward value, Rank_Id's
         new_row = [data.adherence_day1, data.rank_id_framing, data.rank_id_history,
                    data.rank_id_social, data.rank_id_content, data.rank_id_reflective,
                    data.study_id, data.trial_day_counter]
         reward_updates.loc[len(reward_updates)] = new_row
+
+    reward_updates = reward_updates.to_numpy()
     return reward_updates

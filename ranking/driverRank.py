@@ -7,12 +7,16 @@ from ranking.actions import get_history_actions
 from ranking.actions import get_social_actions
 from ranking.actions import get_content_actions
 from ranking.actions import get_reflective_actions
+from data_classes.Patient import Patient
+import data_classes.ContextFeatures
 
-def runRanking(patient):
+
+
+def run_ranking(patient, client):
 
 # framing
     rank_id_framing = str(patient.get_study_id() + "_" + patient.counter() + "_frame")
-    context = patient.get_context()
+    context = patient.get_framing_context()
     actions = get_framing_actions()
 
     frame_rank_request = RankRequest(actions=actions, context_features=context, event_id=rank_id_framing)
@@ -23,7 +27,7 @@ def runRanking(patient):
 
 # history
     rank_id_history = str(patient.get_study_id() + "_" + patient.counter() + "_history")
-    context = patient.get_context()
+    context = patient.get_history_context()
     actions = get_history_actions()
 
     history_rank_request = RankRequest(actions=actions, context_features=context, event_id=rank_id_history)
@@ -67,9 +71,6 @@ def runRanking(patient):
 
 # write coder for updating the days since sms here
 
-if __name__ == '__main__':
-
-    client = getClient()
 
 
 

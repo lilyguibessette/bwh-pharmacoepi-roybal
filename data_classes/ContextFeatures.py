@@ -1,5 +1,6 @@
 import json
-# ***** Important issue to solve: JSON Dumps command to ignore attributes with None or Null or NaN values. ******
+# ***** Important issue to solve: JSON Dumps command to ignore attributes with None or Null or NaN values.
+# ****** HOW TO FORMAT THE RESULTS FROM PREVIOUS CALL
 
 # For each patient, and for each SMS category, each RankRequest will require a slightly modified ContextFeature
 # Since each rank call takes into account the output decision of Personalizer at each stepwise RankRequest.
