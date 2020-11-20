@@ -50,6 +50,9 @@ def subtract_today(date1, date2):
 def find_rewards(pillsy, pillsy_study_ids_list, pt_dict):
         pt_dict_with_reward = {}
         for study_id in pillsy_study_ids_list:
+            # *********** TO DO ******************
+            # NEED TO EDIT SINCE I CHANGED THE DATA TYPE AT SOME POINT OF PILLSY AND NEED TO FIX ALL THE SUBSET METHODS
+            # *********** TO DO ******************
             patient_entries = pillsy[pillsy["firstname"] == study_id].copy()
             patient_drugNames = get_drugName_list(patient_entries)
             todays_adherence_by_drug = [0] * len(patient_drugNames)
