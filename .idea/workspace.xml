@@ -2,55 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="815b908d-40aa-4e63-b242-76f07e55e21e" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/bwh-pharmacoepi-roybal.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/bwh-pharmacoepi-roybal.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/other.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ARCHIVE/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ARCHIVE/actions.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ARCHIVE/contextFeatures.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ARCHIVE/convertPillsy.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ARCHIVE/data/ARCHIVE/List of text messages 9-15-20.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ARCHIVE/data/ARCHIVE/MAPRACuerewardPilot_DATA_2020-09-16_1237.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ARCHIVE/data/ARCHIVE/Naming Convention - for Lily.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ARCHIVE/data/ARCHIVE/PillsyExample.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ARCHIVE/data/ARCHIVE/Prediction model elements 9-10-2020 LB JCL(AutoRecovered).xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ARCHIVE/data/ARCHIVE/Prediction model elements 9-23-20.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ARCHIVE/data/ARCHIVE/RedCapExample.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ARCHIVE/data/ARCHIVE/RedCapExample_November2020.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ARCHIVE/data/ARCHIVE/UPDATED Prediction model elements 9-23-20.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ARCHIVE/data/ARCHIVE/desiredHistoricalData.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ARCHIVE/data/ARCHIVE/output.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ARCHIVE/data/ARCHIVE/smsChoices_old.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ARCHIVE/data/ARCHIVE/smsChoices_old.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ARCHIVE/data/sms_choices_vF_10-6-20.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ARCHIVE/data/technical_protocol.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ARCHIVE/driverRank.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ARCHIVE/driverReward.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ARCHIVE/email_details/List of text messages 10-6-20.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ARCHIVE/email_details/MarcoEladResponse.eml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ARCHIVE/email_details/Medication names for RL.eml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ARCHIVE/email_details/Prediction model elements 10-28-20.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ARCHIVE/email_details/RE- Prediction model categories.eml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ARCHIVE/email_details/RE- Roybal RL meeting tomorrow at 11-30a EST.eml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ARCHIVE/email_details/RE- Roybal RL meeting tomorrow at 11-30a EST[1].eml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ARCHIVE/implementation_docs/pillsy_personalizer_integrated_reinforcement_learning.aux" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ARCHIVE/implementation_docs/pillsy_personalizer_integrated_reinforcement_learning.log" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ARCHIVE/implementation_docs/pillsy_personalizer_integrated_reinforcement_learning.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ARCHIVE/implementation_docs/pillsy_personalizer_integrated_reinforcement_learning.synctex.gz" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ARCHIVE/implementation_docs/pillsy_personalizer_integrated_reinforcement_learning.tex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ARCHIVE/implementation_docs/technical_protocol.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ARCHIVE/mountCloud.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ARCHIVE/patientClass.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ARCHIVE/python_programs/DataPointClasses.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ARCHIVE/python_programs/pillsy.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ARCHIVE/reinforcement_learning_main.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ARCHIVE/sample.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ARCHIVE/testing.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data_classes/Patient.py" beforeDir="false" afterPath="$PROJECT_DIR$/data_classes/Patient.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ranking/actions.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ranking/driverRank.py" beforeDir="false" afterPath="$PROJECT_DIR$/ranking/driverRank.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/preprocessing/redcap.py" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/redcap.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,7 +15,7 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="JupyterTrust" id="9309e499-69ae-4351-9419-84d4335d39c9" />
+  <component name="JupyterTrust" id="6d7fb72e-2006-4f4a-9f41-05a9db1a7b4d" />
   <component name="ProjectId" id="1kbcQUmNElp9WrIaHSLhnFl5P5O" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
@@ -71,6 +26,31 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="PythonConfigurationType" factoryName="Python">
+      <module name="bwh-pharmacoepi-roybal" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -86,5 +66,19 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="514" y="195" key="FileChooserDialogImpl" timestamp="1605980137182">
+      <screen x="0" y="23" width="1440" height="819" />
+    </state>
+    <state x="514" y="194" key="FileChooserDialogImpl/0.23.1440.816/1440.-846.1920.1057@0.23.1440.816" timestamp="1605980019559" />
+    <state x="514" y="195" key="FileChooserDialogImpl/0.23.1440.819/1440.-846.1920.1057@0.23.1440.819" timestamp="1605980137182" />
+    <state x="228" y="71" key="SettingsEditor" timestamp="1605980022625">
+      <screen x="0" y="23" width="1440" height="816" />
+    </state>
+    <state x="228" y="71" key="SettingsEditor/0.23.1440.816/1440.-846.1920.1057@0.23.1440.816" timestamp="1605980022625" />
   </component>
 </project>

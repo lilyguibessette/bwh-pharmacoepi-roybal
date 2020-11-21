@@ -141,7 +141,7 @@ class Patient:
         self.pillsy_meds_sglt2 = pillsy_meds_sglt2
         self.pillsy_meds_sulfonylurea = pillsy_meds_sulfonylurea
         self.pillsy_meds_thiazolidinedione = pillsy_meds_thiazolidinedione
-       # self.num_pillsy_meds = num_pillsy_meds
+        self.num_pillsy_meds = pillsy_meds_agi + pillsy_meds_dpp4 + pillsy_meds_glp1 + pillsy_meds_meglitinide + pillsy_meds_metformin + pillsy_meds_sglt2 + pillsy_meds_sulfonylurea + pillsy_meds_thiazolidinedione
         self.avg_adherence_7day = avg_adherence_7day
         self.avg_adherence_3day = avg_adherence_3day
         self.avg_adherence_1day = avg_adherence_1day
@@ -321,6 +321,19 @@ class Patient:
         filepath = "/Users/lilybessette/Dropbox (Partners HealthCare)/SHARED -- REINFORCEMENT LEARNING/Protocol_Documents/sms_choices_vF_10-6-20.csv"
         sms_choices = pd.read_csv(filepath)
 
+
+
+    def update_redcap_pillsy_vars(self):
+        self.num_twice_daily_pillsy_meds = num_twice_daily_pillsy_meds
+        self.pillsy_meds_agi = pillsy_meds_agi
+        self.pillsy_meds_dpp4 = pillsy_meds_dpp4
+        self.pillsy_meds_glp1 = pillsy_meds_glp1
+        self.pillsy_meds_meglitinide = pillsy_meds_meglitinide
+        self.pillsy_meds_metformin = pillsy_meds_metformin
+        self.pillsy_meds_sglt2 = pillsy_meds_sglt2
+        self.pillsy_meds_sulfonylurea = pillsy_meds_sulfonylurea
+        self.pillsy_meds_thiazolidinedione = pillsy_meds_thiazolidinedione
+        self.num_pillsy_meds = pillsy_meds_agi + pillsy_meds_dpp4 + pillsy_meds_glp1 + pillsy_meds_meglitinide + pillsy_meds_metformin + pillsy_meds_sglt2 + pillsy_meds_sulfonylurea + pillsy_meds_thiazolidinedione
 
 
     def get_framing_context(self):
