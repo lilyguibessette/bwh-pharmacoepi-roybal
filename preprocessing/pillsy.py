@@ -48,7 +48,7 @@ def subtract_today(date1, date2):
         return date1 - date2
 
 def find_patient_rewards(study_id, pillsy_subset, pt_dict):
-    patient = pt_dict[study_id]
+    patient = pt_dict.get(study_id)
     yesterday = patient.last_run_time
     midnight =
     # subset into yesterday and today
@@ -60,14 +60,38 @@ def find_patient_rewards(study_id, pillsy_subset, pt_dict):
             # If QD => simply check if
 
 
+
+
+
+
+    todays_avg_adherence =
+    # ************ TO DO ******************
+    # Account for the early_rx_use_before_sms for patients taking medication early before text
+    # Subset Pillsy data to the morning of this algorithm being run to find patients that took med early
+    # repeat above algorithm
+
+
+
+
+    # Shifts the adherence for each day backwards by 1 day to make day1 = newest found avg_adherence
+    # and day2 = old day, day3 = old day 2... etc day7 = old day 6
+    patient.shift_day_adherences(todays_avg_adherence)
+    # We update the avg adherences at days 1,3,7 with updated shifted daily adherence values:
+    patient.calc_avg_adherence()
+    # Add this updated patient with new data to the patient to the pt_dict_with_reward that will be used
+    # to updated Personalizer of rewards
+    patient.reward_value = todays_avg_adherence
+
+    return patient
+
 def find_rewards(pillsy, pillsy_study_ids_list, pt_dict):
         pt_dict_with_reward = {}
         for study_id in pillsy_study_ids_list:
             # FOR JOE: SUBSET PILLSY PANDAS DF to include only rows with firstname = study_id store this as pillsy_subset
             # filter by study id here
             pillsy_subset = #
-            find_patient_rewards(study_id, pillsy_subset, pt_dict)
-
+            patient = find_patient_rewards(study_id, pillsy_subset, pt_dict)
+            pt_dict_with_reward[study_id] = patient
             # *********** TO DO ******************
             # NEED TO EDIT SINCE I CHANGED THE DATA TYPE AT SOME POINT OF PILLSY AND NEED TO FIX ALL THE SUBSET METHODS
             # *********** TO DO ******************
@@ -134,32 +158,6 @@ def find_rewards(pillsy, pillsy_study_ids_list, pt_dict):
             #     ## handle case if they only took a BID med 1x
             #     ## for BID meds should the patient
             #
-
-            # PLAN FOR UPDATING PATIENT DICTIONARY ONCE ADHERENCE IS FOUND FOR EACH DRUG [COMPLETED]
-            today_overall_adherence = 0
-            todays_avg_adherence = 0
-            for i in todays_adherence_by_drug:
-                today_overall_adherence += i
-            # Computes today's final average adherence for all medications for this patient
-            todays_avg_adherence = todays_adherence_by_drug / len(patient_drugNames)
-
-            # Calls and stores the old patient data for this study_id
-            patient_to_update = pt_dict.get(study_id)
-            # Shifts the adherence for each day backwards by 1 day to make day1 = newest found avg_adherence
-            # and day2 = old day, day3 = old day 2... etc day7 = old day 6
-            patient_to_update.shift_day_adherences(todays_avg_adherence)
-            # We update the avg adherences at days 1,3,7 with updated shifted daily adherence values:
-            patient_to_update.calc_avg_adherence()
-            # Add this updated patient with new data to the patient to the pt_dict_with_reward that will be used
-            # to updated Personalizer of rewards
-            patient_to_update.reward_value = todays_avg_adherence
-            pt_dict_with_reward[study_id] = patient_to_update
-
-
-        # ************ TO DO ******************
-        # Account for the early_rx_use_before_sms for patients taking medication early before text
-        # Subset Pillsy data to the morning of this algorithm being run to find patients that took med early
-        # repeat above algorithm
 
 
 
