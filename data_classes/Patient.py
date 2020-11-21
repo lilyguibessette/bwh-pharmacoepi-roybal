@@ -199,7 +199,6 @@ class Patient:
         self.rank_id_reflective = rank_id_reflective
         self.reward_value = reward_value
 
-
     def shift_dichot_day_adherences(self, todays_avg_adherence):
         self.dichot_adherence_day7 = self.dichot_adherence_day6
         self.dichot_adherence_day6 = self.dichot_adherence_day5
