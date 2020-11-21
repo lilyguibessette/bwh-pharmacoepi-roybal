@@ -316,6 +316,8 @@ class Patient:
                 self.num_day_since_no_sms += 1
 
     def updated_sms_today(self, filepath):
+        import os.path
+        fp = os.path.join("..")
         filepath = "/Users/lilybessette/Dropbox (Partners HealthCare)/SHARED -- REINFORCEMENT LEARNING/Protocol_Documents/sms_choices_vF_10-6-20.csv"
         sms_choices = pd.read_csv(filepath)
 

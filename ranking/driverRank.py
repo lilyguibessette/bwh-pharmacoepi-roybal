@@ -71,7 +71,9 @@ def run_ranking(patient, client):
 
 # write coder for updating the days since sms here
 
+# write run function to export csv of sms output
 
+#
 
 
 
