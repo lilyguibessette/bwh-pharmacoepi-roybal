@@ -49,7 +49,7 @@ class ContentContext:
         self.num_days_since_sms = json.dumps(NumDaysSinceSMS(patient).__dict__)
         self.framing = patient.response_action_id_framing
         self.history = patient.response_action_id_history
-        self.framing = patient.response_action_id_social
+        self.social = patient.response_action_id_social
 
 class ReflectiveContext:
     def __init__(self, patient):
@@ -62,8 +62,8 @@ class ReflectiveContext:
         self.num_days_since_sms = json.dumps(NumDaysSinceSMS(patient).__dict__)
         self.framing = patient.response_action_id_framing
         self.history = patient.response_action_id_history
-        self.framing = patient.response_action_id_social
-        self.history = patient.response_action_id_content
+        self.social = patient.response_action_id_social
+        self.content = patient.response_action_id_content
 
 # Namespaces stored within a Patient that will be standard & used in each of the above Context Features for each RankRequest
 # The relevant patient object will be passed in to instantiate each of the namespaces.

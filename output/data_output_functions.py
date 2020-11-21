@@ -16,29 +16,19 @@ def export_reward_data(reward_np_array):
     full_path = os.path.expanduser(path)
     pd.DataFrame(reward_np_array).to_csv("path/to/file.csv")
 
-def check_mac_or_pc(mac_or_pc, mac_path,pc_path):
-    #WORK IN PROGRESS
-    if mac_or_pc == False: # Mac
-        path = mac_path
-    elif mac_or_pc == True: # PC
-        path = pc_path +"\\"
-    else:
-        path = ""
-        print("Error: Invalid computer system type.")
-    return path
 
 def export_pt_dict_pickle(pt_dict):
-    filesave = date.today().__str__() + "_patient_dict" + '.pickle'
+    filesave = str(date.today()) + "_patient_dict" + '.pickle'
     with open(filesave, 'wb') as fp:
         pickle.dump(pt_dict, fp)
 
 def export_post_reward_pickle(pt_dict):
-    filesave = date.today().__str__() + "rewarded_patient_dict" + '.pickle'
+    filesave = str(date.today()) + "rewarded_patient_dict" + '.pickle'
     with open(filesave, 'wb') as fp:
         pickle.dump(pt_dict, fp)
 
 def export_post_rank_pickle(pt_dict):
-    filesave = date.today().__str__() + "ranked_patient_dict" + '.pickle'
+    filesave = str(date.today()) + "ranked_patient_dict" + '.pickle'
     with open(filesave, 'wb') as fp:
         pickle.dump(pt_dict, fp)
 

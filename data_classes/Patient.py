@@ -16,7 +16,7 @@ from data_classes import ContextFeatures
 class Patient:
     def __init__(self, study_id,
                  start_date,
-                 current_date,
+                 last_run_time,
                  trial_day_counter,
                  censor,
                  age,
@@ -108,7 +108,7 @@ class Patient:
                  reward_value):
         self.study_id = str(study_id)
         self.start_date = start_date
-        self.current_date = current_date
+        self.last_run_time = datetime.now()
         self.trial_day_counter = trial_day_counter
         self.censor = censor
         self.age = age
@@ -321,7 +321,7 @@ class Patient:
         sms_choices = pd.read_csv(fp)
         # filepath = "/Users/lilybessette/Dropbox (Partners HealthCare)/SHARED -- REINFORCEMENT LEARNING/Protocol_Documents/sms_choices_vF_10-6-20.csv"
         # sms_choices = pd.read_csv(filepath)
-
+        #TODO JOE
 
 
     def update_redcap_pillsy_vars(self, num_twice_daily_pillsy_meds, pillsy_meds_agi, pillsy_meds_dpp4, pillsy_meds_glp1, pillsy_meds_meglitinide, pillsy_meds_metformin, pillsy_meds_sglt2, pillsy_meds_sulfonylurea, pillsy_meds_thiazolidinedione):

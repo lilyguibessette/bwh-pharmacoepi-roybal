@@ -48,8 +48,9 @@ def subtract_today(date1, date2):
         return date1 - date2
 
 def find_patient_rewards(study_id, pillsy_subset, pt_dict):
-    today = blah
-    yesterday = pt_dict()
+    patient = pt_dict[study_id]
+    yesterday = patient.last_run_time
+    midnight =
     # subset into yesterday and today
     # for yesterday
         # get unique medication names as list from the drugName column

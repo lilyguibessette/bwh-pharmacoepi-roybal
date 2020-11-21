@@ -69,9 +69,11 @@ def run_ranking(patient, client):
 
     patient.update_reflective_ranking(reflective_ranked)
 
-# write coder for updating the days since sms here
+    patient.update_num_day_sms()
+    patient.updated_sms_today()
+    patient.last_run_time = datetime.now()
+    patient.counter += 1
 
-# write run function to export csv of sms output
 
 #
 
