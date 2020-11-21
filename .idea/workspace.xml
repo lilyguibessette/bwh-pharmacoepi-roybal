@@ -2,6 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="815b908d-40aa-4e63-b242-76f07e55e21e" name="Default Changelist" comment="">
+<<<<<<< HEAD
+=======
+      <change beforePath="$PROJECT_DIR$/.idea/bwh-pharmacoepi-roybal.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/bwh-pharmacoepi-roybal.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+>>>>>>> 64d37d83fcc3f1f1a14df7f59332b9199b5e2517
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data_classes/ContextFeatures.py" beforeDir="false" afterPath="$PROJECT_DIR$/data_classes/ContextFeatures.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/reinforcement_learning.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/reinforcement_learning.ipynb" afterDir="false" />

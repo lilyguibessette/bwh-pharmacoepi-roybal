@@ -324,7 +324,7 @@ class Patient:
 
 
 
-    def update_redcap_pillsy_vars(self):
+    def update_redcap_pillsy_vars(self, num_twice_daily_pillsy_meds, pillsy_meds_agi, pillsy_meds_dpp4, pillsy_meds_glp1, pillsy_meds_meglitinide, pillsy_meds_metformin, pillsy_meds_sglt2, pillsy_meds_sulfonylurea, pillsy_meds_thiazolidinedione):
         self.num_twice_daily_pillsy_meds = num_twice_daily_pillsy_meds
         self.pillsy_meds_agi = pillsy_meds_agi
         self.pillsy_meds_dpp4 = pillsy_meds_dpp4
