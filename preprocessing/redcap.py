@@ -14,6 +14,8 @@ def get_redcap_study_ids(redcap):
     unique_study_ids_list_redcap = unique_study_ids_redcap.values.tolist()
     return unique_study_ids_list_redcap
 
+
+### CENSORING ISSUE HOW WILL THAT COME INTO THE DATA
 def compare_existing_for_new_ids(unique_study_ids_list_redcap, redcap, pt_dict):
     pt_dict_keys = list(pt_dict.keys())
     for record_id in unique_study_ids_list_redcap:
@@ -120,7 +122,7 @@ def compare_existing_for_new_ids(unique_study_ids_list_redcap, redcap, pt_dict):
             pt_dict[record_id] = patient
         else:
             updated_patient = pt_dict[record_id]
-            updated_patient.
+            updated_patient
             pt_dict.update_pt_ob
 
     return pt_dict
