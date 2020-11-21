@@ -47,74 +47,92 @@ def update_pt_dict(pt_dict_with_reward, pt_dict_without_reward):
 def subtract_today(date1, date2):
         return date1 - date2
 
+def find_patient_rewards(study_id, pillsy_subset, pt_dict):
+    today = blah
+    yesterday = pt_dict()
+    # subset into yesterday and today
+    # for yesterday
+        # get unique medication names as list from the drugName column
+        # store this as a
+        # for each medication in this list
+            # check if BID or QD
+            # If QD => simply check if
+
+
 def find_rewards(pillsy, pillsy_study_ids_list, pt_dict):
         pt_dict_with_reward = {}
         for study_id in pillsy_study_ids_list:
+            # FOR JOE: SUBSET PILLSY PANDAS DF to include only rows with firstname = study_id store this as pillsy_subset
+            # filter by study id here
+            pillsy_subset = #
+            find_patient_rewards(study_id, pillsy_subset, pt_dict)
+
             # *********** TO DO ******************
             # NEED TO EDIT SINCE I CHANGED THE DATA TYPE AT SOME POINT OF PILLSY AND NEED TO FIX ALL THE SUBSET METHODS
             # *********** TO DO ******************
-            patient_entries = pillsy[pillsy["firstname"] == study_id].copy()
-            # subset for early today and yesterday
-            patient_drugNames = get_drugName_list(patient_entries)
-            todays_adherence_by_drug = [0] * len(patient_drugNames)
-            drug_num = 0
-            for drug in patient_drugNames:
-                drug_num += 1
-                drug_freq = identify_drug_freq(drug)
-                reward_counter = 0
+            # patient_entries = pillsy[pillsy["firstname"] == study_id].copy()
+            # # subset for early today and yesterday
+            # patient_drugNames = get_drugName_list(patient_entries)
+            # todays_adherence_by_drug = [0] * len(patient_drugNames)
+            # drug_num = 0
+            # for drug in patient_drugNames:
+            #     drug_num += 1
+            #     drug_freq = identify_drug_freq(drug)
+            #     reward_counter = 0
+            #
+            #     patient_by_drug = patient_entries[patient_entries["drugName"] == drug].copy()
+            #     print(patient_by_drug)
+            #     currentday = datetime.now()
+            #     currentday = currentday.replace(tzinfo=None)
+            #     # print("Current Date: " + currentday.__str__())
+            #     # print("DF Date: ")
+            #     # print(patient_by_drug["eventTime"].dtypes)
+            #     new_eventTime = currentday - patient_by_drug.eventTime.astype('datetime64[ns]')
+            #     patient_by_drug['new_eventTime'] = new_eventTime
+            #     print("OLD patient_by_drug")
+            #     print(patient_by_drug["eventTime"])
+            #     print("NEW patient_by_drug")
+            #     print(patient_by_drug["new_eventTime"])
+            #     ## change to last time called instead of 24 hours
+            #     patient_by_date = patient_by_drug[patient_by_drug.new_eventTime.copy() < pd.Timedelta('1 days')]
+            #     print("subset patient_by_date < 1 day")
+            #     print(patient_by_date)
+            #     patient_by_date = patient_by_date[patient_by_date.new_eventTime.copy() >= pd.Timedelta('0 second')]
+            #     print("subset patient_by_date >= 0 s ")
+            #     print(patient_by_date)
 
-                patient_by_drug = patient_entries[patient_entries["drugName"] == drug].copy()
-                print(patient_by_drug)
-                currentday = datetime.now()
-                currentday = currentday.replace(tzinfo=None)
-                # print("Current Date: " + currentday.__str__())
-                # print("DF Date: ")
-                # print(patient_by_drug["eventTime"].dtypes)
-                new_eventTime = currentday - patient_by_drug.eventTime.astype('datetime64[ns]')
-                patient_by_drug['new_eventTime'] = new_eventTime
-                print("OLD patient_by_drug")
-                print(patient_by_drug["eventTime"])
-                print("NEW patient_by_drug")
-                print(patient_by_drug["new_eventTime"])
-                ## change to last time called instead of 24 hours
-                patient_by_date = patient_by_drug[patient_by_drug.new_eventTime.copy() < pd.Timedelta('1 days')]
-                print("subset patient_by_date < 1 day")
-                print(patient_by_date)
-                patient_by_date = patient_by_date[patient_by_date.new_eventTime.copy() >= pd.Timedelta('0 second')]
-                print("subset patient_by_date >= 0 s ")
-                print(patient_by_date)
-                if not patient_by_date.empty:
-                    lastOpen = datetime(2000, 1, 1, tzinfo=None)
-                    lastClose = datetime(2040, 1, 1, tzinfo=None)
-                    print("preset lastOpen, preset lastClose")
-                    print(lastOpen, ' --- ', lastClose)
-
-                    for index, row in patient_by_date.iterrows():
-                        # *********** TO DO ******************
-                        # NEED TO EDIT TO THE NEW ALGORITHM WITH THE CASES OF 3 MEDICATIONS AND BID VS QD
-                        # *********** TO DO ******************
-                        if row['eventValue'] == "OPEN":
-                            lastOpen = row['eventTime']
-                        elif row['eventValue'] == "CLOSE":
-                            lastClose = row['eventTime']
-                        diff = lastClose.replace(tzinfo=None) - lastOpen.replace(tzinfo=None)
-                        print("lastOpen, lastClose, diff")
-                        print(lastOpen, " --- ", lastClose, " --- ", diff)
-                        # print(lastClose)
-                        # print(diff)
-                        if pd.Timedelta('0 days 0 hours 0 seconds') <= diff < pd.Timedelta('0 days 3 hours'):
-                            reward_counter += 1
-                            print("reward_counter:")
-                            print(reward_counter)
-                            print("close - open:")
-                            print(diff)
-                            lastOpen = datetime(2000, 1, 1, tzinfo=None)
-                            lastClose = datetime(2040, 1, 1, tzinfo=None)
-                this_adherence = reward_counter / drug_freq
-                todays_adherence_by_drug.append(this_adherence)
-                ## handle case if they only took a BID med 1x
-                ## for BID meds should the patient
-
+            #     if not patient_by_date.empty:
+            #         lastOpen = datetime(2000, 1, 1, tzinfo=None)
+            #         lastClose = datetime(2040, 1, 1, tzinfo=None)
+            #         print("preset lastOpen, preset lastClose")
+            #         print(lastOpen, ' --- ', lastClose)
+            #
+            #         for index, row in patient_by_date.iterrows():
+            #             # *********** TO DO ******************
+            #             # NEED TO EDIT TO THE NEW ALGORITHM WITH THE CASES OF 3 MEDICATIONS AND BID VS QD
+            #             # *********** TO DO ******************
+            #             if row['eventValue'] == "OPEN":
+            #                 lastOpen = row['eventTime']
+            #             elif row['eventValue'] == "CLOSE":
+            #                 lastClose = row['eventTime']
+            #             diff = lastClose.replace(tzinfo=None) - lastOpen.replace(tzinfo=None)
+            #             print("lastOpen, lastClose, diff")
+            #             print(lastOpen, " --- ", lastClose, " --- ", diff)
+            #             # print(lastClose)
+            #             # print(diff)
+            #             if pd.Timedelta('0 days 0 hours 0 seconds') <= diff < pd.Timedelta('0 days 3 hours'):
+            #                 reward_counter += 1
+            #                 print("reward_counter:")
+            #                 print(reward_counter)
+            #                 print("close - open:")
+            #                 print(diff)
+            #                 lastOpen = datetime(2000, 1, 1, tzinfo=None)
+            #                 lastClose = datetime(2040, 1, 1, tzinfo=None)
+            #     this_adherence = reward_counter / drug_freq
+            #     todays_adherence_by_drug.append(this_adherence)
+            #     ## handle case if they only took a BID med 1x
+            #     ## for BID meds should the patient
+            #
 
             # PLAN FOR UPDATING PATIENT DICTIONARY ONCE ADHERENCE IS FOUND FOR EACH DRUG [COMPLETED]
             today_overall_adherence = 0

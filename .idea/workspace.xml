@@ -6,6 +6,7 @@
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data_classes/Patient.py" beforeDir="false" afterPath="$PROJECT_DIR$/data_classes/Patient.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/preprocessing/pillsy.py" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/pillsy.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/preprocessing/redcap.py" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessing/redcap.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -16,7 +17,7 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="JupyterTrust" id="6d7fb72e-2006-4f4a-9f41-05a9db1a7b4d" />
+  <component name="JupyterTrust" id="9309e499-69ae-4351-9419-84d4335d39c9" />
   <component name="ProjectId" id="1kbcQUmNElp9WrIaHSLhnFl5P5O" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
