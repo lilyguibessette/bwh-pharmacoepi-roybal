@@ -17,8 +17,6 @@ def get_redcap_study_ids(redcap):
 def compare_existing_for_new_ids(unique_study_ids_list_redcap, redcap, pt_dict):
     pt_dict_keys = list(pt_dict.keys())
     for record_id in unique_study_ids_list_redcap:
-        #TODO
-        # Need to know if we need to handle updates to redcap data for existing patients or not
         if record_id not in pt_dict_keys:
             row = redcap.loc[redcap['record_id'] == record_id]
             #TODO
@@ -117,7 +115,14 @@ def compare_existing_for_new_ids(unique_study_ids_list_redcap, redcap, pt_dict):
                               None,
                               None,
                               0)
+            # convert function from input values to string type
+            # update patient variables
             pt_dict[record_id] = patient
+        else:
+            updated_patient = pt_dict[record_id]
+            updated_patient.
+            pt_dict.update_pt_ob
+
     return pt_dict
 
 

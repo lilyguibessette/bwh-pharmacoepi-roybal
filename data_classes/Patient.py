@@ -239,7 +239,7 @@ class Patient:
         self.response_action_id_framing = response_action_id_framing
         if self.response_action_id_framing == "posFrame":
             self.framing_sms = 1
-        elif self.response_action_id_framing == "ngeFrame":
+        elif self.response_action_id_framing == "negFrame":
             self.framing_sms = 2
         elif self.response_action_id_framing == "neutFrame":
             self.framing_sms = 0
@@ -279,7 +279,7 @@ class Patient:
             self.num_day_since_pos_framing = 0
             self.num_day_since_neg_framing += 1
             self.num_day_since_no_sms = 0
-        elif self.response_action_id_framing == "ngeFrame":
+        elif self.response_action_id_framing == "negFrame":
             self.num_day_since_neg_framing = 0
             self.num_day_since_pos_framing += 1
             self.num_day_since_no_sms = 0
@@ -318,6 +318,8 @@ class Patient:
     def updated_sms_today(self, filepath):
         filepath = "/Users/lilybessette/Dropbox (Partners HealthCare)/SHARED -- REINFORCEMENT LEARNING/Protocol_Documents/sms_choices_vF_10-6-20.csv"
         sms_choices = pd.read_csv(filepath)
+
+
 
     def get_framing_context(self):
         return json.dump(ContextFeatures.FramingContext(self))
