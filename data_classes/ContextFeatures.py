@@ -68,7 +68,7 @@ class ReflectiveContext:
 # Namespaces stored within a Patient that will be standard & used in each of the above Context Features for each RankRequest
 # The relevant patient object will be passed in to instantiate each of the namespaces.
 class Demographic:
-    def __init__(self, patient ):
+    def __init__(self, patient):
         self.age = patient.age
         self.sex = patient.sex
         self.race_white = patient.race_white
