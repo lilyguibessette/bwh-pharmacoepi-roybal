@@ -1,8 +1,15 @@
-# Increasing Patient Medication Adherence
-## By Custom Text AI Generated Text Message
+# Increasing Patient Medication Adherence By Custom Text AI Generated Text Message
 ### Author(s): Lily Bessette, lgbessette@bwh.harvard.edu
 ### Contributor(s): Joe Buckley, jjbuckley@bwh.harvard.edu
 ### Updated 2020-11-21
+
+## Project Requirements
+
+Python version 3.7.x. Development using `venv`, see [documentation](https://docs.python.org/3/library/venv.html)
+
+TODO
+- `pip freeze` to make `requirements.txt` file
+
 
 ## Directory Structure:
 
