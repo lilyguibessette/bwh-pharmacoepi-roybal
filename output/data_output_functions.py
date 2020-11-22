@@ -8,7 +8,7 @@ from data_classes.Patient import Patient
 import pickle
 
 def export_reward_data(reward_np_array):
-    #WORK IN PROGRESS
+    #WORK IN PROGRESS LOGGING FOR REWARD
     mac_path = "~/Dropbox (Partners HealthCare)/SHARED -- REINFORCEMENT LEARNING/Reward_Data/"
     pc_path = R"C:\Users\$USERNAME\Dropbox (Partners HealthCare)\SHARED -- REINFORCEMENT LEARNING\Reward_Data"
     path = check_mac_or_pc(mac_path, pc_path)
@@ -33,7 +33,7 @@ def export_post_rank_pickle(pt_dict):
         pickle.dump(pt_dict, fp)
 
 def write_data(pt_dict):
-    #WORK IN PROGRESS
+    #WORK IN PROGRESS FOR CONVERTING PICKLE TO CSV FILE FOR HUMAN READABILITY
     new_file = date.today().__str__()
     new_file = "PatientTrialData_" + new_file
     out_file = open(new_file, "w")

@@ -44,13 +44,13 @@ def update_pt_dict(pt_dict_with_reward, pt_dict_without_reward):
     updated_pt_dict = {**pt_dict_with_reward, **pt_dict_without_reward}
     return updated_pt_dict
 
-def subtract_today(date1, date2):
-        return date1 - date2
 
-def find_patient_rewards(study_id, pillsy_subset, pt_dict):
-    patient = pt_dict.get(study_id)
+def find_patient_rewards(study_id, pillsy_subset, patient):
     yesterday = patient.last_run_time
-    midnight =
+    today = date.today()
+    # https://www.w3resource.com/python-exercises/date-time-exercise/python-date-time-exercise-8.php
+    midnight = datetime.combine(today, datetime.min.time())
+
     # subset into yesterday and today
     # for yesterday
         # get unique medication names as list from the drugName column
@@ -62,15 +62,11 @@ def find_patient_rewards(study_id, pillsy_subset, pt_dict):
 
 
 
-
-
-    todays_avg_adherence =
+    todays_avg_adherence = 0
     # ************ TO DO ******************
     # Account for the early_rx_use_before_sms for patients taking medication early before text
     # Subset Pillsy data to the morning of this algorithm being run to find patients that took med early
     # repeat above algorithm
-
-
 
 
     # Shifts the adherence for each day backwards by 1 day to make day1 = newest found avg_adherence
@@ -87,15 +83,19 @@ def find_patient_rewards(study_id, pillsy_subset, pt_dict):
 def find_rewards(pillsy, pillsy_study_ids_list, pt_dict):
         pt_dict_with_reward = {}
         for study_id in pillsy_study_ids_list:
-            # FOR JOE: SUBSET PILLSY PANDAS DF to include only rows with firstname = study_id store this as pillsy_subset
-            # filter by study id here
-            pillsy_subset = #
-            patient = find_patient_rewards(study_id, pillsy_subset, pt_dict)
-            pt_dict_with_reward[study_id] = patient
+            # Filter by firstname = study_id to get data for just this one patient
+            pillsy_subset = pillsy[pillsy["firstname"] == study_id].copy()
+            # Now we will send our current patient object to the find_patient_rewards function with their study_id & pillsy subset
+            patient = pt_dict.get(study_id) # Gets current patient from study_id
+            # This function with update the patient attributes with the updated adherence data that we will find from pillsy
+            updated_patient = find_patient_rewards(study_id, pillsy_subset, patient)
+            # The function returns an updated patient
+            # We add this patient to our originally empty pt_dict_with_reward dictionary with their study_id as a key
+            pt_dict_with_reward[study_id] = updated_patient
             # *********** TO DO ******************
             # NEED TO EDIT SINCE I CHANGED THE DATA TYPE AT SOME POINT OF PILLSY AND NEED TO FIX ALL THE SUBSET METHODS
             # *********** TO DO ******************
-            # patient_entries = pillsy[pillsy["firstname"] == study_id].copy()
+            #
             # # subset for early today and yesterday
             # patient_drugNames = get_drugName_list(patient_entries)
             # todays_adherence_by_drug = [0] * len(patient_drugNames)

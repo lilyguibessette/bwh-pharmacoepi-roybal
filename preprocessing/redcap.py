@@ -14,7 +14,6 @@ def get_redcap_study_ids(redcap):
     unique_study_ids_list_redcap = unique_study_ids_redcap.values.tolist()
     return unique_study_ids_list_redcap
 
-
 ### CENSORING ISSUE HOW WILL THAT COME INTO THE DATA
 def update_patient_dict_redcap(unique_study_ids_list_redcap, redcap, pt_dict):
     pt_dict_keys = list(pt_dict.keys())
@@ -122,7 +121,7 @@ def update_patient_dict_redcap(unique_study_ids_list_redcap, redcap, pt_dict):
             pt_dict[record_id] = patient
         else:
             updated_patient = pt_dict[record_id]
-            updated_patient
+            updated_patient.update_redcap_pillsy_vars(num_twice_daily_pillsy_meds, pillsy_meds_agi, pillsy_meds_dpp4, pillsy_meds_glp1, pillsy_meds_meglitinide, pillsy_meds_metformin, pillsy_meds_sglt2, pillsy_meds_sulfonylurea, pillsy_meds_thiazolidinedione)
             pt_dict.update_pt_ob
 
     return pt_dict

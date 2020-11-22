@@ -321,7 +321,16 @@ class Patient:
         # filepath = "/Users/lilybessette/Dropbox (Partners HealthCare)/SHARED -- REINFORCEMENT LEARNING/Protocol_Documents/sms_choices_vF_10-6-20.csv"
         # sms_choices = pd.read_csv(filepath)
         #TODO JOE
+        # Joe you'll need these to compare to the sms_choices csv
+        sms_coder = [self.framing_sms, self.history_sms, self.social_sms, self.content_sms, self.reflective_sms]
+        # determind sms from csv
+        text = "the sms from the csv"
+        text.replace("X", self.total_dichot_adherence_past7)
+        self.sms_today = text
+        # and you'll need this for
 
+    def get_framing_context(self):
+        return json.dump(ContextFeatures.FramingContext(self))
 
     def update_redcap_pillsy_vars(self, num_twice_daily_pillsy_meds, pillsy_meds_agi, pillsy_meds_dpp4, pillsy_meds_glp1, pillsy_meds_meglitinide, pillsy_meds_metformin, pillsy_meds_sglt2, pillsy_meds_sulfonylurea, pillsy_meds_thiazolidinedione):
         self.num_twice_daily_pillsy_meds = num_twice_daily_pillsy_meds
@@ -335,10 +344,6 @@ class Patient:
         self.pillsy_meds_thiazolidinedione = pillsy_meds_thiazolidinedione
         self.num_pillsy_meds = pillsy_meds_agi + pillsy_meds_dpp4 + pillsy_meds_glp1 + pillsy_meds_meglitinide + pillsy_meds_metformin + pillsy_meds_sglt2 + pillsy_meds_sulfonylurea + pillsy_meds_thiazolidinedione
 
-
-    def get_framing_context(self):
-        return json.dump(ContextFeatures.FramingContext(self))
-
     def get_history_context(self):
         return ContextFeatures.HistoryContext(self)
 
@@ -351,3 +356,8 @@ class Patient:
     def get_reflective_context(self):
         return ContextFeatures.ReflectiveContext(self)
 
+
+    # Convert to categorical variables function
+    def convert_redcap_input_vars(self, ):
+
+        # waiting for julie's response to email

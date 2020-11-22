@@ -1,7 +1,15 @@
 Scripts/
+
 Lib/
-pyvenv.cfg
+
+pyvenv
+.cfg
+
 
 .idea/
+
 .DS_Store
+
 .Rapp.history
+share/
+etc/
