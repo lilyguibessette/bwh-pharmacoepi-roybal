@@ -366,19 +366,19 @@ class Patient:
 
     def get_framing_context(self):
         #TODO might need to do {"contextFeatures": FramingContext()}
-        return ContextFeatures.FramingContext(self)
+        return ContextFeatures.FramingContext(self).get_context_features()
 
     def get_history_context(self):
-        return ContextFeatures.HistoryContext(self)
+        return ContextFeatures.HistoryContext(self).get_context_features()
 
     def get_social_context(self):
-        return ContextFeatures.SocialContext(self)
+        return ContextFeatures.SocialContext(self).get_context_features()
 
     def get_content_context(self):
-        return ContextFeatures.ContentContext(self)
+        return ContextFeatures.ContentContext(self).get_context_features()
 
     def get_reflective_context(self):
-        return ContextFeatures.ReflectiveContext(self)
+        return ContextFeatures.ReflectiveContext(self).get_context_features()
 
 
     def export_to_row(self):
@@ -474,7 +474,7 @@ class Patient:
            self.rank_id_content,
            self.rank_id_reflective,
            self.reward_value]
-
+        return new_row
 
     #TODO upon Julie Confirmation
     # Convert to categorical variables function
