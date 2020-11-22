@@ -315,18 +315,17 @@ class Patient:
                 self.num_day_since_no_sms += 1
 
     def updated_sms_today(self):
-        import os.path
-        fp = os.path.join("..", "..", "..", "SMSChoices", "sms_choices.csv")
+        fp = os.path.join("..", "..", "SMSChoices", "sms_choices.csv")
         sms_choices = pd.read_csv(fp)
-        # filepath = "/Users/lilybessette/Dropbox (Partners HealthCare)/SHARED -- REINFORCEMENT LEARNING/Protocol_Documents/sms_choices_vF_10-6-20.csv"
-        # sms_choices = pd.read_csv(filepath)
-        #TODO JOE
-        # Joe you'll need these to compare to the sms_choices csv
-        sms_coder = [self.framing_sms, self.history_sms, self.social_sms, self.content_sms, self.reflective_sms]
-        # determind sms from csv
-        text = "the sms from the csv"
-        # and you'll need this for updating X in the sms text message for this particular patient
-        text.replace("X", self.total_dichot_adherence_past7)
+        rows = sms_choices.query(
+            "framing_sms == @self.framing_sms "
+            + "and history_sms == @self.history_sms "
+            + "and social_sms == @self.social_sms "
+            + "and content_sms == @self.content_sms"
+            + "and reflective_sms == @self.reflective_sms"
+        )
+        row = rows.sample()
+        text = row['text_message'].item().replace("X", str(self.total_dichot_adherence_past7))
         self.sms_today = text
 
     def update_redcap_pillsy_vars(self, num_twice_daily_pillsy_meds, pillsy_meds_agi, pillsy_meds_dpp4, pillsy_meds_glp1, pillsy_meds_meglitinide, pillsy_meds_metformin, pillsy_meds_sglt2, pillsy_meds_sulfonylurea, pillsy_meds_thiazolidinedione):
