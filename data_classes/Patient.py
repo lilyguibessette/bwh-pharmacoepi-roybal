@@ -360,7 +360,7 @@ class Patient:
 
     # Convert to categorical variables function
     def convert_redcap_input_vars(self):
-        self.start_date # convert to date object
+        # confirm read in appropraitely or convert this to a date object : self.start_date
         if self.age == 1:
             self.age = "18-34"
         elif self.age == 2:
