@@ -16,12 +16,12 @@ The parent directory of this code repository should contain 3 folders containing
 `Pillsy` 
 - contains open/close event data from patient pill bottle
 - exists as csv of data for each day
-- named "YYYY-MM-DD_Pillsy" with date prepended in format as indicated
+- named "YYYY-MM-DD_pillsy" with date prepended in format as indicated
 
 `REDCap`
 - contains demographic patient data
 - exists as csv of data exported daily from REDCap
-- named "YYYY-MM-DD_REDCap" with date prepended in format as indicated
+- named "YYYY-MM-DD_redcap" with date prepended in format as indicated
 
 `SMSChoices`
 - contains one file sms_choices.csv

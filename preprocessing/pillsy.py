@@ -67,12 +67,22 @@ def find_patient_rewards(pillsy_subset, patient):
         drug_freq = identify_drug_freq(drug)
         taken = 0
         taken_events = []
+        maybe_taken_event = None
         drug_subset = pillsy_yesterday_subset[pillsy_yesterday_subset['drugName'] == drug].copy()
         for index, row in drug_subset.iterrows():
             if drug_freq == taken:
                 break
             if row['eventValue'] == "OPEN" and not taken_events:
                 first_taken = row['eventTime']
+                taken_events.append(first_taken)
+            elif row['eventValue'] == "CLOSE" and not taken_events:
+                maybe_taken_event = row['eventTime']
+            elif row['eventValue'] == "OPEN" and taken_events:
+                if row['eventTime'] 
+
+
+            if len(taken_events) != 0:
+
 
 
 

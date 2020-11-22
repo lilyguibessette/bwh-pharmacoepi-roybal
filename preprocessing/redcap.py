@@ -150,5 +150,5 @@ if __name__ == '__main__':
         print("checking the age", data.age)
         print("checking race_black", data.race_black)
         print(data.last_run_time, ",", data.start_date,",", str(data.last_run_time), ",",str(data.start_date),",",str( data.age ), ",", str(data.race_black),",", str(data.dichot_adherence_day1), ",",str(data.response_action_id_framing))
-        print( pt, ",", data.last_run_time, ",", data.start_date, ", age:", data.age ,",", data.race_black, ",", data.dichot_adherence_day1, ",", data.response_action_id_framing)
+        print(pt, ",", data.last_run_time, ",", data.start_date, ", age:", data.age ,",", data.race_black, ",", data.dichot_adherence_day1, ",", data.response_action_id_framing)
     export_pt_dict_pickle(pt_dict_redcap)
