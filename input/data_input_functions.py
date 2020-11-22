@@ -10,7 +10,7 @@ def import_Pillsy(run_time):
     import_date = (run_time - pd.Timedelta("1 day")).date()
     # Imports Pillsy pill taking history as a pandas data frame from a CSV
 
-    pillsy_filename = str(date.today()-pd.Timedelta("1 day")) + "_pillsy" + '.csv'
+    pillsy_filename = str(import_date) + "_pillsy" + '.csv'
     fp = os.path.join("..", "..", "Pillsy", pillsy_filename)
 
     try:
