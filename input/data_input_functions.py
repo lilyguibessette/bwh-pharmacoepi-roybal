@@ -10,10 +10,8 @@ import os.path
 
 # Imports Pillsy File and Convert to Numpy array
 def import_Pillsy():
-    filesave = str(date.today()) + "_patient_dict" + '.pickle'
-    pillsy_filename = ""
+    pillsy_filename = str(date.today()) + "_pillsy" + '.csv'
     fp = os.path.join("..", "..", "..", "Pillsy", pillsy_filename)
-    sms_choices = pd.read_csv(fp)
     date_cols = ["eventTime"]
     pillsy = pd.read_csv(fp, sep=',', parse_dates=date_cols)
     pillsy.drop("patientId", axis=1, inplace=True)
