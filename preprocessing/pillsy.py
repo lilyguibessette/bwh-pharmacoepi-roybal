@@ -28,7 +28,7 @@ def identify_drug_freq(drugName):
     # drugName is a String
     # .find returns -1 if it doesn't find the String QD or BID in the drugName String
     # If the drugName does contain QD or BID, then .find() will return an int > -1 (0 or more)
-    # at the index of the first occurence of the BID or QD string
+    # at the index of the first occurrence of the BID or QD string
     if drugName.find('QD') > -1:
         drugFreq = 1
     elif drugName.find('BID') > -1:

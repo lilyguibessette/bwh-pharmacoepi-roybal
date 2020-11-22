@@ -11,6 +11,8 @@ from data_classes.Patient import Patient
 import data_classes.ContextFeatures
 from datetime import datetime, date, timedelta
 import pytz
+import os
+import pandas as pd
 
 def run_ranking(patient, client):
 
@@ -74,8 +76,21 @@ def run_ranking(patient, client):
     patient.last_run_time = pytz.UTC.localize(datetime.now())
     patient.counter += 1
 
+    return patient
 
-#
+def write_sms_history(pt_dict):
+    sms_hist_filename = str(date.today()) + "_sms_history" + '.csv'
+    sms_hist_filepath = os.path.join("..", "..", "..", "SMSHistory", sms_hist_filename)
 
+    # Subset updated_pt_dict to what we need for reward calls and put in dataframe
+    # create an Empty DataFrame object
+    column_values = ['study_id', 'factor_set', 'text_number', 'sms_today', 'possibly_disconnected', 'trial_day_counter']
+    sms_history_dataframe = pd.DataFrame(columns=column_values)
 
-
+    for pt, data in pt_dict:
+        # Reward value, Rank_Id's
+        new_row = [data.study_id, data.factor_set, data.text_number,
+                   data.sms_today, data.possibly_disconnected, data.trial_day_counter]
+        sms_history_dataframe.loc[len(sms_history_dataframe)] = new_row
+    # Writes CSV for RA to send text messages.
+    sms_history_dataframe.to_csv(sms_hist_filepath)

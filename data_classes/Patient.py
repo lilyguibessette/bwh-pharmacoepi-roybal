@@ -141,6 +141,7 @@ class Patient:
         self.pillsy_meds_sglt2 = pillsy_meds_sglt2
         self.pillsy_meds_sulfonylurea = pillsy_meds_sulfonylurea
         self.pillsy_meds_thiazolidinedione = pillsy_meds_thiazolidinedione
+        #TODO question to julie about this waiting on response, might need to make sure no bugs come from junk string data or non-int data (want 1 or 0 for these variables)
         self.num_pillsy_meds = pillsy_meds_agi + pillsy_meds_dpp4 + pillsy_meds_glp1 + pillsy_meds_meglitinide + pillsy_meds_metformin + pillsy_meds_sglt2 + pillsy_meds_sulfonylurea + pillsy_meds_thiazolidinedione
         self.avg_adherence_7day = avg_adherence_7day
         self.avg_adherence_3day = avg_adherence_3day
@@ -312,9 +313,11 @@ class Patient:
             if self.response_action_id_history == "noHistory" and self.response_action_id_social == "noSocial" and self.response_action_id_content == "noContent" and self.response_action_id_reflective == "noReflective":
                 self.num_day_since_no_sms += 1
 
+    # Computes and updates the SMS text message to send to this patient today.
     def updated_sms_today(self):
         fp = os.path.join("..", "..", "SMSChoices", "sms_choices.csv")
         sms_choices = pd.read_csv(fp)
+        #TODO ask joe if this takes into account if the sms_choices 0,0,0,0,0 then will it return rows = None -> if so code is all set I modified, if not make sure it wont throw an error or fix the if else clause
         rows = sms_choices.query(
             "framing_sms == @self.framing_sms "
             + "and history_sms == @self.history_sms "
@@ -323,10 +326,31 @@ class Patient:
             + "and reflective_sms == @self.reflective_sms"
         )
         #TODO Double check with Julie that randomization within the factor set of texts was the final decision (i.e. this is what we implemented)
-        row = rows.sample()
-        text = row['text_message'].item().replace("X", str(self.total_dichot_adherence_past7))
-        self.sms_today = text
 
+        # If 0,0,0,0,0 is found, then the rows will be None, so our defaults are first, the empty text message
+        text_number = 0
+        factor_set = 0
+        text = ""
+        text_message = ""
+
+        # If 0,0,0,0,0 is not found, then the rows will have some potential values,
+        if rows != None:
+            # Then we randomize what of the factor set text messages we will send
+            row = rows.sample()
+            # We record the factor_set and text_number as unique identifiers for this message
+            factor_set = row['factor_set'].item()
+            text_number = row['text_number'].item()
+            text_message = row['text_message'].item()
+            # We store the text message that will be sent for this specific patient that takes into account the history of their adherence
+            # This finds and replaces the "X" in the sms_choices text_message rows to customize to the patient.
+            text = row['text_message'].item().replace("X", str(self.total_dichot_adherence_past7))
+
+        # We've updated the local variables and now store into the patient object as attributes to be exported in bulk by another function
+        self.sms_today = text
+        self.text_number = text_number
+        self.factor_set = factor_set
+
+    # Option for updates from REDCap data for changes in Pillsy medication use in follow up
     def update_redcap_pillsy_vars(self, num_twice_daily_pillsy_meds, pillsy_meds_agi, pillsy_meds_dpp4, pillsy_meds_glp1, pillsy_meds_meglitinide, pillsy_meds_metformin, pillsy_meds_sglt2, pillsy_meds_sulfonylurea, pillsy_meds_thiazolidinedione):
         self.num_twice_daily_pillsy_meds = num_twice_daily_pillsy_meds
         self.pillsy_meds_agi = pillsy_meds_agi
@@ -356,7 +380,7 @@ class Patient:
     def get_reflective_context(self):
         return ContextFeatures.ReflectiveContext(self)
 
-
+    #TODO upon Julie Confirmation
     # Convert to categorical variables function
     def convert_redcap_input_vars(self):
         # confirm read in appropraitely or convert this to a date object : self.start_date
