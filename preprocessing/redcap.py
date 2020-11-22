@@ -17,9 +17,10 @@ def get_redcap_study_ids(redcap):
 ### CENSORING ISSUE HOW WILL THAT COME INTO THE DATA
 def update_patient_dict_redcap(unique_study_ids_list_redcap, redcap, pt_dict):
     pt_dict_keys = list(pt_dict.keys())
+    updated_pt_dict = {}
     for record_id in unique_study_ids_list_redcap:
         row = redcap.loc[redcap['record_id'] == record_id]
-        if record_id not in pt_dict_keys:
+        if record_id not in pt_dict_keys and int(row['censor']) != 1:
             #TODO
             # NEED TO ENSURE CATEGORIES COMING IN ARE RECODED TO APPROPRIATE STRINGS
             # i.e. CATEGORY from redcap = 1 => age 18-25 (rough example) ->
@@ -119,10 +120,11 @@ def update_patient_dict_redcap(unique_study_ids_list_redcap, redcap, pt_dict):
             # convert function from input values to string type
             new_patient.convert_redcap_input_vars()
             # update patient variables
-            pt_dict[record_id] = new_patient
+            updated_pt_dict[record_id] = new_patient
         else:
             updated_patient = pt_dict[record_id]
-            updated_patient.update_redcap_pillsy_vars(int(row['num_twice_daily_pillsy_meds']),
+            if int(row['censor']) != 1:
+                updated_patient.update_redcap_pillsy_vars(int(row['num_twice_daily_pillsy_meds']),
                               int(row['pillsy_meds___1']),
                               int(row['pillsy_meds___2']),
                               int(row['pillsy_meds___3']),
@@ -131,10 +133,8 @@ def update_patient_dict_redcap(unique_study_ids_list_redcap, redcap, pt_dict):
                               int(row['pillsy_meds___6']),
                               int(row['pillsy_meds___7']),
                               int(row['pillsy_meds___8']))
-            pt_dict[record_id] = updated_patient
-
-    return pt_dict
-
+                updated_pt_dict[record_id] = updated_patient
+    return updated_pt_dict
 
 #Tseting
 if __name__ == '__main__':

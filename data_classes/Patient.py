@@ -264,14 +264,12 @@ class Patient:
         elif self.response_action_id_content == "noContent":
             self.content_sms = 0
 
-
     def update_reflective_ranking(self, response_action_id_reflective):
         self.response_action_id_reflective = response_action_id_reflective
         if self.response_action_id_reflective == "yesReflective":
             self.reflective_sms = 1
         elif self.response_action_id_reflective == "noReflective":
             self.reflective_sms = 0
-
 
     def update_num_day_sms(self):
         if self.response_action_id_framing == "posFrame":
@@ -324,6 +322,7 @@ class Patient:
             + "and content_sms == @self.content_sms"
             + "and reflective_sms == @self.reflective_sms"
         )
+        #TODO Double check with Julie that randomization within the factor set of texts was the final decision (i.e. this is what we implemented)
         row = rows.sample()
         text = row['text_message'].item().replace("X", str(self.total_dichot_adherence_past7))
         self.sms_today = text
@@ -342,6 +341,7 @@ class Patient:
 
 
     def get_framing_context(self):
+        #TODO might need to do {"contextFeatures": FramingContext()}
         return ContextFeatures.FramingContext(self)
 
     def get_history_context(self):

@@ -11,8 +11,7 @@ def export_reward_data(reward_np_array):
     #WORK IN PROGRESS LOGGING FOR REWARD
     mac_path = "~/Dropbox (Partners HealthCare)/SHARED -- REINFORCEMENT LEARNING/Reward_Data/"
     pc_path = R"C:\Users\$USERNAME\Dropbox (Partners HealthCare)\SHARED -- REINFORCEMENT LEARNING\Reward_Data"
-    path = path + ""
-    full_path = os.path.expanduser(path)
+
     pd.DataFrame(reward_np_array).to_csv("path/to/file.csv")
 
 
