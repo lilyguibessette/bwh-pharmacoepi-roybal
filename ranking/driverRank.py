@@ -2,15 +2,13 @@
 from azure.cognitiveservices.personalizer import PersonalizerClient
 from azure.cognitiveservices.personalizer.models import RankRequest
 from msrest.authentication import CognitiveServicesCredentials
-from ranking.actions import get_framing_actions
-from ranking.actions import get_history_actions
-from ranking.actions import get_social_actions
-from ranking.actions import get_content_actions
-from ranking.actions import get_reflective_actions
+from data_classes.Actions import get_framing_actions
+from data_classes.Actions import get_history_actions
+from data_classes.Actions import get_social_actions
+from data_classes.Actions import get_content_actions
+from data_classes.Actions import get_reflective_actions
 from data_classes.Patient import Patient
 import data_classes.ContextFeatures
-
-
 
 def run_ranking(patient, client):
 

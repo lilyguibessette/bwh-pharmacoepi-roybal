@@ -314,7 +314,7 @@ class Patient:
             if self.response_action_id_history == "noHistory" and self.response_action_id_social == "noSocial" and self.response_action_id_content == "noContent" and self.response_action_id_reflective == "noReflective":
                 self.num_day_since_no_sms += 1
 
-    def updated_sms_today(self, filepath):
+    def updated_sms_today(self):
         import os.path
         fp = os.path.join("..", "..", "..", "SMSChoices", "sms_choices.csv")
         sms_choices = pd.read_csv(fp)
@@ -325,9 +325,10 @@ class Patient:
         sms_coder = [self.framing_sms, self.history_sms, self.social_sms, self.content_sms, self.reflective_sms]
         # determind sms from csv
         text = "the sms from the csv"
+        # and you'll need this for updating X in the sms text message for this particular patient
         text.replace("X", self.total_dichot_adherence_past7)
         self.sms_today = text
-        # and you'll need this for
+
 
     def get_framing_context(self):
         return json.dump(ContextFeatures.FramingContext(self))
