@@ -5,8 +5,10 @@ import os
 import re
 import gc
 import time
-import datetime
 from datetime import datetime, date, timedelta
+# For date time
+#https://realpython.com/python-datetime/
+
 from collections import Counter
 import string
 import pickle
@@ -25,7 +27,6 @@ def get_pillsy_study_ids(pillsy):
     unique_study_ids_df = study_ids_df.drop_duplicates()
     unique_study_ids_list = unique_study_ids_df.values.tolist()
     return unique_study_ids_list
-
 
 def identify_drug_freq(drugName):
     # drugName is a String
