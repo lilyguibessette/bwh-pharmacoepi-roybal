@@ -78,7 +78,7 @@ def find_taken_events(drug, drug_subset):
             if diff_second > two_hr_45_min:
                 taken_events.append(second_pass['eventTime'])
                 taken += 1
-    drug_adherence = taken /drug_freq
+    drug_adherence = taken / drug_freq
     return drug_adherence
 
 def find_patient_rewards(pillsy_subset, patient):
@@ -87,6 +87,8 @@ def find_patient_rewards(pillsy_subset, patient):
     # https://www.w3resource.com/python-exercises/date-time-exercise/python-date-time-exercise-8.php
     midnight = pytz.UTC.localize(datetime.combine(today, datetime.min.time()))
     pillsy_yesterday_subset = pillsy_subset[pillsy_subset["eventTime"] < midnight].copy()
+    #TODO
+    # Quadruple check with Julie that this time frame makes sense...
     pillsy_yesterday_subset = pillsy_yesterday_subset[pillsy_yesterday_subset["eventTime"] >= yesterday].copy()
     pillsy_today_subset = pillsy_subset[pillsy_subset["eventTime"] >= midnight].copy()
 
