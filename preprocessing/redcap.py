@@ -121,7 +121,15 @@ def update_patient_dict_redcap(unique_study_ids_list_redcap, redcap, pt_dict):
             pt_dict[record_id] = patient
         else:
             updated_patient = pt_dict[record_id]
-            updated_patient.update_redcap_pillsy_vars(num_twice_daily_pillsy_meds, pillsy_meds_agi, pillsy_meds_dpp4, pillsy_meds_glp1, pillsy_meds_meglitinide, pillsy_meds_metformin, pillsy_meds_sglt2, pillsy_meds_sulfonylurea, pillsy_meds_thiazolidinedione)
+            updated_patient.update_redcap_pillsy_vars(row['num_twice_daily_pillsy_meds'],
+                              row['pillsy_meds___1'],
+                              row['pillsy_meds___2'],
+                              row['pillsy_meds___3'],
+                              row['pillsy_meds___4'],
+                              row['pillsy_meds___5'],
+                              row['pillsy_meds___6'],
+                              row['pillsy_meds___7'],
+                              row['pillsy_meds___8'])
             pt_dict.update_pt_ob
 
     return pt_dict
@@ -133,7 +141,7 @@ def redcap_testing():
     pt_dict = {}
     redcap_data = import_redcap("/Users/lilybessette/Dropbox (Partners HealthCare)/SHARED -- REINFORCEMENT LEARNING/RedCap/Sample REDCap Data_11-11-20.csv")
     unique_study_ids_list_redcap = get_redcap_study_ids(redcap_data)
-    pt_dict_redcap = compare_existing_for_new_ids(unique_study_ids_list_redcap, redcap_data, pt_dict)
+    pt_dict_redcap = update_patient_dict_redcap(unique_study_ids_list_redcap, redcap_data, pt_dict)
     for pt, data in pt_dict_redcap.items():
         print(pt,"\n", data,"\n", data.current_date, "\n",data.start_date,"\n", str(data.race_black),"\n", str(data.dichot_adherence_day1), "\n",str(data.response_action_id_framing))
     export_pt_dict_pickle(pt_dict_redcap)

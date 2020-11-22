@@ -368,7 +368,7 @@ class Patient:
         elif self.age == 3:
             self.age ="45-54"
         elif self.age == 4:
-            
+
         self.age  # m
         self.sex
         self.num_years_dm_rx
