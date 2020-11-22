@@ -14,10 +14,9 @@ class FramingContext:
         self.pillsy = json.dumps({"pillsy_rxs",PillsyMedications(patient)})
         self.observed_feedback = json.dumps({"observed_feedback": ObservedFeedback(patient)})
         self.num_days_since_sms = json.dumps({"sms_history": NumDaysSinceSMS(patient)})
-        self.context_features = [self.demographics, self.clinical, self.motivational, self.rxUse,
-                                 self.pillsy, self.observed_feedback, self.num_days_since_sms]
     def get_context_features(self):
-        return self.context_features
+        return [self.demographics, self.clinical, self.motivational, self.rxUse,
+                                 self.pillsy, self.observed_feedback, self.num_days_since_sms]
 
 class HistoryContext:
     def __init__(self, patient):
@@ -29,10 +28,9 @@ class HistoryContext:
         self.observed_feedback = json.dumps({"observed_feedback": ObservedFeedback(patient)})
         self.num_days_since_sms = json.dumps({"sms_history": NumDaysSinceSMS(patient)})
         self.framing = patient.response_action_id_framing
-        self.context_features = [self.demographics, self.clinical, self.motivational, self.rxUse, self.pillsy,
-                                 self.observed_feedback, self.num_days_since_sms, self.framing]
     def get_context_features(self):
-        return self.context_features
+        return [self.demographics, self.clinical, self.motivational, self.rxUse, self.pillsy,
+                                 self.observed_feedback, self.num_days_since_sms, self.framing]
 
 class SocialContext:
     def __init__(self, patient):
@@ -45,10 +43,9 @@ class SocialContext:
         self.num_days_since_sms = json.dumps({"sms_history": NumDaysSinceSMS(patient)})
         self.framing = patient.response_action_id_framing
         self.history = patient.response_action_id_history
-        self.context_features = [self.demographics, self.clinical, self.motivational, self.rxUse, self.pillsy,
-                                 self.observed_feedback, self.num_days_since_sms, self.framing, self.history]
     def get_context_features(self):
-        return self.context_features
+        return [self.demographics, self.clinical, self.motivational, self.rxUse, self.pillsy,
+                                 self.observed_feedback, self.num_days_since_sms, self.framing, self.history]
 
 
 class ContentContext:
@@ -63,11 +60,11 @@ class ContentContext:
         self.framing = patient.response_action_id_framing
         self.history = patient.response_action_id_history
         self.social = patient.response_action_id_social
-        self.context_features = [self.demographics, self.clinical, self.motivational, self.rxUse, self.pillsy,
+
+    def get_context_features(self):
+        return  [self.demographics, self.clinical, self.motivational, self.rxUse, self.pillsy,
                                  self.observed_feedback, self.num_days_since_sms, self.framing, self.history,
                                  self.social]
-    def get_context_features(self):
-        return self.context_features
 
 class ReflectiveContext:
     def __init__(self, patient):
@@ -82,11 +79,10 @@ class ReflectiveContext:
         self.history = patient.response_action_id_history
         self.social = patient.response_action_id_social
         self.content = patient.response_action_id_content
-        self.context_features = [self.demographics, self.clinical, self.motivational, self.rxUse, self.pillsy,
+    def get_context_features(self):
+        return  [self.demographics, self.clinical, self.motivational, self.rxUse, self.pillsy,
                                  self.observed_feedback, self.num_days_since_sms, self.framing, self.history,
                                  self.social, self.content]
-    def get_context_features(self):
-        return self.context_features
 
 # Namespaces stored within a Patient that will be standard & used in each of the above Context Features for each RankRequest
 # The relevant patient object will be passed in to instantiate each of the namespaces.
