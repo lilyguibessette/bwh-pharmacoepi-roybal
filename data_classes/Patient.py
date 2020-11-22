@@ -329,6 +329,7 @@ class Patient:
         self.sms_today = text
         # and you'll need this for
 
+
     def get_framing_context(self):
         return json.dump(ContextFeatures.FramingContext(self))
 
@@ -355,7 +356,6 @@ class Patient:
 
     def get_reflective_context(self):
         return ContextFeatures.ReflectiveContext(self)
-
 
     # Convert to categorical variables function
     def convert_redcap_input_vars(self, ):
