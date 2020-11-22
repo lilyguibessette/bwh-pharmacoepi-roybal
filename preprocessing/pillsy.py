@@ -150,8 +150,8 @@ def find_rewards(pillsy, pillsy_study_ids_list, pt_dict, run_time):
         # shift their adherence and also add indicators that they may be disconnected.
         pt_dict_without_reward = {}
 
-        # Store Yesterday's date if needed
-        yesterday = date.today() - timedelta(days=1)
+        # Store Yesterday's date if we need to record that as the date they've been marked as disconnected (i.e. 2 days without Pillsy info)
+        yesterday = (run_time - timedelta(days=1)).date()
         for pt, pt_data_to_update in pt_dict.items():
             # If patient was not in Pillsy data,
             if pt not in pillsy_study_ids_list:
