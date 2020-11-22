@@ -8,3 +8,4 @@ pyvenv.cfg
 share/
 etc/
 __pycache__/
+.ipynb_checkpoints/

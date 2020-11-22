@@ -1,35 +1,42 @@
 import pandas as pd
 import numpy as np
 from datetime import datetime, date, timedelta
+from dateutil import parser, tz
 import pickle
-import os.path
+import os
+import re
 
 def import_Pillsy():
     # Imports Pillsy pill taking history as a pandas data frame from a CSV
     pillsy_filename = str(date.today()-pd.Timedelta("1 day")) + "_pillsy" + '.csv'
-    fp = os.path.join("..", "..", "..", "Pillsy", pillsy_filename)
-    # Record our relevant date columns
-    date_cols = ["eventTime"]
-    #TODO need to fix this to make sure that UTC-5 is imported for the "CDT" timezone - currently throws a warning,
-    # but we will need this to not throw an error because those entries will be compared with datetime objects that are
-    # not naive/unaware of their timezone - i.e. need to make sure these entries with warnings are timezone-aware.
-    # Seems to only happen for CDT time zone = Central Daylight Time zone = daylight savings for Cental Standard Time
-    # Need to use/convert to Coordinated Universal Time (UTC) throughout - look at localize methods
+    fp = os.path.join("..", "..", "Pillsy", pillsy_filename)
 
-    #TODO potentially need to be careful here due to use of the data in pillsy.py -> might want to ensure firstname column is a string, currently I think it defaults to an int
-
-    # Reads in the csv file into a pandas data frame and ensures that the date_cols are imported as datetime.datetime objects
     try:
-        pillsy = pd.read_csv(fp, sep=',', parse_dates=date_cols)
-    # Drops unnecessary rows that we don't need
-    # Note: In this dataset our study_id is actually 'firstname', hence the drop of patientId
-        pillsy.drop("patientId", axis=1, inplace=True)
-        pillsy.drop("lastname", axis=1, inplace=True)
-        pillsy.drop("method", axis=1, inplace=True)
-        pillsy.drop("platform", axis=1, inplace=True)
-    except:
-        pillsy = None
-    # Returns the pandas dataframe of Pillsy data that is read in
+    	pillsy = pd.read_csv(fp)
+    except FileNotFoundError:
+    	return None
+    
+    tz_ref = {
+    	"HDT": "-0900", 
+    	"HST": "-1000",
+    	"AKDT": "-0800", 
+    	"AKST": "-0900",
+    	"PDT": "-0700", 
+    	"PST": "-0800",
+    	"MDT": "-0600", 
+    	"MST": "-0700",
+    	"CDT": "-0500", 
+    	"CST": "-0600",
+    	"EDT": "-0400", 
+    	"EST": "-0500"
+    }
+    def converter(time_string):
+    	tz_abbr = re.search(r"\d\d:\d\d A|PM ([A-Z]{2,4}) \d{4}-\d\d-\d\d", time_string).group(1)
+    	return time_string.replace(tz_abbr, tz_ref[tz_abbr])
+    pillsy["eventTime"] = pd.to_datetime(pillsy["eventTime"])
+	# Note: In this dataset our study_id is actually 'firstname', hence the drop of patientId
+	# Note: firstname is currently read in as int64 dtype
+    pillsy.drop(["patientId", "lastname", "method", "platform"], axis=1, inplace=True)
     return pillsy
 
 def import_redcap():
