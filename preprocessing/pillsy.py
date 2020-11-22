@@ -11,12 +11,6 @@ import pytz
 # For date time
 #https://realpython.com/python-datetime/
 
-from collections import Counter
-import string
-import pickle
-import json
-from input.data_input_functions import import_Pillsy
-
 def get_drugName_list(patient_entries):
     drugNames_df = patient_entries['drugName']
     unique_drugNames_df = drugNames_df.drop_duplicates()

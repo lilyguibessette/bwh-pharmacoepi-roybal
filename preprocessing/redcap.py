@@ -137,8 +137,8 @@ def update_patient_dict_redcap(unique_study_ids_list_redcap, redcap, pt_dict):
     return updated_pt_dict
 
 #Tseting
-if __name__ == '__main__':
-#def redcap_testing():
+#if __name__ == '__main__':
+def redcap_testing():
     pt_dict = {}
     redcap_data = import_redcap("/Users/lilybessette/Dropbox (Partners HealthCare)/SHARED -- REINFORCEMENT LEARNING/RedCap/Sample REDCap Data_11-11-20.csv")
     unique_study_ids_list_redcap = get_redcap_study_ids(redcap_data)
