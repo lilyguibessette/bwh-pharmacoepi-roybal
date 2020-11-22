@@ -5,10 +5,8 @@
 
 ## Project Requirements
 
-Python version 3.7.x. Development using `venv`, see [documentation](https://docs.python.org/3/library/venv.html)
-
-TODO
-- `pip freeze` to make `requirements.txt` file
+Python version 3.7.x. Development using `venv`, see [documentation](https://docs.python.org/3/library/venv.html).
+See `requirements.txt` for external dependencies.
 
 
 ## Directory Structure:
