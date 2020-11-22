@@ -89,9 +89,10 @@ def compute_taken_over_expected(patient, timeframe_pillsy_subset):
         drug_subset = timeframe_pillsy_subset[timeframe_pillsy_subset['drugName'] == drug].copy()
         this_drug_adherence = find_taken_events(drug, drug_subset)
         yesterday_adherence_by_drug.append(this_drug_adherence)
-
-    sum_yesterday_adherence = sum(yesterday_adherence_by_drug)
-    taken_over_expected = sum_yesterday_adherence / patient.num_pillsy_meds
+    taken_over_expected = 0
+    if patient:
+        sum_yesterday_adherence = sum(yesterday_adherence_by_drug)
+        taken_over_expected = sum_yesterday_adherence / patient.num_pillsy_meds
     return taken_over_expected
 
 
