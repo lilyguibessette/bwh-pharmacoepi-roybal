@@ -368,61 +368,65 @@ class Patient:
         elif self.age == 3:
             self.age ="45-54"
         elif self.age == 4:
-
-        self.age  # m
-        self.sex
-        self.num_years_dm_rx
-        self.hba1c
-        self.num_physicians = num_physicians
-        self.num_rx = num_rx
-        self.concomitant_insulin_use = concomitant_insulin_use
-        self.automaticity = automaticity
-        self.pt_activation = pt_activation
-        self.reason_dm_rx = reason_dm_rx
-        self.non_adherence = non_adherence
-        self.edu_level = edu_level
-        self.employment_status = employment_status
-        self.marital_status = marital_status
-        self.num_twice_daily_pillsy_meds = num_twice_daily_pillsy_meds
-        self.pillsy_meds_agi = pillsy_meds_agi
-        self.pillsy_meds_dpp4 = pillsy_meds_dpp4
-        self.pillsy_meds_glp1 = pillsy_meds_glp1
-        self.pillsy_meds_meglitinide = pillsy_meds_meglitinide
-        self.pillsy_meds_metformin = pillsy_meds_metformin
-        self.pillsy_meds_sglt2 = pillsy_meds_sglt2
-        self.pillsy_meds_sulfonylurea = pillsy_meds_sulfonylurea
-        self.pillsy_meds_thiazolidinedione = pillsy_meds_thiazolidinedione
-
-
-        row['start_date'],
-        row['age'],
-        row['sex'],
-        row['num_years_dm_rx'],
-        row['hba1c'],
-        row['race___1'],
-        row['race___2'],
-        row['race___3'],
-        row['race___4'],
-        row['race___5'],
-        row['race___6'],
-        row['race___7'],
-        row['num_physicians'],
-        row['num_rx'],
-        row['concomitant_insulin_use'],
-        row['automaticity'],
-        row['pt_activation'],
-        row['reason_dm_rx'],
-        row['non_adherence'],
-        row['edu_level'],
-        row['employment_status'],
-        row['marital_status'],
-        row['num_twice_daily_pillsy_meds'],
-        row['pillsy_meds___1'],
-        row['pillsy_meds___2'],
-        row['pillsy_meds___3'],
-        row['pillsy_meds___4'],
-        row['pillsy_meds___5'],
-        row['pillsy_meds___6'],
-        row['pillsy_meds___7'],
-        row['pillsy_meds___8'],
+            self.age = "55-64"
+        elif self.age == 5:
+            self.age = "65-74"
+        elif self.age == 6:
+            self.age = "75-84"
+        # self.age  # m
+        # self.sex
+        # self.num_years_dm_rx
+        # self.hba1c
+        # self.num_physicians = num_physicians
+        # self.num_rx = num_rx
+        # self.concomitant_insulin_use = concomitant_insulin_use
+        # self.automaticity = automaticity
+        # self.pt_activation = pt_activation
+        # self.reason_dm_rx = reason_dm_rx
+        # self.non_adherence = non_adherence
+        # self.edu_level = edu_level
+        # self.employment_status = employment_status
+        # self.marital_status = marital_status
+        # self.num_twice_daily_pillsy_meds = num_twice_daily_pillsy_meds
+        # self.pillsy_meds_agi = pillsy_meds_agi
+        # self.pillsy_meds_dpp4 = pillsy_meds_dpp4
+        # self.pillsy_meds_glp1 = pillsy_meds_glp1
+        # self.pillsy_meds_meglitinide = pillsy_meds_meglitinide
+        # self.pillsy_meds_metformin = pillsy_meds_metformin
+        # self.pillsy_meds_sglt2 = pillsy_meds_sglt2
+        # self.pillsy_meds_sulfonylurea = pillsy_meds_sulfonylurea
+        # self.pillsy_meds_thiazolidinedione = pillsy_meds_thiazolidinedione
+        #
+        #
+        # row['start_date'],
+        # row['age'],
+        # row['sex'],
+        # row['num_years_dm_rx'],
+        # row['hba1c'],
+        # row['race___1'],
+        # row['race___2'],
+        # row['race___3'],
+        # row['race___4'],
+        # row['race___5'],
+        # row['race___6'],
+        # row['race___7'],
+        # row['num_physicians'],
+        # row['num_rx'],
+        # row['concomitant_insulin_use'],
+        # row['automaticity'],
+        # row['pt_activation'],
+        # row['reason_dm_rx'],
+        # row['non_adherence'],
+        # row['edu_level'],
+        # row['employment_status'],
+        # row['marital_status'],
+        # row['num_twice_daily_pillsy_meds'],
+        # row['pillsy_meds___1'],
+        # row['pillsy_meds___2'],
+        # row['pillsy_meds___3'],
+        # row['pillsy_meds___4'],
+        # row['pillsy_meds___5'],
+        # row['pillsy_meds___6'],
+        # row['pillsy_meds___7'],
+        # row['pillsy_meds___8'],
         # waiting for julie's response to email
