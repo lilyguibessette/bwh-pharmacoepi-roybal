@@ -10,6 +10,7 @@ from data_classes.Actions import get_reflective_actions
 from data_classes.Patient import Patient
 import data_classes.ContextFeatures
 from datetime import datetime, date, timedelta
+import pytz
 
 def run_ranking(patient, client):
 
@@ -70,7 +71,7 @@ def run_ranking(patient, client):
 
     patient.update_num_day_sms()
     patient.updated_sms_today()
-    patient.last_run_time = datetime.now()
+    patient.last_run_time = pytz.UTC.localize(datetime.now())
     patient.counter += 1
 
 

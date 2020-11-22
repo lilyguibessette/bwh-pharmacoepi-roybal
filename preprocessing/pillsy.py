@@ -6,6 +6,8 @@ import re
 import gc
 import time
 from datetime import datetime, date, timedelta
+import pytz
+
 # For date time
 #https://realpython.com/python-datetime/
 
@@ -50,9 +52,33 @@ def find_patient_rewards(pillsy_subset, patient):
     yesterday = patient.last_run_time
     today = date.today()
     # https://www.w3resource.com/python-exercises/date-time-exercise/python-date-time-exercise-8.php
-    midnight = datetime.combine(today, datetime.min.time())
-    pillsy_yesterday_subset = pillsy_subset[yesterday <= pillsy_subset["eventTime"] < midnight].copy()
-    pillsy_today_subset = pillsy_subset[midnight <= pillsy_subset["eventTime"]].copy()
+    midnight = pytz.UTC.localize(datetime.combine(today, datetime.min.time()))
+    pillsy_yesterday_subset = pillsy_subset[pillsy_subset["eventTime"] < midnight].copy()
+    pillsy_yesterday_subset = pillsy_yesterday_subset[pillsy_yesterday_subset["eventTime"] >= yesterday].copy()
+    pillsy_today_subset = pillsy_subset[pillsy_subset["eventTime"] >= midnight].copy()
+
+
+    min_time_between = pd.Timedelta('15 minutes')
+    yesterday_drugs = get_drugName_list(pillsy_yesterday_subset)
+    yesterday_adherence_by_drug = [0] * len(yesterday_drugs)
+    drug_num = 0
+    for drug in yesterday_drugs:
+        drug_num += 1
+        drug_freq = identify_drug_freq(drug)
+        taken = 0
+        taken_events = []
+        drug_subset = pillsy_yesterday_subset[pillsy_yesterday_subset['drugName'] == drug].copy()
+        for index, row in drug_subset.iterrows():
+            if drug_freq == taken:
+                break
+            if row['eventValue'] == "OPEN" and not taken_events:
+                first_taken = row['eventTime']
+
+
+
+
+
+
 
     # subset into yesterday and today
     # for yesterday

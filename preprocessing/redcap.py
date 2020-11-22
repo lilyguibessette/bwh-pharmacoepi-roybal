@@ -122,15 +122,15 @@ def update_patient_dict_redcap(unique_study_ids_list_redcap, redcap, pt_dict):
             pt_dict[record_id] = new_patient
         else:
             updated_patient = pt_dict[record_id]
-            updated_patient.update_redcap_pillsy_vars(row['num_twice_daily_pillsy_meds'],
+            updated_patient.update_redcap_pillsy_vars(int(row['num_twice_daily_pillsy_meds']),
                               int(row['pillsy_meds___1']),
-                              row['pillsy_meds___2'],
-                              row['pillsy_meds___3'],
-                              row['pillsy_meds___4'],
-                              row['pillsy_meds___5'],
-                              row['pillsy_meds___6'],
-                              row['pillsy_meds___7'],
-                              row['pillsy_meds___8'])
+                              int(row['pillsy_meds___2']),
+                              int(row['pillsy_meds___3']),
+                              int(row['pillsy_meds___4']),
+                              int(row['pillsy_meds___5']),
+                              int(row['pillsy_meds___6']),
+                              int(row['pillsy_meds___7']),
+                              int(row['pillsy_meds___8']))
             pt_dict[record_id] = updated_patient
 
     return pt_dict
