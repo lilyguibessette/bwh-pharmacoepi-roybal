@@ -17,7 +17,7 @@ def get_redcap_study_ids(redcap):
     # returns a list of the unique record_id's in the redcap data
     return unique_study_ids_list_redcap
 
-def update_patient_dict_redcap(redcap, pt_dict):
+def update_patient_dict_redcap(redcap, pt_dict, run_time):
     # Get a list of the patient record_id's in the REDCap dataset
     unique_study_ids_list_redcap = get_redcap_study_ids(redcap)
     # Get a list of current patients as pt_dict_keys = patients record_id's that we already have in our pickle/patient dictionary
@@ -37,7 +37,7 @@ def update_patient_dict_redcap(redcap, pt_dict):
             # This new patient has the counter set to 0 on day that they're beginning follow up in the study.
             new_patient = Patient(str(record_id),
                                   row['start_date'].values[0],
-                                  datetime.now(),
+                                  run_time,
                                   0,
                                   False,
                                   int(row['age'].values[0]),

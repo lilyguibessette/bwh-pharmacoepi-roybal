@@ -12,19 +12,24 @@ import pytz
 #https://realpython.com/python-datetime/
 
 def get_drugName_list(patient_entries):
-    drugNames_df = patient_entries['drugName']
-    unique_drugNames_df = drugNames_df.drop_duplicates()
-    unique_drugNames_df_list = unique_drugNames_df.values.tolist()
+    unique_drugNames_df_list =[]
+    if patient_entries:
+        drugNames_df = patient_entries['drugName']
+        unique_drugNames_df = drugNames_df.drop_duplicates()
+        unique_drugNames_df_list = unique_drugNames_df.values.tolist()
     return unique_drugNames_df_list
 
 def get_pillsy_study_ids(pillsy):
+    unique_study_ids_list = []
+    if pillsy:
     # Subsets the firstname column to find the unique study_id's available in the Pillsy data to update adherence
-    study_ids_df = pillsy['firstname']
-    unique_study_ids_df = study_ids_df.drop_duplicates()
-    unique_study_ids_list = unique_study_ids_df.values.tolist()
+        study_ids_df = pillsy['firstname']
+        unique_study_ids_df = study_ids_df.drop_duplicates()
+        unique_study_ids_list = unique_study_ids_df.values.tolist()
     return unique_study_ids_list
 
 def identify_drug_freq(drugName):
+    drugFreq = 0
     # drugName is a String
     # .find returns -1 if it doesn't find the String QD or BID in the drugName String
     # If the drugName does contain QD or BID, then .find() will return an int > -1 (0 or more)
@@ -84,17 +89,18 @@ def compute_taken_over_expected(patient, timeframe_pillsy_subset):
         drug_subset = timeframe_pillsy_subset[timeframe_pillsy_subset['drugName'] == drug].copy()
         this_drug_adherence = find_taken_events(drug, drug_subset)
         yesterday_adherence_by_drug.append(this_drug_adherence)
-
-    sum_yesterday_adherence = sum(yesterday_adherence_by_drug)
-    taken_over_expected = sum_yesterday_adherence / patient.num_pillsy_meds
+    taken_over_expected = 0
+    if patient:
+        sum_yesterday_adherence = sum(yesterday_adherence_by_drug)
+        taken_over_expected = sum_yesterday_adherence / patient.num_pillsy_meds
     return taken_over_expected
 
 
-def find_patient_rewards(pillsy_subset, patient):
+def find_patient_rewards(pillsy_subset, patient, run_time):
     yesterday = patient.last_run_time
     yesterday_12am = pytz.UTC.localize(datetime.combine(yesterday, datetime.min.time()))
-    today = date.today()
-    # https://www.w3resource.com/python-exercises/date-time-exercise/python-date-time-exercise-8.php
+    today = run_time
+        # https://www.w3resource.com/python-exercises/date-time-exercise/python-date-time-exercise-8.php
     today_12am = pytz.UTC.localize(datetime.combine(today, datetime.min.time()))
 
     #TODO
@@ -132,7 +138,7 @@ def find_patient_rewards(pillsy_subset, patient):
 
     return patient
 
-def find_rewards(pillsy, pillsy_study_ids_list, pt_dict):
+def find_rewards(pillsy, pillsy_study_ids_list, pt_dict, run_time):
         pt_dict_with_reward = {}
         for study_id in pillsy_study_ids_list:
             # Filter by firstname = study_id to get data for just this one patient
@@ -140,7 +146,7 @@ def find_rewards(pillsy, pillsy_study_ids_list, pt_dict):
             # Now we will send our current patient object to the find_patient_rewards function with their study_id & pillsy subset
             patient = pt_dict.get(study_id) # Gets current patient from study_id
             # This function with update the patient attributes with the updated adherence data that we will find from pillsy
-            updated_patient = find_patient_rewards(pillsy_subset, patient)
+            updated_patient = find_patient_rewards(pillsy_subset, patient, run_time)
             # The function returns an updated patient
             # We add this patient to our originally empty pt_dict_with_reward dictionary with their study_id as a key
             pt_dict_with_reward[study_id] = updated_patient
@@ -150,8 +156,8 @@ def find_rewards(pillsy, pillsy_study_ids_list, pt_dict):
         # shift their adherence and also add indicators that they may be disconnected.
         pt_dict_without_reward = {}
 
-        # Store Yesterday's date if needed
-        yesterday = date.today() - timedelta(days=1)
+        # Store Yesterday's date if we need to record that as the date they've been marked as disconnected (i.e. 2 days without Pillsy info)
+        yesterday = (run_time - timedelta(days=1)).date()
         for pt, pt_data_to_update in pt_dict.items():
             # If patient was not in Pillsy data,
             if pt not in pillsy_study_ids_list:

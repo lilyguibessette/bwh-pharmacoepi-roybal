@@ -7,63 +7,82 @@ import json
 # i.e. the History RankRequest takes into account the result of the Framing RankRequest Result.
 class FramingContext:
     def __init__(self, patient):
-        self.demographics = json.dumps(Demographic(patient).__dict__)
-        self.clinical = json.dumps(Clinical(patient).__dict__)
-        self.motivational = json.dumps(Motivational(patient).__dict__)
-        self.rxUse = json.dumps(RxUse(patient).__dict__)
-        self.pillsy = json.dumps(PillsyMedications(patient).__dict__)
-        self.observed_feedback = json.dumps(ObservedFeedback(patient).__dict__)
-        self.num_days_since_sms = json.dumps(NumDaysSinceSMS(patient).__dict__)
+        self.demographics = json.dumps({"demographic":Demographic(patient)})
+        self.clinical = json.dumps({"clinical":Clinical(patient)})
+        self.motivational = json.dumps({"motivational":Motivational(patient)})
+        self.rxUse = json.dumps({"rxUse":RxUse(patient)})
+        self.pillsy = json.dumps({"pillsy_rxs",PillsyMedications(patient)})
+        self.observed_feedback = json.dumps({"observed_feedback": ObservedFeedback(patient)})
+        self.num_days_since_sms = json.dumps({"sms_history": NumDaysSinceSMS(patient)})
+    def get_context_features(self):
+        return [self.demographics, self.clinical, self.motivational, self.rxUse,
+                                 self.pillsy, self.observed_feedback, self.num_days_since_sms]
 
 class HistoryContext:
     def __init__(self, patient):
-        self.demographics = json.dumps(Demographic(patient).__dict__)
-        self.clinical = json.dumps(Clinical(patient).__dict__)
-        self.motivational = json.dumps(Motivational(patient).__dict__)
-        self.rxUse = json.dumps(RxUse(patient).__dict__)
-        self.pillsy = json.dumps(PillsyMedications(patient).__dict__)
-        self.observed_feedback = json.dumps(ObservedFeedback(patient).__dict__)
-        self.num_days_since_sms = json.dumps(NumDaysSinceSMS(patient).__dict__)
+        self.demographics = json.dumps({"demographic":Demographic(patient)})
+        self.clinical = json.dumps({"clinical":Clinical(patient)})
+        self.motivational = json.dumps({"motivational":Motivational(patient)})
+        self.rxUse = json.dumps({"rxUse":RxUse(patient)})
+        self.pillsy = json.dumps({"pillsy_rxs",PillsyMedications(patient)})
+        self.observed_feedback = json.dumps({"observed_feedback": ObservedFeedback(patient)})
+        self.num_days_since_sms = json.dumps({"sms_history": NumDaysSinceSMS(patient)})
         self.framing = patient.response_action_id_framing
+    def get_context_features(self):
+        return [self.demographics, self.clinical, self.motivational, self.rxUse, self.pillsy,
+                                 self.observed_feedback, self.num_days_since_sms, self.framing]
 
 class SocialContext:
     def __init__(self, patient):
-        self.demographics = json.dumps(Demographic(patient).__dict__)
-        self.clinical = json.dumps(Clinical(patient).__dict__)
-        self.motivational = json.dumps(Motivational(patient).__dict__)
-        self.rxUse = json.dumps(RxUse(patient).__dict__)
-        self.pillsy = json.dumps(PillsyMedications(patient).__dict__)
-        self.observed_feedback = json.dumps(ObservedFeedback(patient).__dict__)
-        self.num_days_since_sms = json.dumps(NumDaysSinceSMS(patient).__dict__)
+        self.demographics = json.dumps({"demographic":Demographic(patient)})
+        self.clinical = json.dumps({"clinical":Clinical(patient)})
+        self.motivational = json.dumps({"motivational":Motivational(patient)})
+        self.rxUse = json.dumps({"rxUse":RxUse(patient)})
+        self.pillsy = json.dumps({"pillsy_rxs",PillsyMedications(patient)})
+        self.observed_feedback = json.dumps({"observed_feedback": ObservedFeedback(patient)})
+        self.num_days_since_sms = json.dumps({"sms_history": NumDaysSinceSMS(patient)})
         self.framing = patient.response_action_id_framing
         self.history = patient.response_action_id_history
+    def get_context_features(self):
+        return [self.demographics, self.clinical, self.motivational, self.rxUse, self.pillsy,
+                                 self.observed_feedback, self.num_days_since_sms, self.framing, self.history]
+
 
 class ContentContext:
     def __init__(self, patient):
-        self.demographics = json.dumps(Demographic(patient).__dict__)
-        self.clinical = json.dumps(Clinical(patient).__dict__)
-        self.motivational = json.dumps(Motivational(patient).__dict__)
-        self.rxUse = json.dumps(RxUse(patient).__dict__)
-        self.pillsy = json.dumps(PillsyMedications(patient).__dict__)
-        self.observed_feedback = json.dumps(ObservedFeedback(patient).__dict__)
-        self.num_days_since_sms = json.dumps(NumDaysSinceSMS(patient).__dict__)
+        self.demographics = json.dumps({"demographic":Demographic(patient)})
+        self.clinical = json.dumps({"clinical":Clinical(patient)})
+        self.motivational = json.dumps({"motivational":Motivational(patient)})
+        self.rxUse = json.dumps({"rxUse":RxUse(patient)})
+        self.pillsy = json.dumps({"pillsy_rxs",PillsyMedications(patient)})
+        self.observed_feedback = json.dumps({"observed_feedback": ObservedFeedback(patient)})
+        self.num_days_since_sms = json.dumps({"sms_history": NumDaysSinceSMS(patient)})
         self.framing = patient.response_action_id_framing
         self.history = patient.response_action_id_history
         self.social = patient.response_action_id_social
 
+    def get_context_features(self):
+        return  [self.demographics, self.clinical, self.motivational, self.rxUse, self.pillsy,
+                                 self.observed_feedback, self.num_days_since_sms, self.framing, self.history,
+                                 self.social]
+
 class ReflectiveContext:
     def __init__(self, patient):
-        self.demographics = json.dumps(Demographic(patient).__dict__)
-        self.clinical = json.dumps(Clinical(patient).__dict__)
-        self.motivational = json.dumps(Motivational(patient).__dict__)
-        self.rxUse = json.dumps(RxUse(patient).__dict__)
-        self.pillsy = json.dumps(PillsyMedications(patient).__dict__)
-        self.observed_feedback = json.dumps(ObservedFeedback(patient).__dict__)
-        self.num_days_since_sms = json.dumps(NumDaysSinceSMS(patient).__dict__)
+        self.demographics = json.dumps({"demographic":Demographic(patient)})
+        self.clinical = json.dumps({"clinical":Clinical(patient)})
+        self.motivational = json.dumps({"motivational":Motivational(patient)})
+        self.rxUse = json.dumps({"rxUse":RxUse(patient)})
+        self.pillsy = json.dumps({"pillsy_rxs",PillsyMedications(patient)})
+        self.observed_feedback = json.dumps({"observed_feedback": ObservedFeedback(patient)})
+        self.num_days_since_sms = json.dumps({"sms_history": NumDaysSinceSMS(patient)})
         self.framing = patient.response_action_id_framing
         self.history = patient.response_action_id_history
         self.social = patient.response_action_id_social
         self.content = patient.response_action_id_content
+    def get_context_features(self):
+        return  [self.demographics, self.clinical, self.motivational, self.rxUse, self.pillsy,
+                                 self.observed_feedback, self.num_days_since_sms, self.framing, self.history,
+                                 self.social, self.content]
 
 # Namespaces stored within a Patient that will be standard & used in each of the above Context Features for each RankRequest
 # The relevant patient object will be passed in to instantiate each of the namespaces.

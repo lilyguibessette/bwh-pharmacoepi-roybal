@@ -15,8 +15,8 @@ import os
 import pandas as pd
 
 
-def write_sms_history(pt_dict):
-    sms_hist_filename = str(date.today()) + "_sms_history" + '.csv'
+def write_sms_history(pt_dict, run_time):
+    sms_hist_filename = str(run_time.date()) + "_sms_history" + '.csv'
     sms_hist_filepath = os.path.join("..", "..", "..", "SMSHistory", sms_hist_filename)
 
     # Subset updated_pt_dict to what we need for reward calls and put in dataframe
@@ -34,10 +34,10 @@ def write_sms_history(pt_dict):
     return
 
 
-def run_ranking(patient, client):
+def run_ranking(patient, client, run_time):
 
 # framing
-    rank_id_framing = str(patient.get_study_id() + "_" + patient.counter() + "_frame")
+    rank_id_framing = str(patient.get_study_id() + "_" + patient.trial_day_counter + "_frame")
     context = patient.get_framing_context()
     actions = get_framing_actions()
 
@@ -48,7 +48,7 @@ def run_ranking(patient, client):
     patient.update_framing_ranking(framing_ranked)
 
 # history
-    rank_id_history = str(patient.get_study_id() + "_" + patient.counter() + "_history")
+    rank_id_history = str(patient.get_study_id() + "_" + patient.trial_day_counter + "_history")
     context = patient.get_history_context()
     actions = get_history_actions()
 
@@ -59,7 +59,7 @@ def run_ranking(patient, client):
     patient.update_history_ranking(history_ranked)
 
 # social
-    rank_id_social = str(patient.get_study_id() + "_" + patient.counter() + "_social")
+    rank_id_social = str(patient.get_study_id() + "_" + patient.trial_day_counter + "_social")
     context = patient.get_context()
     actions = get_social_actions()
 
@@ -70,7 +70,7 @@ def run_ranking(patient, client):
     patient.update_social_ranking(social_ranked)
 
 # content
-    rank_id_content = str(patient.get_study_id() + "_" + patient.counter() + "_content")
+    rank_id_content = str(patient.get_study_id() + "_" + patient.trial_day_counter + "_content")
     context = patient.get_context()
     actions = get_content_actions()
 
@@ -81,7 +81,7 @@ def run_ranking(patient, client):
     patient.update_content_ranking(content_ranked)
 
 # reflective
-    rank_id_reflective = str(patient.get_study_id() + "_" + patient.counter() + "_reflective")
+    rank_id_reflective = str(patient.get_study_id() + "_" + patient.trial_day_counter + "_reflective")
     context = patient.get_context()
     actions = get_reflective_actions()
 
@@ -93,7 +93,7 @@ def run_ranking(patient, client):
 
     patient.update_num_day_sms()
     patient.updated_sms_today()
-    patient.last_run_time = pytz.UTC.localize(datetime.now())
+    patient.last_run_time = pytz.UTC.localize(run_time)
     patient.counter += 1
 
     return patient
