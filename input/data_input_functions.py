@@ -19,14 +19,16 @@ def import_Pillsy():
     #TODO potentially need to be careful here due to use of the data in pillsy.py -> might want to ensure firstname column is a string, currently I think it defaults to an int
 
     # Reads in the csv file into a pandas data frame and ensures that the date_cols are imported as datetime.datetime objects
-    pillsy = pd.read_csv(fp, sep=',', parse_dates=date_cols)
+    try:
+        pillsy = pd.read_csv(fp, sep=',', parse_dates=date_cols)
     # Drops unnecessary rows that we don't need
     # Note: In this dataset our study_id is actually 'firstname', hence the drop of patientId
-    pillsy.drop("patientId", axis=1, inplace=True)
-    pillsy.drop("lastname", axis=1, inplace=True)
-    pillsy.drop("method", axis=1, inplace=True)
-    pillsy.drop("platform", axis=1, inplace=True)
-
+        pillsy.drop("patientId", axis=1, inplace=True)
+        pillsy.drop("lastname", axis=1, inplace=True)
+        pillsy.drop("method", axis=1, inplace=True)
+        pillsy.drop("platform", axis=1, inplace=True)
+    except:
+        pillsy = None
     # Returns the pandas dataframe of Pillsy data that is read in
     return pillsy
 

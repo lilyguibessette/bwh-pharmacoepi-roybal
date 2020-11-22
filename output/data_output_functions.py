@@ -25,6 +25,8 @@ def export_post_reward_pickle(pt_dict):
     with open(filepath, 'wb') as fp:
         pickle.dump(pt_dict, fp)
 
+
+
 def write_data(pt_dict):
     #WORK IN PROGRESS FOR CONVERTING PICKLE TO CSV FILE FOR HUMAN READABILITY
     new_file = date.today().__str__()
