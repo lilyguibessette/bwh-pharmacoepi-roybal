@@ -30,7 +30,7 @@ pillsy_today_subset = pillsy_subset[midnight <= pillsy_subset["eventTime"]].copy
 
 for index, row in drug_subset.iterrows():
     if row['eventValue'] == "OPEN":
-        first_time = row['eventTime'].values[0]
+        first_time = row['eventTime']
         print(first_time)
 
 
