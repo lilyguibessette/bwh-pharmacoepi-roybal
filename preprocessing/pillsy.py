@@ -5,13 +5,11 @@ import os
 import re
 import gc
 import time
-import datetime
 from datetime import datetime, date, timedelta
-from collections import Counter
-import string
-import pickle
-import json
-from input.data_input_functions import import_Pillsy
+import pytz
+
+# For date time
+#https://realpython.com/python-datetime/
 
 def get_drugName_list(patient_entries):
     drugNames_df = patient_entries['drugName']
@@ -26,12 +24,11 @@ def get_pillsy_study_ids(pillsy):
     unique_study_ids_list = unique_study_ids_df.values.tolist()
     return unique_study_ids_list
 
-
 def identify_drug_freq(drugName):
     # drugName is a String
     # .find returns -1 if it doesn't find the String QD or BID in the drugName String
     # If the drugName does contain QD or BID, then .find() will return an int > -1 (0 or more)
-    # at the index of the first occurence of the BID or QD string
+    # at the index of the first occurrence of the BID or QD string
     if drugName.find('QD') > -1:
         drugFreq = 1
     elif drugName.find('BID') > -1:
@@ -39,44 +36,99 @@ def identify_drug_freq(drugName):
     # Returns the number of doses that the given Medication is
     return drugFreq
 
-
 def update_pt_dict(pt_dict_with_reward, pt_dict_without_reward):
     updated_pt_dict = {**pt_dict_with_reward, **pt_dict_without_reward}
     return updated_pt_dict
 
+def find_taken_events(drug, drug_subset):
+    fifteen_min = pd.Timedelta('15 minutes')
+    two_hr_45_min = pd.Timedelta('2 hours, 45 minutes')
+    drug_freq = identify_drug_freq(drug)
+    taken = 0
+    taken_events = []
+    first_taken = None
+    maybe_taken_event = None
+    for index, row in drug_subset.iterrows():
+        if drug_freq == taken:
+            break
+        if row['eventValue'] == "OPEN" and not taken_events:
+            first_taken = row['eventTime']
+            taken_events.append(first_taken)
+            taken += 1
+        elif row['eventValue'] == "CLOSE" and not taken_events:
+            maybe_taken_event = row['eventTime']
+        elif maybe_taken_event:
+            diff = row['eventTime'] - maybe_taken_event
+            if diff < fifteen_min:
+                taken_events.append(maybe_taken_event + fifteen_min)
+                taken += 1
+    if drug_freq != taken and first_taken:
+        find_second_taken_subset = drug_subset[drug_subset["eventTime"] >= first_taken].copy()
+        for index, second_pass in find_second_taken_subset.iterrows():
+            if drug_freq == taken:
+                break
+            diff_second = second_pass['eventTime'] - first_taken
+            if diff_second > two_hr_45_min:
+                taken_events.append(second_pass['eventTime'])
+                taken += 1
+    drug_adherence = taken / drug_freq
+    return drug_adherence
 
-def find_patient_rewards(study_id, pillsy_subset, patient):
+
+def compute_taken_over_expected(patient, timeframe_pillsy_subset):
+    yesterday_drugs = get_drugName_list(timeframe_pillsy_subset)
+    yesterday_adherence_by_drug = [0] * len(yesterday_drugs)
+    drug_num = 0
+    for drug in yesterday_drugs:
+        drug_num += 1
+        drug_subset = timeframe_pillsy_subset[timeframe_pillsy_subset['drugName'] == drug].copy()
+        this_drug_adherence = find_taken_events(drug, drug_subset)
+        yesterday_adherence_by_drug.append(this_drug_adherence)
+
+    sum_yesterday_adherence = sum(yesterday_adherence_by_drug)
+    taken_over_expected = sum_yesterday_adherence / patient.num_pillsy_meds
+    return taken_over_expected
+
+
+def find_patient_rewards(pillsy_subset, patient):
     yesterday = patient.last_run_time
+    yesterday_12am = pytz.UTC.localize(datetime.combine(yesterday, datetime.min.time()))
     today = date.today()
     # https://www.w3resource.com/python-exercises/date-time-exercise/python-date-time-exercise-8.php
-    midnight = datetime.combine(today, datetime.min.time())
+    today_12am = pytz.UTC.localize(datetime.combine(today, datetime.min.time()))
 
-    # subset into yesterday and today
-    # for yesterday
-        # get unique medication names as list from the drugName column
-        # store this as a
-        # for each medication in this list
-            # check if BID or QD
-            # If QD => simply check if
+    #TODO
+    # Quadruple check with Julie that this time frame makes sense...
+    pillsy_yesterday_subset = pillsy_subset[pillsy_subset["eventTime"] < today_12am].copy()
+    pillsy_yesterday_subset = pillsy_yesterday_subset[pillsy_yesterday_subset["eventTime"] >= yesterday].copy()
 
+    pillsy_calendar_day_subset = pillsy_subset[pillsy_subset["eventTime"] >= yesterday_12am].copy()
+    pillsy_calendar_day_subset = pillsy_calendar_day_subset[pillsy_calendar_day_subset["eventTime"] < today_12am].copy()
 
+    pillsy_today_subset = pillsy_subset[pillsy_subset["eventTime"] >= today_12am].copy()
 
+    yesterday_taken_over_expected = compute_taken_over_expected(patient, pillsy_yesterday_subset)
 
-    todays_avg_adherence = 0
-    # ************ TO DO ******************
-    # Account for the early_rx_use_before_sms for patients taking medication early before text
-    # Subset Pillsy data to the morning of this algorithm being run to find patients that took med early
-    # repeat above algorithm
+    # Use last call to today 12am time frame for reward
+    patient.reward_value = yesterday_taken_over_expected
 
+    # Use calendar day of yesterday to compute adherence
+    todays_avg_adherence = compute_taken_over_expected(patient, pillsy_calendar_day_subset)
 
     # Shifts the adherence for each day backwards by 1 day to make day1 = newest found avg_adherence
     # and day2 = old day, day3 = old day 2... etc day7 = old day 6
     patient.shift_day_adherences(todays_avg_adherence)
+    patient.shift_dichot_day_adherences(todays_avg_adherence)
     # We update the avg adherences at days 1,3,7 with updated shifted daily adherence values:
     patient.calc_avg_adherence()
     # Add this updated patient with new data to the patient to the pt_dict_with_reward that will be used
     # to updated Personalizer of rewards
-    patient.reward_value = todays_avg_adherence
+    #TODO figure out if this is true or not
+    # patient.reward_value = todays_avg_adherence
+
+    early_use_proportion = compute_taken_over_expected(patient, pillsy_today_subset)
+    if early_use_proportion == 1:
+        patient.early_rx_use_before_sms = 1
 
     return patient
 
@@ -88,78 +140,10 @@ def find_rewards(pillsy, pillsy_study_ids_list, pt_dict):
             # Now we will send our current patient object to the find_patient_rewards function with their study_id & pillsy subset
             patient = pt_dict.get(study_id) # Gets current patient from study_id
             # This function with update the patient attributes with the updated adherence data that we will find from pillsy
-            updated_patient = find_patient_rewards(study_id, pillsy_subset, patient)
+            updated_patient = find_patient_rewards(pillsy_subset, patient)
             # The function returns an updated patient
             # We add this patient to our originally empty pt_dict_with_reward dictionary with their study_id as a key
             pt_dict_with_reward[study_id] = updated_patient
-            # *********** TO DO ******************
-            # NEED TO EDIT SINCE I CHANGED THE DATA TYPE AT SOME POINT OF PILLSY AND NEED TO FIX ALL THE SUBSET METHODS
-            # *********** TO DO ******************
-            #
-            # # subset for early today and yesterday
-            # patient_drugNames = get_drugName_list(patient_entries)
-            # todays_adherence_by_drug = [0] * len(patient_drugNames)
-            # drug_num = 0
-            # for drug in patient_drugNames:
-            #     drug_num += 1
-            #     drug_freq = identify_drug_freq(drug)
-            #     reward_counter = 0
-            #
-            #     patient_by_drug = patient_entries[patient_entries["drugName"] == drug].copy()
-            #     print(patient_by_drug)
-            #     currentday = datetime.now()
-            #     currentday = currentday.replace(tzinfo=None)
-            #     # print("Current Date: " + currentday.__str__())
-            #     # print("DF Date: ")
-            #     # print(patient_by_drug["eventTime"].dtypes)
-            #     new_eventTime = currentday - patient_by_drug.eventTime.astype('datetime64[ns]')
-            #     patient_by_drug['new_eventTime'] = new_eventTime
-            #     print("OLD patient_by_drug")
-            #     print(patient_by_drug["eventTime"])
-            #     print("NEW patient_by_drug")
-            #     print(patient_by_drug["new_eventTime"])
-            #     ## change to last time called instead of 24 hours
-            #     patient_by_date = patient_by_drug[patient_by_drug.new_eventTime.copy() < pd.Timedelta('1 days')]
-            #     print("subset patient_by_date < 1 day")
-            #     print(patient_by_date)
-            #     patient_by_date = patient_by_date[patient_by_date.new_eventTime.copy() >= pd.Timedelta('0 second')]
-            #     print("subset patient_by_date >= 0 s ")
-            #     print(patient_by_date)
-
-            #     if not patient_by_date.empty:
-            #         lastOpen = datetime(2000, 1, 1, tzinfo=None)
-            #         lastClose = datetime(2040, 1, 1, tzinfo=None)
-            #         print("preset lastOpen, preset lastClose")
-            #         print(lastOpen, ' --- ', lastClose)
-            #
-            #         for index, row in patient_by_date.iterrows():
-            #             # *********** TO DO ******************
-            #             # NEED TO EDIT TO THE NEW ALGORITHM WITH THE CASES OF 3 MEDICATIONS AND BID VS QD
-            #             # *********** TO DO ******************
-            #             if row['eventValue'] == "OPEN":
-            #                 lastOpen = row['eventTime']
-            #             elif row['eventValue'] == "CLOSE":
-            #                 lastClose = row['eventTime']
-            #             diff = lastClose.replace(tzinfo=None) - lastOpen.replace(tzinfo=None)
-            #             print("lastOpen, lastClose, diff")
-            #             print(lastOpen, " --- ", lastClose, " --- ", diff)
-            #             # print(lastClose)
-            #             # print(diff)
-            #             if pd.Timedelta('0 days 0 hours 0 seconds') <= diff < pd.Timedelta('0 days 3 hours'):
-            #                 reward_counter += 1
-            #                 print("reward_counter:")
-            #                 print(reward_counter)
-            #                 print("close - open:")
-            #                 print(diff)
-            #                 lastOpen = datetime(2000, 1, 1, tzinfo=None)
-            #                 lastClose = datetime(2040, 1, 1, tzinfo=None)
-            #     this_adherence = reward_counter / drug_freq
-            #     todays_adherence_by_drug.append(this_adherence)
-            #     ## handle case if they only took a BID med 1x
-            #     ## for BID meds should the patient
-            #
-
-
 
         # Now that we've iterated through all patients in the Pillsy data, we identify the patients not found at all
         # Therefore these patients do not have any rewards to send to Personalizer, but we still need to update them and
@@ -204,18 +188,3 @@ def find_rewards(pillsy, pillsy_study_ids_list, pt_dict):
 
         return pt_dict_with_reward, pt_dict_without_reward
 
-def get_reward_update(pt_dict_with_reward):
-    # Subset updated_pt_dict to what we need for rank calls and put in dataframe
-    # create an Empty DataFrame object
-    column_values = ['reward', 'frame_id', 'history_id', 'social_id', 'content_id', 'reflective_id', 'study_id', 'trial_day_counter']
-    reward_updates = pd.DataFrame(columns=column_values)
-
-    for pt, data in pt_dict_with_reward:
-        # Reward value, Rank_Id's
-        new_row = [data.adherence_day1, data.rank_id_framing, data.rank_id_history,
-                   data.rank_id_social, data.rank_id_content, data.rank_id_reflective,
-                   data.study_id, data.trial_day_counter]
-        reward_updates.loc[len(reward_updates)] = new_row
-
-    reward_updates = reward_updates.to_numpy()
-    return reward_updates

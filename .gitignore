@@ -1,14 +1,10 @@
 Scripts/
-
 Lib/
-
+Include/
 pyvenv.cfg
-
-
 .idea/
-
 .DS_Store
-
 .Rapp.history
 share/
 etc/
+__pycache__/

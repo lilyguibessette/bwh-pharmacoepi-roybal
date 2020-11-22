@@ -131,7 +131,3 @@ class NumDaysSinceSMS:
         self.num_day_since_social = patient.num_day_since_social
         self.num_day_since_content = patient.num_day_since_content
         self.num_day_since_reflective = patient.num_day_since_reflective
-
-
-
-

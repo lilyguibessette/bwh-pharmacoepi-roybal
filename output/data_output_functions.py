@@ -1,4 +1,3 @@
-
 import os
 import datetime
 import pandas as pd
@@ -7,29 +6,18 @@ from datetime import datetime, date, timedelta
 from data_classes.Patient import Patient
 import pickle
 
-def export_reward_data(reward_np_array):
-    #WORK IN PROGRESS LOGGING FOR REWARD
-    mac_path = "~/Dropbox (Partners HealthCare)/SHARED -- REINFORCEMENT LEARNING/Reward_Data/"
-    pc_path = R"C:\Users\$USERNAME\Dropbox (Partners HealthCare)\SHARED -- REINFORCEMENT LEARNING\Reward_Data"
-    path = check_mac_or_pc(mac_path, pc_path)
-    path = path + ""
-    full_path = os.path.expanduser(path)
-    pd.DataFrame(reward_np_array).to_csv("path/to/file.csv")
-
-
 def export_pt_dict_pickle(pt_dict):
-    filesave = str(date.today()) + "_patient_dict" + '.pickle'
-    with open(filesave, 'wb') as fp:
+    # At the end of the entire run of the program, the patient dictionary is completely saved in pickle format for use
+    # for tomorrow's run. It is dated with today's date - i.e. the date the data was generated.
+    pickle_filename = str(date.today()) + "_patient_dict" + '.pickle'
+    fp = os.path.join("..", "..", "PatientData", pickle_filename)
+    with open(fp, 'wb') as fp:
         pickle.dump(pt_dict, fp)
 
 def export_post_reward_pickle(pt_dict):
     filesave = str(date.today()) + "rewarded_patient_dict" + '.pickle'
-    with open(filesave, 'wb') as fp:
-        pickle.dump(pt_dict, fp)
-
-def export_post_rank_pickle(pt_dict):
-    filesave = str(date.today()) + "ranked_patient_dict" + '.pickle'
-    with open(filesave, 'wb') as fp:
+    filepath = os.path.join("..", "..", "..", "RewardedPatientData", filesave)
+    with open(filepath, 'wb') as fp:
         pickle.dump(pt_dict, fp)
 
 def write_data(pt_dict):
