@@ -9,6 +9,7 @@ from data_classes.Actions import get_content_actions
 from data_classes.Actions import get_reflective_actions
 from data_classes.Patient import Patient
 import data_classes.ContextFeatures
+from datetime import datetime, date, timedelta
 
 def run_ranking(patient, client):
 

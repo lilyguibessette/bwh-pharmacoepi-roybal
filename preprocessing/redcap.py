@@ -24,9 +24,9 @@ def update_patient_dict_redcap(unique_study_ids_list_redcap, redcap, pt_dict):
             # NEED TO ENSURE CATEGORIES COMING IN ARE RECODED TO APPROPRIATE STRINGS
             # i.e. CATEGORY from redcap = 1 => age 18-25 (rough example) ->
             # shouldn't be continuous, needs to be string to become categorical to personalizer
-            patient = Patient(str(record_id),
+            new_patient = Patient(str(record_id),
                               row['start_date'],
-                              date.today(),
+                              datetime.now(),
                               0,
                               False,
                               row['age'],
@@ -118,7 +118,7 @@ def update_patient_dict_redcap(unique_study_ids_list_redcap, redcap, pt_dict):
                               0)
             # convert function from input values to string type
             # update patient variables
-            pt_dict[record_id] = patient
+            pt_dict[record_id] = new_patient
         else:
             updated_patient = pt_dict[record_id]
             updated_patient.update_redcap_pillsy_vars(row['num_twice_daily_pillsy_meds'],
@@ -130,7 +130,7 @@ def update_patient_dict_redcap(unique_study_ids_list_redcap, redcap, pt_dict):
                               row['pillsy_meds___6'],
                               row['pillsy_meds___7'],
                               row['pillsy_meds___8'])
-            pt_dict.update_pt_ob
+            pt_dict[record_id] = updated_patient
 
     return pt_dict
 
@@ -143,5 +143,6 @@ if __name__ == '__main__':
     unique_study_ids_list_redcap = get_redcap_study_ids(redcap_data)
     pt_dict_redcap = update_patient_dict_redcap(unique_study_ids_list_redcap, redcap_data, pt_dict)
     for pt, data in pt_dict_redcap.items():
-        print(pt,"\n", data,"\n", data.current_date, "\n",data.start_date,"\n", str(data.race_black),"\n", str(data.dichot_adherence_day1), "\n",str(data.response_action_id_framing))
+        print(pt,",",data.last_run_time, ",",data.start_date,",", str(data.last_run_time), ",",str(data.start_date),",", str(data.race_black),",", str(data.dichot_adherence_day1), ",",str(data.response_action_id_framing))
+        print("\n", pt, ",", data.last_run_time, ",", data.start_date, ",",  data.race_black, ",", data.dichot_adherence_day1, ",", data.response_action_id_framing)
     export_pt_dict_pickle(pt_dict_redcap)
