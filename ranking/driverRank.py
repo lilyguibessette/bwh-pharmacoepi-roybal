@@ -15,7 +15,6 @@ import os
 import pandas as pd
 
 
-
 def write_sms_history(pt_dict):
     sms_hist_filename = str(date.today()) + "_sms_history" + '.csv'
     sms_hist_filepath = os.path.join("..", "..", "..", "SMSHistory", sms_hist_filename)

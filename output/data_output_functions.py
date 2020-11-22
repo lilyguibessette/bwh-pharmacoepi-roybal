@@ -14,18 +14,11 @@ def export_pt_dict_pickle(pt_dict):
     with open(fp, 'wb') as fp:
         pickle.dump(pt_dict, fp)
 
-def export_reward_data(reward_np_array):
-    reward_file_name = str(date.today()) + "_reward_updates" + '.csv'
-    fp = os.path.join("..", "..", "..", "RewardData", reward_file_name)
-    pd.DataFrame(reward_np_array).to_csv(fp)
-
 def export_post_reward_pickle(pt_dict):
     filesave = str(date.today()) + "rewarded_patient_dict" + '.pickle'
     filepath = os.path.join("..", "..", "..", "RewardedPatientData", filesave)
     with open(filepath, 'wb') as fp:
         pickle.dump(pt_dict, fp)
-
-
 
 def write_data(pt_dict):
     #WORK IN PROGRESS FOR CONVERTING PICKLE TO CSV FILE FOR HUMAN READABILITY
