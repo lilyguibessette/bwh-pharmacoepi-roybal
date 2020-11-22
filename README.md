@@ -1,4 +1,4 @@
-# Increasing Patient Medication Adherence By Custom Text AI Generated Text Message
+# Increasing Patient Medication Adherence By Custom AI Generated Text Message
 ### Author(s): Lily Bessette, lgbessette@bwh.harvard.edu
 ### Contributor(s): Joe Buckley, jjbuckley@bwh.harvard.edu
 ### Updated 2020-11-21

@@ -47,6 +47,39 @@ def update_pt_dict(pt_dict_with_reward, pt_dict_without_reward):
     updated_pt_dict = {**pt_dict_with_reward, **pt_dict_without_reward}
     return updated_pt_dict
 
+def find_taken_events(drug, drug_subset):
+    fifteen_min = pd.Timedelta('15 minutes')
+    two_hr_45_min = pd.Timedelta('2 hours, 45 minutes')
+    drug_freq = identify_drug_freq(drug)
+    taken = 0
+    taken_events = []
+    first_taken = None
+    maybe_taken_event = None
+    for index, row in drug_subset.iterrows():
+        if drug_freq == taken:
+            break
+        if row['eventValue'] == "OPEN" and not taken_events:
+            first_taken = row['eventTime']
+            taken_events.append(first_taken)
+            taken += 1
+        elif row['eventValue'] == "CLOSE" and not taken_events:
+            maybe_taken_event = row['eventTime']
+        elif maybe_taken_event:
+            diff = row['eventTime'] - maybe_taken_event
+            if diff < fifteen_min:
+                taken_events.append(maybe_taken_event + fifteen_min)
+                taken += 1
+    if drug_freq != taken and first_taken:
+        find_second_taken_subset = drug_subset[drug_subset["eventTime"] >= first_taken].copy()
+        for index, second_pass in find_second_taken_subset.iterrows():
+            if drug_freq == taken:
+                break
+            diff_second = second_pass['eventTime'] - first_taken
+            if diff_second > two_hr_45_min:
+                taken_events.append(second_pass['eventTime'])
+                taken += 1
+    drug_adherence = taken /drug_freq
+    return drug_adherence
 
 def find_patient_rewards(pillsy_subset, patient):
     yesterday = patient.last_run_time
@@ -57,65 +90,37 @@ def find_patient_rewards(pillsy_subset, patient):
     pillsy_yesterday_subset = pillsy_yesterday_subset[pillsy_yesterday_subset["eventTime"] >= yesterday].copy()
     pillsy_today_subset = pillsy_subset[pillsy_subset["eventTime"] >= midnight].copy()
 
-
-    min_time_between = pd.Timedelta('15 minutes')
     yesterday_drugs = get_drugName_list(pillsy_yesterday_subset)
     yesterday_adherence_by_drug = [0] * len(yesterday_drugs)
     drug_num = 0
     for drug in yesterday_drugs:
         drug_num += 1
-        drug_freq = identify_drug_freq(drug)
-        taken = 0
-        taken_events = []
-        maybe_taken_event = None
         drug_subset = pillsy_yesterday_subset[pillsy_yesterday_subset['drugName'] == drug].copy()
-        for index, row in drug_subset.iterrows():
-            if drug_freq == taken:
-                break
-            if row['eventValue'] == "OPEN" and not taken_events:
-                first_taken = row['eventTime']
-                taken_events.append(first_taken)
-            elif row['eventValue'] == "CLOSE" and not taken_events:
-                maybe_taken_event = row['eventTime']
-            elif row['eventValue'] == "OPEN" and taken_events:
-                if row['eventTime'] 
+        this_drug_adherence = find_taken_events(drug, drug_subset)
+        yesterday_adherence_by_drug.append(this_drug_adherence)
 
+    sum_yesterday_adherence = sum(yesterday_adherence_by_drug)
+    todays_avg_adherence= sum_yesterday_adherence / patient.num_pillsy_meds
 
-            if len(taken_events) != 0:
-
-
-
-
-
+    # Shifts the adherence for each day backwards by 1 day to make day1 = newest found avg_adherence
+    # and day2 = old day, day3 = old day 2... etc day7 = old day 6
+    patient.shift_day_adherences(todays_avg_adherence)
+    patient.shift_dichot_day_adherences(todays_avg_adherence)
+    # We update the avg adherences at days 1,3,7 with updated shifted daily adherence values:
+    patient.calc_avg_adherence()
+    # Add this updated patient with new data to the patient to the pt_dict_with_reward that will be used
+    # to updated Personalizer of rewards
+    patient.reward_value = todays_avg_adherence
 
 
 
-    # subset into yesterday and today
-    # for yesterday
-        # get unique medication names as list from the drugName column
-        # store this as a
-        # for each medication in this list
-            # check if BID or QD
-            # If QD => simply check if
-
-
-
-
-    todays_avg_adherence = 0
     # ************ TO DO ******************
     # Account for the early_rx_use_before_sms for patients taking medication early before text
     # Subset Pillsy data to the morning of this algorithm being run to find patients that took med early
     # repeat above algorithm
 
 
-    # Shifts the adherence for each day backwards by 1 day to make day1 = newest found avg_adherence
-    # and day2 = old day, day3 = old day 2... etc day7 = old day 6
-    patient.shift_day_adherences(todays_avg_adherence)
-    # We update the avg adherences at days 1,3,7 with updated shifted daily adherence values:
-    patient.calc_avg_adherence()
-    # Add this updated patient with new data to the patient to the pt_dict_with_reward that will be used
-    # to updated Personalizer of rewards
-    patient.reward_value = todays_avg_adherence
+
 
     return patient
 
