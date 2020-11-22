@@ -14,6 +14,23 @@ import string
 import pickle
 import json
 
+def get_reward_update(pt_dict_with_reward):
+    # Subset updated_pt_dict to what we need for rank calls and put in dataframe
+    # create an Empty DataFrame object
+    column_values = ['reward', 'frame_id', 'history_id', 'social_id', 'content_id', 'reflective_id', 'study_id', 'trial_day_counter']
+    reward_updates = pd.DataFrame(columns=column_values)
+
+    for pt, data in pt_dict_with_reward:
+        # Reward value, Rank_Id's
+        new_row = [data.adherence_day1, data.rank_id_framing, data.rank_id_history,
+                   data.rank_id_social, data.rank_id_content, data.rank_id_reflective,
+                   data.study_id, data.trial_day_counter]
+        reward_updates.loc[len(reward_updates)] = new_row
+
+    reward_updates = reward_updates.to_numpy()
+    return reward_updates
+
+
 def send_rewards(reward_updates, client):
     # column_values = ['reward', '
     #   frame_id', 'history_id', 'social_id', 'content_id', 'reflective_id',
