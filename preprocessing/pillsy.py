@@ -81,28 +81,46 @@ def find_taken_events(drug, drug_subset):
     drug_adherence = taken / drug_freq
     return drug_adherence
 
-def find_patient_rewards(pillsy_subset, patient):
-    yesterday = patient.last_run_time
-    today = date.today()
-    # https://www.w3resource.com/python-exercises/date-time-exercise/python-date-time-exercise-8.php
-    midnight = pytz.UTC.localize(datetime.combine(today, datetime.min.time()))
-    pillsy_yesterday_subset = pillsy_subset[pillsy_subset["eventTime"] < midnight].copy()
-    #TODO
-    # Quadruple check with Julie that this time frame makes sense...
-    pillsy_yesterday_subset = pillsy_yesterday_subset[pillsy_yesterday_subset["eventTime"] >= yesterday].copy()
-    pillsy_today_subset = pillsy_subset[pillsy_subset["eventTime"] >= midnight].copy()
 
-    yesterday_drugs = get_drugName_list(pillsy_yesterday_subset)
+def compute_taken_over_expected(patient, timeframe_pillsy_subset):
+    yesterday_drugs = get_drugName_list(timeframe_pillsy_subset)
     yesterday_adherence_by_drug = [0] * len(yesterday_drugs)
     drug_num = 0
     for drug in yesterday_drugs:
         drug_num += 1
-        drug_subset = pillsy_yesterday_subset[pillsy_yesterday_subset['drugName'] == drug].copy()
+        drug_subset = timeframe_pillsy_subset[timeframe_pillsy_subset['drugName'] == drug].copy()
         this_drug_adherence = find_taken_events(drug, drug_subset)
         yesterday_adherence_by_drug.append(this_drug_adherence)
 
     sum_yesterday_adherence = sum(yesterday_adherence_by_drug)
-    todays_avg_adherence= sum_yesterday_adherence / patient.num_pillsy_meds
+    taken_over_expected = sum_yesterday_adherence / patient.num_pillsy_meds
+    return taken_over_expected
+
+
+def find_patient_rewards(pillsy_subset, patient):
+    yesterday = patient.last_run_time
+    yesterday_12am = pytz.UTC.localize(datetime.combine(yesterday, datetime.min.time()))
+    today = date.today()
+    # https://www.w3resource.com/python-exercises/date-time-exercise/python-date-time-exercise-8.php
+    today_12am = pytz.UTC.localize(datetime.combine(today, datetime.min.time()))
+
+    #TODO
+    # Quadruple check with Julie that this time frame makes sense...
+    pillsy_yesterday_subset = pillsy_subset[pillsy_subset["eventTime"] < today_12am].copy()
+    pillsy_yesterday_subset = pillsy_yesterday_subset[pillsy_yesterday_subset["eventTime"] >= yesterday].copy()
+
+    pillsy_calendar_day_subset = pillsy_subset[pillsy_subset["eventTime"] >= yesterday_12am].copy()
+    pillsy_calendar_day_subset = pillsy_calendar_day_subset[pillsy_calendar_day_subset["eventTime"] < today_12am].copy()
+
+    pillsy_today_subset = pillsy_subset[pillsy_subset["eventTime"] >= today_12am].copy()
+
+    yesterday_taken_over_expected = compute_taken_over_expected(patient, pillsy_yesterday_subset)
+
+    # Use last call to today 12am time frame for reward
+    patient.reward_value = yesterday_taken_over_expected
+
+    # Use calendar day of yesterday to compute adherence
+    todays_avg_adherence = compute_taken_over_expected(patient, pillsy_calendar_day_subset)
 
     # Shifts the adherence for each day backwards by 1 day to make day1 = newest found avg_adherence
     # and day2 = old day, day3 = old day 2... etc day7 = old day 6
@@ -112,7 +130,8 @@ def find_patient_rewards(pillsy_subset, patient):
     patient.calc_avg_adherence()
     # Add this updated patient with new data to the patient to the pt_dict_with_reward that will be used
     # to updated Personalizer of rewards
-    patient.reward_value = todays_avg_adherence
+    #TODO figure out if this is true or not
+    # patient.reward_value = todays_avg_adherence
 
 
 
