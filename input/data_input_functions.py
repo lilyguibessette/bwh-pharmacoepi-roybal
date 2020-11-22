@@ -4,9 +4,10 @@ from datetime import datetime, date, timedelta
 import pickle
 import os.path
 
-def import_Pillsy():
+def import_Pillsy(run_time):
+    import_date = (run_time - pd.Timedelta("1 day")).date()
     # Imports Pillsy pill taking history as a pandas data frame from a CSV
-    pillsy_filename = str(date.today()-pd.Timedelta("1 day")) + "_pillsy" + '.csv'
+    pillsy_filename = str(import_date) + "_pillsy" + '.csv'
     fp = os.path.join("..", "..", "..", "Pillsy", pillsy_filename)
     # Record our relevant date columns
     date_cols = ["eventTime"]
@@ -32,9 +33,10 @@ def import_Pillsy():
     # Returns the pandas dataframe of Pillsy data that is read in
     return pillsy
 
-def import_redcap():
+def import_redcap(run_time):
+    import_date = run_time.date()
     # Imports REDCap patients that are enrolling on an ongoing basis as a pandas data frame from a CSV
-    redcap_filepath = str(date.today()) + "_redcap" + '.csv'
+    redcap_filepath = str(import_date) + "_redcap" + '.csv'
     fp = os.path.join("..", "..", "..", "REDCap", redcap_filepath)
     date_cols = ["start_date"]
     # Reads in the csv file into a pandas data frame and ensures that the date_cols are imported as datetime.datetime objects
@@ -50,13 +52,14 @@ def import_redcap():
     #   -   Add entirely new patients initiating in the study to our patient dictionary by creating new patient objects
     return redcap
 
-def load_dict_pickle():
+def load_dict_pickle(run_time):
     try:
         # At the start of the program we will try to open the patient dictionary pickle from yesterday to use for today
         # This patient dictionary is used to represent the current patient data that we have at the start of the program
         #   - i.e. before update with Pillsy with yesterday's adherence data for reward calls /
         #          what would be used for today's rank call
-        pickle_filename = str(date.today()-pd.Timedelta("1 day")) + "_patient_dict" + '.pickle'
+        import_date = (run_time - pd.Timedelta("1 day")).date()
+        pickle_filename = str(import_date) + "_patient_dict" + '.pickle'
         fp = os.path.join("..", "..", "PatientData", pickle_filename)
         with open(fp, 'rb') as pfile:
             pickle_dict = pickle.load(pfile)

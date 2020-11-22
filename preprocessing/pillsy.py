@@ -90,11 +90,11 @@ def compute_taken_over_expected(patient, timeframe_pillsy_subset):
     return taken_over_expected
 
 
-def find_patient_rewards(pillsy_subset, patient):
+def find_patient_rewards(pillsy_subset, patient, run_time):
     yesterday = patient.last_run_time
     yesterday_12am = pytz.UTC.localize(datetime.combine(yesterday, datetime.min.time()))
-    today = date.today()
-    # https://www.w3resource.com/python-exercises/date-time-exercise/python-date-time-exercise-8.php
+    today = run_time
+        # https://www.w3resource.com/python-exercises/date-time-exercise/python-date-time-exercise-8.php
     today_12am = pytz.UTC.localize(datetime.combine(today, datetime.min.time()))
 
     #TODO
@@ -132,7 +132,7 @@ def find_patient_rewards(pillsy_subset, patient):
 
     return patient
 
-def find_rewards(pillsy, pillsy_study_ids_list, pt_dict):
+def find_rewards(pillsy, pillsy_study_ids_list, pt_dict, run_time):
         pt_dict_with_reward = {}
         for study_id in pillsy_study_ids_list:
             # Filter by firstname = study_id to get data for just this one patient
@@ -140,7 +140,7 @@ def find_rewards(pillsy, pillsy_study_ids_list, pt_dict):
             # Now we will send our current patient object to the find_patient_rewards function with their study_id & pillsy subset
             patient = pt_dict.get(study_id) # Gets current patient from study_id
             # This function with update the patient attributes with the updated adherence data that we will find from pillsy
-            updated_patient = find_patient_rewards(pillsy_subset, patient)
+            updated_patient = find_patient_rewards(pillsy_subset, patient, run_time)
             # The function returns an updated patient
             # We add this patient to our originally empty pt_dict_with_reward dictionary with their study_id as a key
             pt_dict_with_reward[study_id] = updated_patient

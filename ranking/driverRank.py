@@ -15,8 +15,8 @@ import os
 import pandas as pd
 
 
-def write_sms_history(pt_dict):
-    sms_hist_filename = str(date.today()) + "_sms_history" + '.csv'
+def write_sms_history(pt_dict, run_time):
+    sms_hist_filename = str(run_time.date()) + "_sms_history" + '.csv'
     sms_hist_filepath = os.path.join("..", "..", "..", "SMSHistory", sms_hist_filename)
 
     # Subset updated_pt_dict to what we need for reward calls and put in dataframe
@@ -34,7 +34,7 @@ def write_sms_history(pt_dict):
     return
 
 
-def run_ranking(patient, client):
+def run_ranking(patient, client, run_time):
 
 # framing
     rank_id_framing = str(patient.get_study_id() + "_" + patient.counter() + "_frame")
@@ -93,7 +93,7 @@ def run_ranking(patient, client):
 
     patient.update_num_day_sms()
     patient.updated_sms_today()
-    patient.last_run_time = pytz.UTC.localize(datetime.now())
+    patient.last_run_time = pytz.UTC.localize(run_time)
     patient.counter += 1
 
     return patient
