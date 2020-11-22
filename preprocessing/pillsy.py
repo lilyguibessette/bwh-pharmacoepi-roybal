@@ -12,19 +12,24 @@ import pytz
 #https://realpython.com/python-datetime/
 
 def get_drugName_list(patient_entries):
-    drugNames_df = patient_entries['drugName']
-    unique_drugNames_df = drugNames_df.drop_duplicates()
-    unique_drugNames_df_list = unique_drugNames_df.values.tolist()
+    unique_drugNames_df_list =[]
+    if patient_entries:
+        drugNames_df = patient_entries['drugName']
+        unique_drugNames_df = drugNames_df.drop_duplicates()
+        unique_drugNames_df_list = unique_drugNames_df.values.tolist()
     return unique_drugNames_df_list
 
 def get_pillsy_study_ids(pillsy):
+    unique_study_ids_list = []
+    if pillsy:
     # Subsets the firstname column to find the unique study_id's available in the Pillsy data to update adherence
-    study_ids_df = pillsy['firstname']
-    unique_study_ids_df = study_ids_df.drop_duplicates()
-    unique_study_ids_list = unique_study_ids_df.values.tolist()
+        study_ids_df = pillsy['firstname']
+        unique_study_ids_df = study_ids_df.drop_duplicates()
+        unique_study_ids_list = unique_study_ids_df.values.tolist()
     return unique_study_ids_list
 
 def identify_drug_freq(drugName):
+    drugFreq = 0
     # drugName is a String
     # .find returns -1 if it doesn't find the String QD or BID in the drugName String
     # If the drugName does contain QD or BID, then .find() will return an int > -1 (0 or more)
