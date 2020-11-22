@@ -45,11 +45,13 @@ def update_pt_dict(pt_dict_with_reward, pt_dict_without_reward):
     return updated_pt_dict
 
 
-def find_patient_rewards(study_id, pillsy_subset, patient):
+def find_patient_rewards(pillsy_subset, patient):
     yesterday = patient.last_run_time
     today = date.today()
     # https://www.w3resource.com/python-exercises/date-time-exercise/python-date-time-exercise-8.php
     midnight = datetime.combine(today, datetime.min.time())
+    pillsy_yesterday_subset = pillsy_subset[yesterday <= pillsy_subset["eventTime"] < midnight].copy()
+    pillsy_today_subset = pillsy_subset[midnight <= pillsy_subset["eventTime"]].copy()
 
     # subset into yesterday and today
     # for yesterday
@@ -88,7 +90,7 @@ def find_rewards(pillsy, pillsy_study_ids_list, pt_dict):
             # Now we will send our current patient object to the find_patient_rewards function with their study_id & pillsy subset
             patient = pt_dict.get(study_id) # Gets current patient from study_id
             # This function with update the patient attributes with the updated adherence data that we will find from pillsy
-            updated_patient = find_patient_rewards(study_id, pillsy_subset, patient)
+            updated_patient = find_patient_rewards(pillsy_subset, patient)
             # The function returns an updated patient
             # We add this patient to our originally empty pt_dict_with_reward dictionary with their study_id as a key
             pt_dict_with_reward[study_id] = updated_patient

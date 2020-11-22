@@ -117,7 +117,7 @@ def update_patient_dict_redcap(unique_study_ids_list_redcap, redcap, pt_dict):
                               None,
                               0)
             # convert function from input values to string type
-           # new_patient.convert_redcap_input_vars()
+            new_patient.convert_redcap_input_vars()
             # update patient variables
             pt_dict[record_id] = new_patient
         else:
