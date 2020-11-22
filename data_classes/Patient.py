@@ -329,10 +329,6 @@ class Patient:
         text.replace("X", self.total_dichot_adherence_past7)
         self.sms_today = text
 
-
-    def get_framing_context(self):
-        return json.dump(ContextFeatures.FramingContext(self))
-
     def update_redcap_pillsy_vars(self, num_twice_daily_pillsy_meds, pillsy_meds_agi, pillsy_meds_dpp4, pillsy_meds_glp1, pillsy_meds_meglitinide, pillsy_meds_metformin, pillsy_meds_sglt2, pillsy_meds_sulfonylurea, pillsy_meds_thiazolidinedione):
         self.num_twice_daily_pillsy_meds = num_twice_daily_pillsy_meds
         self.pillsy_meds_agi = pillsy_meds_agi
@@ -344,6 +340,10 @@ class Patient:
         self.pillsy_meds_sulfonylurea = pillsy_meds_sulfonylurea
         self.pillsy_meds_thiazolidinedione = pillsy_meds_thiazolidinedione
         self.num_pillsy_meds = pillsy_meds_agi + pillsy_meds_dpp4 + pillsy_meds_glp1 + pillsy_meds_meglitinide + pillsy_meds_metformin + pillsy_meds_sglt2 + pillsy_meds_sulfonylurea + pillsy_meds_thiazolidinedione
+
+
+    def get_framing_context(self):
+        return ContextFeatures.FramingContext(self)
 
     def get_history_context(self):
         return ContextFeatures.HistoryContext(self)
@@ -359,6 +359,70 @@ class Patient:
 
 
     # Convert to categorical variables function
-    def convert_redcap_input_vars(self, ):
+    def convert_redcap_input_vars(self):
+        self.start_date # convert to date object
+        if self.age == 1:
+            self.age = "18-34"
+        elif self.age == 2:
+            self.age = "35-44"
+        elif self.age == 3:
+            self.age ="45-54"
+        elif self.age == 4:
+            
+        self.age  # m
+        self.sex
+        self.num_years_dm_rx
+        self.hba1c
+        self.num_physicians = num_physicians
+        self.num_rx = num_rx
+        self.concomitant_insulin_use = concomitant_insulin_use
+        self.automaticity = automaticity
+        self.pt_activation = pt_activation
+        self.reason_dm_rx = reason_dm_rx
+        self.non_adherence = non_adherence
+        self.edu_level = edu_level
+        self.employment_status = employment_status
+        self.marital_status = marital_status
+        self.num_twice_daily_pillsy_meds = num_twice_daily_pillsy_meds
+        self.pillsy_meds_agi = pillsy_meds_agi
+        self.pillsy_meds_dpp4 = pillsy_meds_dpp4
+        self.pillsy_meds_glp1 = pillsy_meds_glp1
+        self.pillsy_meds_meglitinide = pillsy_meds_meglitinide
+        self.pillsy_meds_metformin = pillsy_meds_metformin
+        self.pillsy_meds_sglt2 = pillsy_meds_sglt2
+        self.pillsy_meds_sulfonylurea = pillsy_meds_sulfonylurea
+        self.pillsy_meds_thiazolidinedione = pillsy_meds_thiazolidinedione
 
+
+        row['start_date'],
+        row['age'],
+        row['sex'],
+        row['num_years_dm_rx'],
+        row['hba1c'],
+        row['race___1'],
+        row['race___2'],
+        row['race___3'],
+        row['race___4'],
+        row['race___5'],
+        row['race___6'],
+        row['race___7'],
+        row['num_physicians'],
+        row['num_rx'],
+        row['concomitant_insulin_use'],
+        row['automaticity'],
+        row['pt_activation'],
+        row['reason_dm_rx'],
+        row['non_adherence'],
+        row['edu_level'],
+        row['employment_status'],
+        row['marital_status'],
+        row['num_twice_daily_pillsy_meds'],
+        row['pillsy_meds___1'],
+        row['pillsy_meds___2'],
+        row['pillsy_meds___3'],
+        row['pillsy_meds___4'],
+        row['pillsy_meds___5'],
+        row['pillsy_meds___6'],
+        row['pillsy_meds___7'],
+        row['pillsy_meds___8'],
         # waiting for julie's response to email
