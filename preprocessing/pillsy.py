@@ -72,6 +72,8 @@ def find_taken_events(drug, drug_subset):
     if drug_freq != taken and first_taken:
         find_second_taken_subset = drug_subset[drug_subset["eventTime"] >= first_taken].copy()
         for index, second_pass in find_second_taken_subset.iterrows():
+            if drug_freq == taken:
+                break
             diff_second = second_pass['eventTime'] - first_taken
             if diff_second > two_hr_45_min:
                 taken_events.append(second_pass['eventTime'])
