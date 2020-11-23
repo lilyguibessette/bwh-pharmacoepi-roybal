@@ -86,51 +86,18 @@
 #
 # # Namespaces stored within a Patient that will be standard & used in each of the above Context Features for each RankRequest
 # # The relevant patient object will be passed in to instantiate each of the namespaces.
-# #class Demographic:
-#     #def __init__(self, patient):
-#
-#
-# class Clinical:
-#     def __init__(self,  patient):
-#         self.num_physicians = patient.num_physicians
-#         self.num_years_dm_rx = patient.num_years_dm_rx
-#         self.hba1c = patient.hba1c
-#
-# class Motivational:
-#     def __init__(self, patient):
-#         self.automaticity = patient.automaticity
-#         self.pt_activation = patient.pt_activation
-#         self.reason_dm_rx = patient.reason_dm_rx
+
 #
 # class RxUse:
 #     def __init__(self, patient):
-#         self.num_rx = patient.num_rx
-#         self.concomitant_insulin_use = patient.concomitant_insulin_use
-#         self.non_adherence = patient.non_adherence
+#
 #
 # class PillsyMedications:
 #     def __init__(self, patient):
-#         self.num_twice_daily_pillsy_meds = patient.num_twice_daily_pillsy_meds
-#         self.pillsy_meds_agi = patient.pillsy_meds_agi
-#         self.pillsy_meds_dpp4 = patient.pillsy_meds_dpp4
-#         self.pillsy_meds_glp1 = patient.pillsy_meds_glp1
-#         self.pillsy_meds_meglitinide = patient.pillsy_meds_meglitinide
-#         self.pillsy_meds_metformin = patient.pillsy_meds_metformin
-#         self.pillsy_meds_sglt2 = patient.pillsy_meds_sglt2
-#         self.pillsy_meds_sulfonylurea = patient.pillsy_meds_sulfonylurea
-#         self.pillsy_meds_thiazolidinedione = patient.pillsy_meds_thiazolidinedione
-#         self.num_pillsy_meds = patient.num_pillsy_meds
+#
 #
 # class ObservedFeedback:
-#     def __init__(self, patient):
-#         if patient.avg_adherence_7day != None:
-#             self.avg_adherence_7day = patient.avg_adherence_7day
-#         if patient.avg_adherence_3day != None:
-#             self.avg_adherence_3day = patient.avg_adherence_3day
-#         if patient.avg_adherence_1day != None:
-#             self.avg_adherence_1day = patient.avg_adherence_1day
-#         if patient.early_rx_use_before_sms != None:
-#             self.early_rx_use_before_sms = patient.early_rx_use_before_sms
+
 #
 # class NumDaysSinceSMS:
 #     def __init__(self, patient):
