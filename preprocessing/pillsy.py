@@ -12,20 +12,22 @@ import pytz
 #https://realpython.com/python-datetime/
 
 def get_drugName_list(patient_entries):
-    unique_drugNames_df_list =[]
-    if patient_entries:
+    try:
         drugNames_df = patient_entries['drugName']
         unique_drugNames_df = drugNames_df.drop_duplicates()
         unique_drugNames_df_list = unique_drugNames_df.values.tolist()
+    except ValueError:
+        unique_drugNames_df_list = []
     return unique_drugNames_df_list
 
 def get_pillsy_study_ids(pillsy):
-    unique_study_ids_list = []
-    if pillsy:
+    try:
     # Subsets the firstname column to find the unique study_id's available in the Pillsy data to update adherence
         study_ids_df = pillsy['firstname']
         unique_study_ids_df = study_ids_df.drop_duplicates()
         unique_study_ids_list = unique_study_ids_df.values.tolist()
+    except ValueError:
+        unique_study_ids_list = []
     return unique_study_ids_list
 
 def identify_drug_freq(drugName):

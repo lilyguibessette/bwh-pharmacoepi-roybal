@@ -378,22 +378,22 @@ class Patient:
         return str(demographic_features)
 
 
-    def get_framing_context(self):
-        #TODO might need to do {"contextFeatures": FramingContext()}
-        return ContextFeatures.FramingContext(self).get_context_features()
-
-    def get_history_context(self):
-        return ContextFeatures.HistoryContext(self).get_context_features()
-
-    def get_social_context(self):
-        return ContextFeatures.SocialContext(self).get_context_features()
-
-    def get_content_context(self):
-        return ContextFeatures.ContentContext(self).get_context_features()
-
-    def get_reflective_context(self):
-        return ContextFeatures.ReflectiveContext(self).get_context_features()
-
+    # def get_framing_context(self):
+    #     #TODO might need to do {"contextFeatures": FramingContext()}
+    #     return ContextFeatures.FramingContext(self).get_context_features()
+    #
+    # def get_history_context(self):
+    #     return ContextFeatures.HistoryContext(self).get_context_features()
+    #
+    # def get_social_context(self):
+    #     return ContextFeatures.SocialContext(self).get_context_features()
+    #
+    # def get_content_context(self):
+    #     return ContextFeatures.ContentContext(self).get_context_features()
+    #
+    # def get_reflective_context(self):
+    #     return ContextFeatures.ReflectiveContext(self).get_context_features()
+    #
 
     def export_to_row(self):
         new_row = [self.study_id,
