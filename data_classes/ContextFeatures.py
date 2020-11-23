@@ -88,16 +88,7 @@ class ReflectiveContext:
 # The relevant patient object will be passed in to instantiate each of the namespaces.
 class Demographic:
     def __init__(self, patient):
-        self.age = patient.age
-        self.sex = patient.sex
-        self.race_white = patient.race_white
-        self.race_black = patient.race_black
-        self.race_asian = patient.race_asian
-        self.race_hispanic = patient.race_hispanic
-        self.race_other = patient.race_other
-        self.edu_level = patient.edu_level
-        self.employment_status = patient.employment_status
-        self.marital_status = patient.marital_status
+
 
 class Clinical:
     def __init__(self,  patient):

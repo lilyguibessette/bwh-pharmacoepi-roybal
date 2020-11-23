@@ -40,4 +40,6 @@ def get_drugName_list(patient_entries):
     unique_drugNames_df_list = unique_drugNames_df.values.tolist()
     return unique_drugNames_df_list
 
-
+pickle_path = "/Users/lilybessette/BWH_DoPE/bwh-pharmacoepi-roybal/sample_datasets_input/2020-11-16_patient_dict.pickle"
+with open(fp, 'rb') as pfile:
+    pt_dict = pickle.load(pfile)

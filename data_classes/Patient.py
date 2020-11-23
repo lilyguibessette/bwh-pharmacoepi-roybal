@@ -364,6 +364,20 @@ class Patient:
         self.num_pillsy_meds = pillsy_meds_agi + pillsy_meds_dpp4 + pillsy_meds_glp1 + pillsy_meds_meglitinide + pillsy_meds_metformin + pillsy_meds_sglt2 + pillsy_meds_sulfonylurea + pillsy_meds_thiazolidinedione
 
 
+    def get_demographics_features(self):
+        demographic_features = [{"age":self.age},
+         {"sex":self.sex},
+         {"race_white":self.race_white},
+        {"race_black":self.race_black},
+        {"race_asian":self.race_asian},
+        {"race_hispanic":self.race_hispanic},
+        {"race_other":self.race_other},
+        {"education_level":self.edu_level},
+        {"employment_status":self.employment_status},
+        {"marital_status":self.marital_status}]
+        return str(demographic_features)
+
+
     def get_framing_context(self):
         #TODO might need to do {"contextFeatures": FramingContext()}
         return ContextFeatures.FramingContext(self).get_context_features()
