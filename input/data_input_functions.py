@@ -6,6 +6,7 @@ import pickle
 import os
 import re
 
+
 def import_Pillsy(run_time):
     import_date = (run_time - pd.Timedelta("1 day")).date()
     # Imports Pillsy pill taking history as a pandas data frame from a CSV
@@ -14,32 +15,35 @@ def import_Pillsy(run_time):
     fp = os.path.join("..", "..", "Pillsy", pillsy_filename)
 
     try:
-    	pillsy = pd.read_csv(fp)
+        pillsy = pd.read_csv(fp)
     except FileNotFoundError:
-    	return None
-    
+        return None
+
     tz_ref = {
-    	"HDT": "-0900", 
-    	"HST": "-1000",
-    	"AKDT": "-0800", 
-    	"AKST": "-0900",
-    	"PDT": "-0700", 
-    	"PST": "-0800",
-    	"MDT": "-0600", 
-    	"MST": "-0700",
-    	"CDT": "-0500", 
-    	"CST": "-0600",
-    	"EDT": "-0400", 
-    	"EST": "-0500"
+        "HDT": "-0900",
+        "HST": "-1000",
+        "AKDT": "-0800",
+        "AKST": "-0900",
+        "PDT": "-0700",
+        "PST": "-0800",
+        "MDT": "-0600",
+        "MST": "-0700",
+        "CDT": "-0500",
+        "CST": "-0600",
+        "EDT": "-0400",
+        "EST": "-0500"
     }
+
     def converter(time_string):
-    	tz_abbr = re.search(r"\d\d:\d\d A|PM ([A-Z]{2,4}) \d{4}-\d\d-\d\d", time_string).group(1)
-    	return time_string.replace(tz_abbr, tz_ref[tz_abbr])
+        tz_abbr = re.search(r"\d\d:\d\d A|PM ([A-Z]{2,4}) \d{4}-\d\d-\d\d", time_string).group(1)
+        return time_string.replace(tz_abbr, tz_ref[tz_abbr])
+
     pillsy["eventTime"] = pd.to_datetime(converter(pillsy["eventTime"]))
-	# Note: In this dataset our study_id is actually 'firstname', hence the drop of patientId
-	# Note: firstname is currently read in as int64 dtype
+    # Note: In this dataset our study_id is actually 'firstname', hence the drop of patientId
+    # Note: firstname is currently read in as int64 dtype
     pillsy.drop(["patientId", "lastname", "method", "platform"], axis=1, inplace=True)
     return pillsy
+
 
 def import_redcap(run_time):
     import_date = run_time.date()
@@ -59,6 +63,7 @@ def import_redcap(run_time):
     #   -   Changes in Pillsy medications that a patient is taking
     #   -   Add entirely new patients initiating in the study to our patient dictionary by creating new patient objects
     return redcap
+
 
 def load_dict_pickle(run_time):
     try:
