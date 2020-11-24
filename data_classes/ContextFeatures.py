@@ -7,13 +7,7 @@
 # # i.e. the History RankRequest takes into account the result of the Framing RankRequest Result.
 # class FramingContext:
 #     def __init__(self, patient):
-#         self.demographics = json.dumps({"demographic":Demographic(patient)})
-#         self.clinical = json.dumps({"clinical":Clinical(patient)})
-#         self.motivational = json.dumps({"motivational":Motivational(patient)})
-#         self.rxUse = json.dumps({"rxUse":RxUse(patient)})
-#         self.pillsy = json.dumps({"pillsy_rxs",PillsyMedications(patient)})
-#         self.observed_feedback = json.dumps({"observed_feedback": ObservedFeedback(patient)})
-#         self.num_days_since_sms = json.dumps({"sms_history": NumDaysSinceSMS(patient)})
+#
 #     def get_context_features(self):
 #         return [self.demographics, self.clinical, self.motivational, self.rxUse,
 #                                  self.pillsy, self.observed_feedback, self.num_days_since_sms]

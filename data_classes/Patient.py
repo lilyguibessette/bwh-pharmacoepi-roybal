@@ -441,22 +441,68 @@ class Patient:
         num_days_since_features_dict = {"num_days_since_features": num_days_since_features}
         return num_days_since_features_dict
 
-    # def get_framing_context(self):
-    #     #TODO might need to do {"contextFeatures": FramingContext()}
-    #     return ContextFeatures.FramingContext(self).get_context_features()
-    #
-    # def get_history_context(self):
-    #     return ContextFeatures.HistoryContext(self).get_context_features()
-    #
-    # def get_social_context(self):
-    #     return ContextFeatures.SocialContext(self).get_context_features()
-    #
-    # def get_content_context(self):
-    #     return ContextFeatures.ContentContext(self).get_context_features()
-    #
-    # def get_reflective_context(self):
-    #     return ContextFeatures.ReflectiveContext(self).get_context_features()
-    #
+    def get_framing_context(self):
+        framing_context = [
+        self.get_demographics_features(),
+        self.get_clinical_features(),
+        self.get_motivational_features(),
+        self.get_rx_use_features(),
+        self.get_pillsy_med_features(),
+        self.get_observed_feedback_features(),
+        self.get_num_days_since_features()]
+        return framing_context
+
+    def get_history_context(self):
+        history_context = [
+            self.get_demographics_features(),
+            self.get_clinical_features(),
+            self.get_motivational_features(),
+            self.get_rx_use_features(),
+            self.get_pillsy_med_features(),
+            self.get_observed_feedback_features(),
+            self.get_num_days_since_features(),
+            self.response_action_id_framing]
+        return history_context
+
+    def get_social_context(self):
+        social_context = [
+            self.get_demographics_features(),
+            self.get_clinical_features(),
+            self.get_motivational_features(),
+            self.get_rx_use_features(),
+            self.get_pillsy_med_features(),
+            self.get_observed_feedback_features(),
+            self.get_num_days_since_features(),
+            self.response_action_id_framing,
+            self.response_action_id_history]
+        return social_context
+
+    def get_content_context(self):
+        content_context = [
+            self.get_demographics_features(),
+            self.get_clinical_features(),
+            self.get_motivational_features(),
+            self.get_rx_use_features(),
+            self.get_pillsy_med_features(),
+            self.get_observed_feedback_features(),
+            self.get_num_days_since_features(),
+            self.response_action_id_framing,
+            self.response_action_id_history,self.response_action_id_social]
+        return content_context
+
+    def get_reflective_context(self):
+        reflective_context = [
+            self.get_demographics_features(),
+            self.get_clinical_features(),
+            self.get_motivational_features(),
+            self.get_rx_use_features(),
+            self.get_pillsy_med_features(),
+            self.get_observed_feedback_features(),
+            self.get_num_days_since_features(),
+            self.response_action_id_framing,
+            self.response_action_id_history, self.response_action_id_social, self.response_action_id_content]
+        return reflective_context
+
 
     def export_to_row(self):
         new_row = [self.study_id,
