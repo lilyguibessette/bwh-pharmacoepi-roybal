@@ -101,10 +101,4 @@
 #
 # class NumDaysSinceSMS:
 #     def __init__(self, patient):
-#         self.num_day_since_no_sms = patient.num_day_since_no_sms
-#         self.num_day_since_pos_framing = patient.num_day_since_pos_framing
-#         self.num_day_since_neg_framing = patient.num_day_since_neg_framing
-#         self.num_day_since_history = patient.num_day_since_history
-#         self.num_day_since_social = patient.num_day_since_social
-#         self.num_day_since_content = patient.num_day_since_content
-#         self.num_day_since_reflective = patient.num_day_since_reflective
+

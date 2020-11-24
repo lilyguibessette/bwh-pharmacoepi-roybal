@@ -233,7 +233,7 @@ class Patient:
             self.avg_adherence_1day = self.adherence_day1
         elif self.daysFromStartCounter >= 7:
             self.avg_adherence_7day = (
-                                                  self.adherence_day1 + self.adherence_day2 + self.adherence_day3 + self.adherence_day4 + self.adherence_day5 + self.adherence_day6 + self.adherence_day7) / 7
+                                              self.adherence_day1 + self.adherence_day2 + self.adherence_day3 + self.adherence_day4 + self.adherence_day5 + self.adherence_day6 + self.adherence_day7) / 7
             self.avg_adherence_3day = (self.adherence_day1 + self.adherence_day2 + self.adherence_day3) / 3
             self.avg_adherence_1day = self.adherence_day1
 
@@ -368,64 +368,79 @@ class Patient:
         self.num_pillsy_meds = pillsy_meds_agi + pillsy_meds_dpp4 + pillsy_meds_glp1 + pillsy_meds_meglitinide + pillsy_meds_metformin + pillsy_meds_sglt2 + pillsy_meds_sulfonylurea + pillsy_meds_thiazolidinedione
 
     def get_demographics_features(self):
-        demographic_features = [{"age": self.age},
-                                {"sex": self.sex},
-                                {"race_white": self.race_white},
-                                {"race_black": self.race_black},
-                                {"race_asian": self.race_asian},
-                                {"race_hispanic": self.race_hispanic},
-                                {"race_other": self.race_other},
-                                {"education_level": self.edu_level},
-                                {"employment_status": self.employment_status},
-                                {"marital_status": self.marital_status}]
-        return str(demographic_features)
+        demographic_features = {"age": self.age,
+                                "sex": self.sex,
+                                "race_white": self.race_white,
+                                "race_black": self.race_black,
+                                "race_asian": self.race_asian,
+                                "race_hispanic": self.race_hispanic,
+                                "race_other": self.race_other,
+                                "education_level": self.edu_level,
+                                "employment_status": self.employment_status,
+                                "marital_status": self.marital_status}
+        demographic_features_dict = {"demographic_features": demographic_features}
+        return demographic_features_dict
 
     def get_clinical_features(self):
-        clinical_features = [{"num_physicians": self.num_physicians},
-                             {"num_years_dm_rx": self.num_years_dm_rx},
-                             {"hba1c": self.hba1c}]
-        return str(clinical_features)
+        clinical_features = {"num_physicians": self.num_physicians,
+                             "num_years_dm_rx": self.num_years_dm_rx,
+                             "hba1c": self.hba1c}
+        clinical_features_dict = {"clinical_features": clinical_features}
+        return clinical_features_dict
 
     def get_motivational_features(self):
-        motivational_features = [{"automaticity": self.automaticity},
-                                 {"pt_activation": self.pt_activation},
-                                 {"reason_dm_rx": self.reason_dm_rx}]
-        return str(motivational_features)
+        motivational_features = {"automaticity": self.automaticity,
+                                 "pt_activation": self.pt_activation,
+                                 "reason_dm_rx": self.reason_dm_rx}
+        motivational_features_dict = {"motivational_features": motivational_features}
+        return motivational_features_dict
 
     def get_rx_use_features(self):
-        rx_use = [{"num_rx": self.num_rx},
-                  {"concomitant_insulin_use": self.concomitant_insulin_use},
-                  {"non_adherence": self.non_adherence}]
-        return str(rx_use)
+        rx_use = {"num_rx": self.num_rx,
+                  "concomitant_insulin_use": self.concomitant_insulin_use,
+                  "non_adherence": self.non_adherence}
+        rx_use_dict = {"rx_use": rx_use}
+        return rx_use_dict
 
     def get_pillsy_med_features(self):
-        pillsy_med_features = [{"num_twice_daily_pillsy_meds":self.num_twice_daily_pillsy_meds},
-        {"pillsy_meds_agi": self.pillsy_meds_agi},
-        {"pillsy_meds_dpp4": self.pillsy_meds_dpp4},
-        {"pillsy_meds_glp1": self.pillsy_meds_glp1},
-        {"pillsy_meds_meglitinide": self.pillsy_meds_meglitinide},
-        {"pillsy_meds_metformin": self.pillsy_meds_metformin},
-        {"pillsy_meds_sglt2": self.pillsy_meds_sglt2},
-        {"pillsy_meds_sulfonylurea": self.pillsy_meds_sulfonylurea},
-        {"pillsy_meds_thiazolidinedione": self.pillsy_meds_thiazolidinedione},
-        {"num_pillsy_meds": self.num_pillsy_meds}]
-        #TODO confirm if num_pillsy_meds is actually a feature - I think it is but I forget? slash many iterations
-        return str(pillsy_med_features)
+        pillsy_med_features = {"num_twice_daily_pillsy_meds": self.num_twice_daily_pillsy_meds,
+                               "pillsy_meds_agi": self.pillsy_meds_agi,
+                               "pillsy_meds_dpp4": self.pillsy_meds_dpp4,
+                               "pillsy_meds_glp1": self.pillsy_meds_glp1,
+                               "pillsy_meds_meglitinide": self.pillsy_meds_meglitinide,
+                               "pillsy_meds_metformin": self.pillsy_meds_metformin,
+                               "pillsy_meds_sglt2": self.pillsy_meds_sglt2,
+                               "pillsy_meds_sulfonylurea": self.pillsy_meds_sulfonylurea,
+                               "pillsy_meds_thiazolidinedione": self.pillsy_meds_thiazolidinedione,
+                               "num_pillsy_meds": self.num_pillsy_meds}
+        # TODO confirm if num_pillsy_meds is actually a feature - I think it is but I forget? slash many iterations
+        pillsy_med_features_dict = {"pillsy_med_features": pillsy_med_features}
+        return pillsy_med_features_dict
 
     def get_observed_feedback_features(self):
-        observed_feedback_features = []
-        if self.avg_adherence_7day != None:
-            observed_feedback_features.append({"avg_adherence_7day":self.avg_adherence_7day})
-        if self.avg_adherence_3day != None:
-            observed_feedback_features.append({"avg_adherence_3day":self.avg_adherence_3day})
-        if self.avg_adherence_1day != None:
-            observed_feedback_features.append({"avg_adherence_1day":self.avg_adherence_1day})
+        observed_feedback_features = {}
         if self.early_rx_use_before_sms != None:
-            observed_feedback_features.append({"early_rx_use_before_sms": self.early_rx_use_before_sms})
-        return str(observed_feedback_features)
+            observed_feedback_features["early_rx_use_before_sms"] = self.early_rx_use_before_sms
+        if self.avg_adherence_1day != None:
+            observed_feedback_features["avg_adherence_1day"] = self.avg_adherence_1day
+        if self.avg_adherence_3day != None:
+            observed_feedback_features["avg_adherence_3day"] = self.avg_adherence_3day
+        if self.avg_adherence_7day != None:
+            observed_feedback_features["avg_adherence_7day"] = self.avg_adherence_7day
+        observed_feedback_features_dict = {"observed_feedback_features": observed_feedback_features}
+        return observed_feedback_features_dict
 
+    def get_num_days_since_features(self):
+        num_days_since_features = {"num_day_since_no_sms": self.num_day_since_no_sms,
+                                   "num_day_since_pos_framing": self.num_day_since_pos_framing,
+                                   "num_day_since_neg_framing": self.num_day_since_neg_framing,
+                                   "num_day_since_history": self.num_day_since_history,
+                                   "num_day_since_social": self.num_day_since_social,
+                                   "num_day_since_content": self.num_day_since_content,
+                                   "num_day_since_reflective": self.num_day_since_reflective}
+        num_days_since_features_dict = {"num_days_since_features": num_days_since_features}
+        return num_days_since_features_dict
 
-    
     # def get_framing_context(self):
     #     #TODO might need to do {"contextFeatures": FramingContext()}
     #     return ContextFeatures.FramingContext(self).get_context_features()

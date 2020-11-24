@@ -35,6 +35,42 @@ def import_Pillsy():
     pillsy.drop("platform", axis=1, inplace=True)
     return pillsy
 
+
+
+tz_ref = {
+        "HDT": "-0900",
+        "HST": "-1000",
+        "AKDT": "-0800",
+        "AKST": "-0900",
+        "PDT": "-0700",
+        "PST": "-0800",
+        "MDT": "-0600",
+        "MST": "-0700",
+        "CDT": "-0500",
+        "CST": "-0600",
+        "EDT": "-0400",
+        "EST": "-0500"
+    }
+
+    def converter(time_string):
+        import re
+        tz_abbr = re.search(r"\d\d:\d\d A|PM ([A-Z]{2,4}) \d{4}-\d\d-\d\d", time_string).group(1)
+        return time_string.replace(tz_abbr, tz_ref[tz_abbr])
+
+def import_Pillsy():
+    fp = "/Users/lilybessette/BWH_DoPE/bwh-pharmacoepi-roybal/sample_datasets_input/2020-11-17_pillsy.csv"
+    try:
+        pillsy = pd.read_csv(fp)
+    except FileNotFoundError:
+        return None
+
+    pillsy["eventTime"] = pd.to_datetime(converter(pillsy["eventTime"]))
+    # Note: In this dataset our study_id is actually 'firstname', hence the drop of patientId
+    # Note: firstname is currently read in as int64 dtype
+    pillsy.drop(["patientId", "lastname", "method", "platform"], axis=1, inplace=True)
+    return pillsy
+
+
 from datetime import datetime, date, timedelta
 pilldata = import_Pillsy()
 yesterday = pytz.UTC.localize(datetime(2020,11,17,10,30))
