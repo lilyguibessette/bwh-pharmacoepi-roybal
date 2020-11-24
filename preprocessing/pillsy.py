@@ -99,6 +99,8 @@ def compute_taken_over_expected(patient, timeframe_pillsy_subset):
 
 
 def find_patient_rewards(pillsy_subset, patient, run_time):
+    two_day_ago = (run_time - timedelta(days=2)).date()
+    two_day_ago_12am = pytz.UTC.localize(datetime.combine(two_day_ago, datetime.min.time()))
     yesterday = patient.last_run_time
     yesterday_12am = pytz.UTC.localize(datetime.combine(yesterday, datetime.min.time()))
     today = run_time
@@ -107,6 +109,10 @@ def find_patient_rewards(pillsy_subset, patient, run_time):
 
     #TODO
     # Quadruple check with Julie that this time frame makes sense...
+
+    pillsy_two_day_ago_subset = pillsy_subset[pillsy_subset["eventTime"] < yesterday_12am].copy()
+    pillsy_two_day_ago_subset = pillsy_two_day_ago_subset[pillsy_two_day_ago_subset["eventTime"] >= two_day_ago_12am].copy()
+
     pillsy_yesterday_subset = pillsy_subset[pillsy_subset["eventTime"] < today_12am].copy()
     pillsy_yesterday_subset = pillsy_yesterday_subset[pillsy_yesterday_subset["eventTime"] >= yesterday].copy()
 
@@ -115,28 +121,35 @@ def find_patient_rewards(pillsy_subset, patient, run_time):
 
     pillsy_today_subset = pillsy_subset[pillsy_subset["eventTime"] >= today_12am].copy()
 
-    yesterday_taken_over_expected = compute_taken_over_expected(patient, pillsy_yesterday_subset)
-
-    # Use last call to today 12am time frame for reward
-    patient.reward_value = yesterday_taken_over_expected
+    two_day_ago_adherence = compute_taken_over_expected(patient, pillsy_two_day_ago_subset)
 
     # Use calendar day of yesterday to compute adherence
     todays_avg_adherence = compute_taken_over_expected(patient, pillsy_calendar_day_subset)
+
+    # Use last call to today 12am time frame for reward
+    patient.reward_value = todays_avg_adherence
 
     # Shifts the adherence for each day backwards by 1 day to make day1 = newest found avg_adherence
     # and day2 = old day, day3 = old day 2... etc day7 = old day 6
     patient.shift_day_adherences(todays_avg_adherence)
     patient.shift_dichot_day_adherences(todays_avg_adherence)
     # We update the avg adherences at days 1,3,7 with updated shifted daily adherence values:
+
+    #TODO - conceptually hard
+    # if the patient was possibly disconnected 2 days ago at this point, and also 2 days ago we found updated reconnected data
+    # then we need to update day2 aka 2 days ago adherence to the new found value
+    if patient.possibly_disconnected_day1 == True and two_day_ago_adherence > 0:
+        patient.adherence_day2 = two_day_ago_adherence 
+
     patient.calc_avg_adherence()
     # Add this updated patient with new data to the patient to the pt_dict_with_reward that will be used
     # to updated Personalizer of rewards
-    #TODO figure out if this is true or not
+    #TODO-Completed - this is now true - figure out if this is true or not
     # patient.reward_value = todays_avg_adherence
 
     early_use_proportion = compute_taken_over_expected(patient, pillsy_today_subset)
-    if early_use_proportion == 1:
-        patient.early_rx_use_before_sms = 1
+    # Updated to whatever continuous value we find from measuring adherence over this short time period early in the morning.
+    patient.early_rx_use_before_sms = early_use_proportion
 
     return patient
 
@@ -185,7 +198,7 @@ def find_rewards(pillsy, pillsy_study_ids_list, pt_dict, run_time):
                 else:
                     # Else if the patient was not disconnected as evaluated yesterday aka 1 day ago,
                     # We can shift the False on day1 to day2 and update day1 (yesterday's disconnection) to day1
-                    # But w  e do not update the disconnected flag and date/date list because it has only been 1 day
+                    # But we do not update the disconnected flag and date/date list because it has only been 1 day
                     # of lack of Pillsy data
                     pt_data_to_update.possibly_disconnected_day2 = False
                     pt_data_to_update.possibly_disconnected_day1 = True
