@@ -70,7 +70,7 @@ def update_patient_dict_redcap(redcap, pt_dict, run_time):
                                   int(row['pillsy_meds___6']),
                                   int(row['pillsy_meds___7']),
                                   int(row['pillsy_meds___8']),
-                                  # row['num_pillsy_meds'],
+                                  int(row['bottles']),
                                   0,
                                   0,
                                   0,
@@ -159,7 +159,8 @@ def update_patient_dict_redcap(redcap, pt_dict, run_time):
                                                           int(row['pillsy_meds___5']),
                                                           int(row['pillsy_meds___6']),
                                                           int(row['pillsy_meds___7']),
-                                                          int(row['pillsy_meds___8']))
+                                                          int(row['pillsy_meds___8']),
+                                                              int(row['bottles']))
                     # Then we'll add this patient to our patient dictionary with their record_id
                     updated_pt_dict[record_id] = updated_patient
     # We return the updated patient dictionary that takes into account the new patients/new patient data from REDCap and

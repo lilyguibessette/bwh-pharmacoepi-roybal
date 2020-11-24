@@ -50,7 +50,7 @@ class Patient:
                  pillsy_meds_sglt2,
                  pillsy_meds_sulfonylurea,
                  pillsy_meds_thiazolidinedione,
-                 # num_pillsy_meds,
+                 num_pillsy_meds,
                  avg_adherence_7day,
                  avg_adherence_3day,
                  avg_adherence_1day,
@@ -143,7 +143,7 @@ class Patient:
         self.pillsy_meds_sulfonylurea = pillsy_meds_sulfonylurea
         self.pillsy_meds_thiazolidinedione = pillsy_meds_thiazolidinedione
         # TODO question to julie about this waiting on response, might need to make sure no bugs come from junk string data or non-int data (want 1 or 0 for these variables)
-        self.num_pillsy_meds = pillsy_meds_agi + pillsy_meds_dpp4 + pillsy_meds_glp1 + pillsy_meds_meglitinide + pillsy_meds_metformin + pillsy_meds_sglt2 + pillsy_meds_sulfonylurea + pillsy_meds_thiazolidinedione
+        self.num_pillsy_meds = num_pillsy_meds
         self.avg_adherence_7day = avg_adherence_7day
         self.avg_adherence_3day = avg_adherence_3day
         self.avg_adherence_1day = avg_adherence_1day
@@ -355,7 +355,7 @@ class Patient:
     # Option for updates from REDCap data for changes in Pillsy medication use in follow up
     def update_redcap_pillsy_vars(self, num_twice_daily_pillsy_meds, pillsy_meds_agi, pillsy_meds_dpp4,
                                   pillsy_meds_glp1, pillsy_meds_meglitinide, pillsy_meds_metformin, pillsy_meds_sglt2,
-                                  pillsy_meds_sulfonylurea, pillsy_meds_thiazolidinedione):
+                                  pillsy_meds_sulfonylurea, pillsy_meds_thiazolidinedione, num_pillsy_meds):
         self.num_twice_daily_pillsy_meds = num_twice_daily_pillsy_meds
         self.pillsy_meds_agi = pillsy_meds_agi
         self.pillsy_meds_dpp4 = pillsy_meds_dpp4
@@ -365,7 +365,7 @@ class Patient:
         self.pillsy_meds_sglt2 = pillsy_meds_sglt2
         self.pillsy_meds_sulfonylurea = pillsy_meds_sulfonylurea
         self.pillsy_meds_thiazolidinedione = pillsy_meds_thiazolidinedione
-        self.num_pillsy_meds = pillsy_meds_agi + pillsy_meds_dpp4 + pillsy_meds_glp1 + pillsy_meds_meglitinide + pillsy_meds_metformin + pillsy_meds_sglt2 + pillsy_meds_sulfonylurea + pillsy_meds_thiazolidinedione
+        self.num_pillsy_meds = num_pillsy_meds
 
     def get_demographics_features(self):
         demographic_features = {"age": self.age,
