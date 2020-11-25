@@ -615,20 +615,108 @@ class Patient:
             self.age = "65-74"
         elif self.age == 6:
             self.age = "75-84"
-        # self.age  # m
-        # self.sex
-        # self.num_years_dm_rx
-        # self.hba1c
-        # self.num_physicians = num_physicians
-        # self.num_rx = num_rx
-        # self.concomitant_insulin_use = concomitant_insulin_use
-        # self.automaticity = automaticity
-        # self.pt_activation = pt_activation
-        # self.reason_dm_rx = reason_dm_rx
-        # self.non_adherence = non_adherence
-        # self.edu_level = edu_level
-        # self.employment_status = employment_status
-        # self.marital_status = marital_status
+
+        if self.sex == 2:
+        	self.sex = "M"
+        elif self.sex == 1:
+        	self.sex = "F"
+        else:
+        	self.sex = "Not listed"
+
+        if self.num_years_dm_rx == 1:
+        	self.num_years_dm_rx = "0"
+        elif self.num_years_dm_rx == 2:
+        	self.num_years_dm_rx = "1-2"
+        elif self.num_years_dm_rx == 3:
+        	self.num_years_dm_rx = "2-4"
+        elif self.num_years_dm_rx == 4:
+        	self.num_years_dm_rx = "5+"
+
+        if self.hba1c == 1:
+        	self.hba1c = "7.5-8.0"
+        elif self.hba1c == 2:
+        	self.hba1c = "8.1-8.9"
+        elif self.hba1c == 3:
+        	self.hba1c = "9.0-9.9"
+        elif self.hba1c == 4:
+        	self.hba1c = "10+"
+
+        if self.num_physicians == 1:
+        	self.num_physicians = "1"
+        elif self.num_physicians == 2:
+        	self.num_physicians = "2-3"
+        else:
+        	self.num_physicians = "4+"
+
+        if self.num_rx == 1:
+        	self.num_rx = "1"
+        elif self.num_rx == 2:
+        	self.num_rx = "2-4"
+        elif self.num_rx == 3:
+        	self.num_rx = "5-9"
+        elif self.num_rx == 4:
+        	self.num_rx = "10+"
+
+        # self.concomitant_insulin_use = concomitant_insulin_use -- binary Y = 1, N = 0
+
+        if self.automaticity == 0:
+        	self.automaticity = "0"
+        elif self.automaticity == 1:
+        	self.automaticity = "1"
+        elif self.automaticity == 2:
+        	self.automaticity = "2-3"
+        elif self.automaticity == 3:
+        	self.automaticity = "4"
+
+        if self.pt_activation == 1:
+        	self.pt_activation = "yes"
+        elif self.pt_activation == 2:
+        	self.pt_activation = "most"
+        elif self.pt_activation == 3:
+        	self.pt_activation = "no"
+
+        if self.reason_dm_rx == 1:
+        	self.reason_dm_rx = "Supposed to"
+        elif self.reason_dm_rx == 2:
+        	self.reason_dm_rx = "Own good"
+        elif self.reason_dm_rx == 3:
+        	self.reason_dm_rx = "No choice"
+        elif self.reason_dm_rx == 4:
+        	self.reason_dm_rx = "Feel good"
+        elif self.reason_dm_rx == 5:
+        	self.reason_dm_rx = "Important"
+
+        if self.non_adherence == 0:
+        	self.non_adherence = "0"
+        elif self.non_adherence == 1:
+        	self.non_adherence = "1"
+        elif self.non_adherence == 2:
+        	self.non_adherence = "2-3"
+        elif self.non_adherence == 3:
+        	self.non_adherence = "4-6"
+        elif self.non_adherence == 4:
+        	self.non_adherence = "7+"
+
+        if self.edu_level == 1:
+        	self.edu_level = "HS or below/HS grad"
+        elif self.edu_level == 2:
+        	self.edu_level = "Some college"
+        elif self.edu_level == 3:
+        	self.edu_level = "College grad/Postgrad"
+        elif self.edu_level == 4:
+        	self.edu_level = "other"
+
+        if self.employment_status == 1:
+        	self.employment_status = "Employed"
+        elif self.employment_status == 2:
+        	self.employment_status = "Retired/Other"
+
+        if self.marital_status == 1:
+        	self.marital_status = "Married/partner"
+        elif self.marital_status == 2:
+        	self.marital_status = "window/divorced/single/other"
+
+        # REST OF VARIABLES -- shouldn't need modification
         # self.num_twice_daily_pillsy_meds = num_twice_daily_pillsy_meds
         # self.pillsy_meds_agi = pillsy_meds_agi
         # self.pillsy_meds_dpp4 = pillsy_meds_dpp4
@@ -638,8 +726,9 @@ class Patient:
         # self.pillsy_meds_sglt2 = pillsy_meds_sglt2
         # self.pillsy_meds_sulfonylurea = pillsy_meds_sulfonylurea
         # self.pillsy_meds_thiazolidinedione = pillsy_meds_thiazolidinedione
-        #
-        #
+        # self.censor
+
+
         # row['start_date'],
         # row['age'],
         # row['sex'],
