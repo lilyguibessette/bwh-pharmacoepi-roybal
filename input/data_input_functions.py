@@ -50,7 +50,7 @@ def import_redcap(run_time):
     import_date = run_time.date()
     # Imports REDCap patients that are enrolling on an ongoing basis as a pandas data frame from a CSV
     redcap_filepath = str(import_date) + "_redcap" + '.csv'
-    fp = os.path.join("..", "..", "..", "REDCap", redcap_filepath)
+    fp = os.path.join("..", "..", "REDCap", redcap_filepath)
     date_cols = ["start_date"]
     # Reads in the csv file into a pandas data frame and ensures that the date_cols are imported as datetime.datetime objects
     # TODO potentially need to be careful here due to use of the data in redcap.py -> might want to ensure record_id column is a string, currently I think it defaults to an int

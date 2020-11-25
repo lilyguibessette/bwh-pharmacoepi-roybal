@@ -27,7 +27,7 @@ def update_patient_dict_redcap(redcap, pt_dict, run_time):
     # For each patient in the list of record_id's that exists in the redcap data
     for record_id in unique_study_ids_list_redcap:
         # We get the patient's row of data in redcap
-        row = redcap.loc[redcap['record_id'] == record_id]
+        row = redcap.loc[redcap['record_id'] == record_id] # pick first row #TODO
         # TODO - have Joe think about what if for whatever reason there were multiple rows of data in redcap with the same record_id => same patient
         # Need this to make sure that making a new Patient/Calling on the row[]'s that we will get one value back and not 2
 
@@ -150,6 +150,8 @@ def update_patient_dict_redcap(redcap, pt_dict, run_time):
 
                 # If the patient doesn't have a true censoring indicator and hasn't met the 180 end of follow up window - i.e. maximum time reached = 180 days
                 if int(row['censor']) != 1 and updated_patient.trial_day_counter < 180:
+
+                    #TODO make an exported list to appended to the record_ids that are getting censored here
                     # Then we'll update to the current values in the REDCap dataset for their Pillsy baseline information
                     updated_patient.update_redcap_pillsy_vars(int(row['num_twice_daily_pillsy_meds']),
                                                           int(row['pillsy_meds___1']),
