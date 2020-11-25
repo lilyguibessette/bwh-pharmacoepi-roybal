@@ -17,7 +17,7 @@ import pandas as pd
 
 def write_sms_history(pt_dict, run_time):
     sms_hist_filename = str(run_time.date()) + "_sms_history" + '.csv'
-    sms_hist_filepath = os.path.join("..", "..", "..", "SMSHistory", sms_hist_filename)
+    sms_hist_filepath = os.path.join("..", "..", "SMSHistory", sms_hist_filename)
 
     # Subset updated_pt_dict to what we need for reward calls and put in dataframe
     # create an Empty DataFrame object
