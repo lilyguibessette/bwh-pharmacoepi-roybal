@@ -60,7 +60,7 @@ def run_ranking(patient, client, run_time):
 
 # social
     rank_id_social = str(patient.get_study_id() + "_" + patient.trial_day_counter + "_social")
-    context = patient.get_context()
+    context = patient.get_social_context()
     actions = get_social_actions()
 
     social_rank_request = RankRequest(actions=actions, context_features=context, event_id=rank_id_social)
@@ -71,7 +71,7 @@ def run_ranking(patient, client, run_time):
 
 # content
     rank_id_content = str(patient.get_study_id() + "_" + patient.trial_day_counter + "_content")
-    context = patient.get_context()
+    context = patient.get_content_context()
     actions = get_content_actions()
 
     content_rank_request = RankRequest(actions=actions, context_features=context, event_id=rank_id_content)
@@ -82,7 +82,7 @@ def run_ranking(patient, client, run_time):
 
 # reflective
     rank_id_reflective = str(patient.get_study_id() + "_" + patient.trial_day_counter + "_reflective")
-    context = patient.get_context()
+    context = patient.get_reflective_context()
     actions = get_reflective_actions()
 
     reflective_rank_request = RankRequest(actions=actions, context_features=context, event_id=rank_id_reflective)
@@ -94,7 +94,7 @@ def run_ranking(patient, client, run_time):
     patient.update_num_day_sms()
     patient.updated_sms_today()
     patient.last_run_time = pytz.UTC.localize(run_time)
-    patient.counter += 1
+    patient.trial_day_counter += 1
 
     return patient
 

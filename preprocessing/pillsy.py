@@ -139,7 +139,7 @@ def find_patient_rewards(pillsy_subset, patient, run_time):
     # if the patient was possibly disconnected 2 days ago at this point, and also 2 days ago we found updated reconnected data
     # then we need to update day2 aka 2 days ago adherence to the new found value
     if patient.possibly_disconnected_day1 == True and two_day_ago_adherence > 0:
-        patient.adherence_day2 = two_day_ago_adherence 
+        patient.adherence_day2 = two_day_ago_adherence
 
     patient.calc_avg_adherence()
     # Add this updated patient with new data to the patient to the pt_dict_with_reward that will be used
