@@ -208,9 +208,9 @@ class Patient:
         self.dichot_adherence_day3 = self.dichot_adherence_day2
         self.dichot_adherence_day2 = self.dichot_adherence_day1
         if todays_avg_adherence > 0:
-            self.day1 = 1
+            self.dichot_adherence_day1 = 1
         else:
-            self.day1 = 0
+            self.dichot_adherence_day1 = 0
 
     def shift_day_adherences(self, todays_avg_adherence):
         self.adherence_day7 = self.adherence_day6
