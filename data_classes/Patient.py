@@ -142,7 +142,6 @@ class Patient:
         self.pillsy_meds_sglt2 = pillsy_meds_sglt2
         self.pillsy_meds_sulfonylurea = pillsy_meds_sulfonylurea
         self.pillsy_meds_thiazolidinedione = pillsy_meds_thiazolidinedione
-        # TODO question to julie about this waiting on response, might need to make sure no bugs come from junk string data or non-int data (want 1 or 0 for these variables)
         self.num_pillsy_meds = num_pillsy_meds
         self.avg_adherence_7day = avg_adherence_7day
         self.avg_adherence_3day = avg_adherence_3day
@@ -443,13 +442,13 @@ class Patient:
 
     def get_framing_context(self):
         framing_context = [
-        self.get_demographics_features(),
-        self.get_clinical_features(),
-        self.get_motivational_features(),
-        self.get_rx_use_features(),
-        self.get_pillsy_med_features(),
-        self.get_observed_feedback_features(),
-        self.get_num_days_since_features()]
+            self.get_demographics_features(),
+            self.get_clinical_features(),
+            self.get_motivational_features(),
+            self.get_rx_use_features(),
+            self.get_pillsy_med_features(),
+            self.get_observed_feedback_features(),
+            self.get_num_days_since_features()]
         return framing_context
 
     def get_history_context(self):
@@ -487,7 +486,7 @@ class Patient:
             self.get_observed_feedback_features(),
             self.get_num_days_since_features(),
             self.response_action_id_framing,
-            self.response_action_id_history,self.response_action_id_social]
+            self.response_action_id_history, self.response_action_id_social]
         return content_context
 
     def get_reflective_context(self):
@@ -502,7 +501,6 @@ class Patient:
             self.response_action_id_framing,
             self.response_action_id_history, self.response_action_id_social, self.response_action_id_content]
         return reflective_context
-
 
     def export_to_row(self):
         new_row = [self.study_id,
@@ -617,104 +615,104 @@ class Patient:
             self.age = "75-84"
 
         if self.sex == 2:
-        	self.sex = "M"
+            self.sex = "M"
         elif self.sex == 1:
-        	self.sex = "F"
+            self.sex = "F"
         else:
-        	self.sex = "Not listed"
+            self.sex = "Not listed"
 
         if self.num_years_dm_rx == 1:
-        	self.num_years_dm_rx = "0"
+            self.num_years_dm_rx = "0"
         elif self.num_years_dm_rx == 2:
-        	self.num_years_dm_rx = "1-2"
+            self.num_years_dm_rx = "1-2"
         elif self.num_years_dm_rx == 3:
-        	self.num_years_dm_rx = "2-4"
+            self.num_years_dm_rx = "2-4"
         elif self.num_years_dm_rx == 4:
-        	self.num_years_dm_rx = "5+"
+            self.num_years_dm_rx = "5+"
 
         if self.hba1c == 1:
-        	self.hba1c = "7.5-8.0"
+            self.hba1c = "7.5-8.0"
         elif self.hba1c == 2:
-        	self.hba1c = "8.1-8.9"
+            self.hba1c = "8.1-8.9"
         elif self.hba1c == 3:
-        	self.hba1c = "9.0-9.9"
+            self.hba1c = "9.0-9.9"
         elif self.hba1c == 4:
-        	self.hba1c = "10+"
+            self.hba1c = "10+"
 
         if self.num_physicians == 1:
-        	self.num_physicians = "1"
+            self.num_physicians = "1"
         elif self.num_physicians == 2:
-        	self.num_physicians = "2-3"
+            self.num_physicians = "2-3"
         else:
-        	self.num_physicians = "4+"
+            self.num_physicians = "4+"
 
         if self.num_rx == 1:
-        	self.num_rx = "1"
+            self.num_rx = "1"
         elif self.num_rx == 2:
-        	self.num_rx = "2-4"
+            self.num_rx = "2-4"
         elif self.num_rx == 3:
-        	self.num_rx = "5-9"
+            self.num_rx = "5-9"
         elif self.num_rx == 4:
-        	self.num_rx = "10+"
+            self.num_rx = "10+"
 
         # self.concomitant_insulin_use = concomitant_insulin_use -- binary Y = 1, N = 0
 
         if self.automaticity == 0:
-        	self.automaticity = "0"
+            self.automaticity = "0"
         elif self.automaticity == 1:
-        	self.automaticity = "1"
+            self.automaticity = "1"
         elif self.automaticity == 2:
-        	self.automaticity = "2-3"
+            self.automaticity = "2-3"
         elif self.automaticity == 3:
-        	self.automaticity = "4"
+            self.automaticity = "4"
 
         if self.pt_activation == 1:
-        	self.pt_activation = "yes"
+            self.pt_activation = "yes"
         elif self.pt_activation == 2:
-        	self.pt_activation = "most"
+            self.pt_activation = "most"
         elif self.pt_activation == 3:
-        	self.pt_activation = "no"
+            self.pt_activation = "no"
 
         if self.reason_dm_rx == 1:
-        	self.reason_dm_rx = "Supposed to"
+            self.reason_dm_rx = "Supposed to"
         elif self.reason_dm_rx == 2:
-        	self.reason_dm_rx = "Own good"
+            self.reason_dm_rx = "Own good"
         elif self.reason_dm_rx == 3:
-        	self.reason_dm_rx = "No choice"
+            self.reason_dm_rx = "No choice"
         elif self.reason_dm_rx == 4:
-        	self.reason_dm_rx = "Feel good"
+            self.reason_dm_rx = "Feel good"
         elif self.reason_dm_rx == 5:
-        	self.reason_dm_rx = "Important"
+            self.reason_dm_rx = "Important"
 
         if self.non_adherence == 0:
-        	self.non_adherence = "0"
+            self.non_adherence = "0"
         elif self.non_adherence == 1:
-        	self.non_adherence = "1"
+            self.non_adherence = "1"
         elif self.non_adherence == 2:
-        	self.non_adherence = "2-3"
+            self.non_adherence = "2-3"
         elif self.non_adherence == 3:
-        	self.non_adherence = "4-6"
+            self.non_adherence = "4-6"
         elif self.non_adherence == 4:
-        	self.non_adherence = "7+"
+            self.non_adherence = "7+"
 
         if self.edu_level == 1:
-        	self.edu_level = "HS or below/HS grad"
+            self.edu_level = "HS or below/HS grad"
         elif self.edu_level == 2:
-        	self.edu_level = "Some college"
+            self.edu_level = "Some college"
         elif self.edu_level == 3:
-        	self.edu_level = "College grad/Postgrad"
+            self.edu_level = "College grad/Postgrad"
         elif self.edu_level == 4:
-        	self.edu_level = "other"
+            self.edu_level = "other"
 
         if self.employment_status == 1:
-        	self.employment_status = "Employed"
+            self.employment_status = "Employed"
         elif self.employment_status == 2:
-        	self.employment_status = "Retired/Other"
+            self.employment_status = "Retired/Other"
 
         if self.marital_status == 1:
-        	self.marital_status = "Married/partner"
+            self.marital_status = "Married/partner"
         elif self.marital_status == 2:
-        	self.marital_status = "window/divorced/single/other"
+            self.marital_status = "window/divorced/single/other"
 
         # REST OF VARIABLES -- shouldn't need modification
         # self.num_twice_daily_pillsy_meds = num_twice_daily_pillsy_meds
@@ -727,7 +725,6 @@ class Patient:
         # self.pillsy_meds_sulfonylurea = pillsy_meds_sulfonylurea
         # self.pillsy_meds_thiazolidinedione = pillsy_meds_thiazolidinedione
         # self.censor
-
 
         # row['start_date'],
         # row['age'],
