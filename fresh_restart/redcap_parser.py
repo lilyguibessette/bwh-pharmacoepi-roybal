@@ -42,7 +42,7 @@ def redcap_vars_converter(redcap_df):
     redcap_df = redcap_df.replace({'sex': 0}, "Not listed")
     redcap_df = redcap_df.replace({'num_years_dm_rx': 1}, "0")
     redcap_df = redcap_df.replace({'num_years_dm_rx': 2}, "1-2")
-    redcap_df = redcap_df.replace({'num_years_dm_rx': 3}, "3-4") #TODO
+    redcap_df = redcap_df.replace({'num_years_dm_rx': 3}, "3-4")  # TODO
     redcap_df = redcap_df.replace({'num_years_dm_rx': 4}, "5+")
     redcap_df = redcap_df.replace({'hba1c': 1}, "7.5-8.0")
     redcap_df = redcap_df.replace({'hba1c': 2}, "8.1-8.9")
@@ -50,7 +50,7 @@ def redcap_vars_converter(redcap_df):
     redcap_df = redcap_df.replace({'hba1c': 4}, "10+")
     redcap_df = redcap_df.replace({'num_physicians': 1}, "1")
     redcap_df = redcap_df.replace({'num_physicians': 2}, "2-3")
-    redcap_df = redcap_df.replace({'num_physicians': 3}, "4+") #fixed
+    redcap_df = redcap_df.replace({'num_physicians': 3}, "4+")  # fixed
     redcap_df = redcap_df.replace({'num_rx': 1}, "1")
     redcap_df = redcap_df.replace({'num_rx': 2}, "2-4")
     redcap_df = redcap_df.replace({'num_rx': 3}, "5-9")
@@ -92,7 +92,7 @@ def update_pt_data_with_redcap(redcap_data, pt_data, run_time):
     for index, patient in pt_data.iterrows():
         record_id = patient["record_id"]
         row = redcap_data[redcap_data["record_id"] == record_id]
-        #need to make sure via iterating it updates this data in the df
+        # need to make sure via iterating it updates this data in the df
         patient["censor"] = row["censor"]
         patient["num_twice_daily_pillsy_meds"] = row["num_twice_daily_pillsy_meds"]
         patient["pillsy_meds_agi"] = row["pillsy_meds___1"]
@@ -104,24 +104,29 @@ def update_pt_data_with_redcap(redcap_data, pt_data, run_time):
         patient["pillsy_meds_sulfonylurea"] = row["pillsy_meds___7"]
         patient["pillsy_meds_thiazolidinedione"] = row["pillsy_meds___8"]
         patient["num_pillsy_meds"] = row["bottles"]
-        #shift these values
-        patient["reward_value_t1"]= patient["reward_value_t0"]
-        patient["rank_id_framing_t1"]= patient["rank_id_framing_t0"]
-        patient["rank_id_history_t1"]=patient["rank_id_history_t0"]
-        patient["rank_id_social_t1"]= patient["rank_id_social_t0"]
-        patient["rank_id_content_t1"]= patient["rank_id_content_t0"]
-        patient["rank_id_reflective_t1"]=patient["rank_id_reflective_t0"]
+        # shift these values for the next rank to store t0 values
+        patient["reward_value_t1"] = patient["reward_value_t0"]
+        patient["rank_id_framing_t1"] = patient["rank_id_framing_t0"]
+        patient["rank_id_history_t1"] = patient["rank_id_history_t0"]
+        patient["rank_id_social_t1"] = patient["rank_id_social_t0"]
+        patient["rank_id_content_t1"] = patient["rank_id_content_t0"]
+        patient["rank_id_reflective_t1"] = patient["rank_id_reflective_t0"]
         patient["reward_value_t2"] = patient["reward_value_t1"]
-        patient["rank_id_framing_t2"] =patient["rank_id_framing_t1"]
-        patient["rank_id_history_t2"] =patient["rank_id_history_t1"]
-        patient["rank_id_social_t2"] =patient["rank_id_social_t1"]
-        patient["rank_id_content_t2"] =patient["rank_id_content_t1"]
-        patient["rank_id_reflective_t2"] =patient["rank_id_reflective_t1"]
+        patient["rank_id_framing_t2"] = patient["rank_id_framing_t1"]
+        patient["rank_id_history_t2"] = patient["rank_id_history_t1"]
+        patient["rank_id_social_t2"] = patient["rank_id_social_t1"]
+        patient["rank_id_content_t2"] = patient["rank_id_content_t1"]
+        patient["rank_id_reflective_t2"] = patient["rank_id_reflective_t1"]
 
     # Adding new patients
     for id in unique_study_ids_list_redcap:
         if id not in unique_study_ids_list_pt_data:
             redcap_row = redcap_data[redcap_data['record_id'] == id]
+            # Collapses race to other
+            if redcap_row["race___5"] == 1 or redcap_row["race___6"] == 1 or redcap_row["race___7"] == 1:
+                race_other = 1
+            else:
+                race_other = 0
             new_row = pd.Series(pt_data={'record_id': id,
                                          'trial_day_counter': 0,
                                          'age': redcap_row["age"],
@@ -132,11 +137,7 @@ def update_pt_data_with_redcap(redcap_data, pt_data, run_time):
                                          'race_black': redcap_row["race___2"],
                                          'race_asian': redcap_row["race___3"],
                                          'race_hispanic': redcap_row["race___4"],
-                                         'race_other': redcap_row["race___5"],
-                                         # TODO Need them to confirm why i have extra race in samplee redcap
-                                         # collapse race with 5,6,7 to other
-                                         'race___6': redcap_row["race___6"],
-                                         'race___7': redcap_row["race___7"],
+                                         'race_other': race_other,
                                          'num_physicians': redcap_row["num_physicians"],
                                          'num_rx': redcap_row["num_rx"],
                                          'concomitant_insulin_use': redcap_row["concomitant_insulin_use"],

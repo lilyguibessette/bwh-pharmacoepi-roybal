@@ -33,6 +33,7 @@ def write_sms_history(pt_data, run_time):
 def run_ranking(patient, client, run_time):
     # framing
     rank_id_framing = str(patient.get_study_id() + "_" + patient.trial_day_counter + "_frame")
+    patient["rank_id_framing_t0"] = rank_id_framing
     context = get_framing_context(patient)
     actions = get_framing_actions()
 
@@ -44,6 +45,7 @@ def run_ranking(patient, client, run_time):
 
     # history
     rank_id_history = str(patient.get_study_id() + "_" + patient.trial_day_counter + "_history")
+    patient["rank_id_history_t0"] = rank_id_history
     context = get_history_context(patient)
     actions = get_history_actions()
 
@@ -55,6 +57,7 @@ def run_ranking(patient, client, run_time):
 
     # social
     rank_id_social = str(patient.get_study_id() + "_" + patient.trial_day_counter + "_social")
+    patient["rank_id_social_t0"] = rank_id_social
     context = get_social_context(patient)
     actions = get_social_actions()
 
@@ -66,6 +69,7 @@ def run_ranking(patient, client, run_time):
 
     # content
     rank_id_content = str(patient.get_study_id() + "_" + patient.trial_day_counter + "_content")
+    patient["rank_id_content_t0"] = rank_id_content
     context = get_content_context(patient)
     actions = get_content_actions()
 
@@ -77,6 +81,7 @@ def run_ranking(patient, client, run_time):
 
     # reflective
     rank_id_reflective = str(patient.get_study_id() + "_" + patient.trial_day_counter + "_reflective")
+    patient["rank_id_reflective_t0"] = rank_id_reflective
     context = get_reflective_context(patient)
     actions = get_reflective_actions()
 
@@ -274,6 +279,7 @@ def get_pillsy_med_features(patient):
                            "pillsy_meds_thiazolidinedione": patient["pillsy_meds_thiazolidinedione"],
                            "num_pillsy_meds": patient["num_pillsy_meds"]}
     # TODO confirm if num_pillsy_meds is actually a feature - I think it is but I forget? slash many iterations
+    # confirmed - due to complexity 
     pillsy_med_features_dict = {"pillsy_med_features": pillsy_med_features}
     return pillsy_med_features_dict
 
