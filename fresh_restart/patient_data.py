@@ -19,8 +19,10 @@ def export_pt_data(pt_data, runtime, purpose):
     filesave = str(runtime.date()) + "_pt_data_" + purpose.lower() + '.csv'
     if purpose.lower() == "reward":
         filepath = os.path.join("..", "..", "RewardLog", filesave)
-    if purpose.lower() == "rank":
+    elif purpose.lower() == "rank":
         filepath = os.path.join("..", "..", "RankLog", filesave)
-    if purpose.lower() == "final":
+    elif purpose.lower() == "final":
         filepath = os.path.join("..", "..", "PatientData", filesave)
+    else:
+        filepath = os.path.join("..", "..", "Trash", filesave)
     pt_data.to_csv(filepath)

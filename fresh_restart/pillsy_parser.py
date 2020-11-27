@@ -203,7 +203,7 @@ def update_day2_adherence(patient, reward_value_t1):
     :param reward_value_t1:
     :return:
     """
-    patient["dichot_adherence_day2"] = reward_value_t1
+    patient["adherence_day2"] = reward_value_t1
 
 def update_day2_dichot_adherence(patient,reward_value_t1):
     """
@@ -217,6 +217,30 @@ def update_day2_dichot_adherence(patient,reward_value_t1):
         patient["dichot_adherence_day2"] = 1
     else:
         patient["dichot_adherence_day2"] = 0
+
+
+
+def update_day3_adherence(patient, reward_value_t2):
+    """
+    update_day2_adherence function to reassign the value from two days ago in case of updated sync'd/reconnected data
+    :param patient:
+    :param reward_value_t1:
+    :return:
+    """
+    patient["adherence_day3"] = reward_value_t2
+
+def update_day3_dichot_adherence(patient,reward_value_t2):
+    """
+    update_day2_dichot_adherence function to reassign the value from two days ago in case of updated sync'd/reconnected data
+    :param patient:
+    :param reward_value_t1:
+    :return:
+    """
+    # We update the avg adherences at days 1,3,7 with updated shifted daily adherence values:
+    if reward_value_t2 > 0:
+        patient["dichot_adherence_day3"] = 1
+    else:
+        patient["dichot_adherence_day3"] = 0
 
 def calc_avg_adherence(patient):
     """
@@ -239,6 +263,8 @@ def calc_avg_adherence(patient):
         patient["avg_adherence_1day"] = patient["adherence_day1"]
 
 def find_patient_rewards(pillsy_subset, patient, run_time):
+    three_day_ago = (run_time - timedelta(days=2)).date()
+    three_day_ago_12am = pytz.UTC.localize(datetime.combine(two_day_ago, datetime.min.time()))
     two_day_ago = (run_time - timedelta(days=2)).date()
     two_day_ago_12am = pytz.UTC.localize(datetime.combine(two_day_ago, datetime.min.time()))
     yesterday = (run_time - timedelta(days=1)).date()
@@ -246,6 +272,9 @@ def find_patient_rewards(pillsy_subset, patient, run_time):
     today_current_time = run_time
         # https://www.w3resource.com/python-exercises/date-time-exercise/python-date-time-exercise-8.php
     today_12am = pytz.UTC.localize(datetime.combine(today_current_time, datetime.min.time()))
+
+    pillsy_three_day_ago_subset = pillsy_subset[pillsy_subset["eventTime"] < two_day_ago_12am].copy()
+    pillsy_three_day_ago_subset = pillsy_three_day_ago_subset[pillsy_three_day_ago_subset["eventTime"] >= three_day_ago_12am].copy()
 
     pillsy_two_day_ago_subset = pillsy_subset[pillsy_subset["eventTime"] < yesterday_12am].copy()
     pillsy_two_day_ago_subset = pillsy_two_day_ago_subset[pillsy_two_day_ago_subset["eventTime"] >= two_day_ago_12am].copy()
@@ -266,18 +295,28 @@ def find_patient_rewards(pillsy_subset, patient, run_time):
     # if disconnectedness was -1 last time, then we need to send this updated reward_value_t1
     # regardless of what it is now (i.e. we will send 0's or the updated adherence if they reconnected
 
+    reward_value_t2 = compute_taken_over_expected(patient, pillsy_three_day_ago_subset)
+
 
     early_rx_use = compute_taken_over_expected(patient, pillsy_early_today_subset)
 
 
     # Check if last reward we were unsure about disconnectedness
     if patient["disconnectedness"] == -1:
-        if reward_value_t1 !=  patient["reward_value_t0"]:
-            patient["flag_send_reward_value_t1 "] = True
+        if reward_value_t1 != patient["reward_value_t0"]:
+            patient["flag_send_reward_value_t1"] = True
+        else:
+            patient["flag_send_reward_value_t1"] = False
+    if patient["possibly_disconnected"] == True:
+        if reward_value_t2 != patient["reward_value_t1"]:
+            patient["flag_send_reward_value_t2"] = True
+        else:
+            patient["flag_send_reward_value_t2"] = False
 
     # Update data frame with new values for reward and
     patient["reward_value_t0"] = reward_value_t0
     patient["reward_value_t1"] = reward_value_t1
+    patient["reward_value_t2"] = reward_value_t2
     patient["early_rx_use"] = early_rx_use
 
     # Shifts the adherence for each day backwards by 1 day to make day1 = newest found avg_adherence
@@ -290,6 +329,11 @@ def find_patient_rewards(pillsy_subset, patient, run_time):
         #function to reassign the value from two days ago in case updated sync'd data
     update_day2_dichot_adherence(patient, reward_value_t1)
         #function to reassign the value from two days ago in case updated sync'd data
+    update_day3_adherence(patient, reward_value_t2)
+    # function to reassign the value from two days ago in case updated sync'd data
+    update_day3_dichot_adherence(patient, reward_value_t2)
+    # function to reassign the value from two days ago in case updated sync'd data
+
     # We update the avg adherences at days 1,3,7 with updated shifted daily adherence values:
     calc_avg_adherence(patient)
 
@@ -333,10 +377,12 @@ def find_rewards(pillsy, pt_data, run_time):
         # Filter by firstname = study_id to get data for just this one patient
         patient_pillsy_subset = pillsy[pillsy["firstname"] == study_id]
         patient_row = pt_data[pt_data["record_id"] == study_id]
-        if patient_row["censor"] != 1:
+        if patient_row["censor_reward"] != 1:
             # This function will update the patient attributes with the updated adherence data that we will find from pillsy
             find_patient_rewards(patient_pillsy_subset, patient_row, run_time)
-            # The function returns an updated patient
+            if patient_row["censor"] == 1:
+                patient_row["censor_reward"] = 0 # this is to handle when a patient was ranked last time,
+                # The function returns an updated patient
             # We add this patient to our originally empty pt_dict_with_reward dictionary with their study_id as a key
 
     #TODO ask joe how pandas df is manipulated in a function i.e. pass by val or ref?

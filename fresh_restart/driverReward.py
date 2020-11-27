@@ -37,6 +37,11 @@ def get_reward_update(pt_data, run_time):
                        data_row["rank_id_social_t1"], data_row["rank_id_content_t1"], data_row["rank_id_reflective_t1"],
                        data_row["record_id"], data_row["trial_day_counter"]-1]
             reward_updates.loc[len(reward_updates)] = reward_row_t1
+        if(data_row["flag_send_reward_value_t2"] == True):
+            reward_row_t2 = [data_row["reward_value_t2"], data_row["rank_id_framing_t2"], data_row["rank_id_history_t2"],
+                       data_row["rank_id_social_t2"], data_row["rank_id_content_t2"], data_row["rank_id_reflective_t2"],
+                       data_row["record_id"], data_row["trial_day_counter"]-1]
+            reward_updates.loc[len(reward_updates)] = reward_row_t2
     # Write csv as a log for what we're sending to Personalizer
     reward_updates.to_csv(reward_filepath)
     reward_updates = reward_updates.to_numpy()
