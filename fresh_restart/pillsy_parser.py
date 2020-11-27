@@ -333,8 +333,9 @@ def find_rewards(pillsy, pt_data, run_time):
         # Filter by firstname = study_id to get data for just this one patient
         patient_pillsy_subset = pillsy[pillsy["firstname"] == study_id]
         patient_row = pt_data[pt_data["record_id"] == study_id]
+        if patient_row["censor"] != 1:
             # This function will update the patient attributes with the updated adherence data that we will find from pillsy
-        find_patient_rewards(patient_pillsy_subset, patient_row, run_time)
+            find_patient_rewards(patient_pillsy_subset, patient_row, run_time)
             # The function returns an updated patient
             # We add this patient to our originally empty pt_dict_with_reward dictionary with their study_id as a key
 
