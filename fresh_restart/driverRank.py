@@ -279,7 +279,7 @@ def get_pillsy_med_features(patient):
                            "pillsy_meds_thiazolidinedione": patient["pillsy_meds_thiazolidinedione"],
                            "num_pillsy_meds": patient["num_pillsy_meds"]}
     # TODO confirm if num_pillsy_meds is actually a feature - I think it is but I forget? slash many iterations
-    # confirmed - due to complexity 
+    # confirmed - due to complexity
     pillsy_med_features_dict = {"pillsy_med_features": pillsy_med_features}
     return pillsy_med_features_dict
 

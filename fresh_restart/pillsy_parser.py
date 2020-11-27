@@ -301,17 +301,20 @@ def find_patient_rewards(pillsy_subset, patient, run_time):
     early_rx_use = compute_taken_over_expected(patient, pillsy_early_today_subset)
 
 
-    # Check if last reward we were unsure about disconnectedness
+    # Check if two reward assessments ago we were unsure about disconnectedness
+
+    if patient["possibly_disconnected"] == True:
+        patient["flag_send_reward_value_t2"] = True
+    else:
+        patient["flag_send_reward_value_t2"] = False
+
     if patient["disconnectedness"] == -1:
         if reward_value_t1 != patient["reward_value_t0"]:
             patient["flag_send_reward_value_t1"] = True
         else:
             patient["flag_send_reward_value_t1"] = False
-    if patient["possibly_disconnected"] == True:
-        if reward_value_t2 != patient["reward_value_t1"]:
-            patient["flag_send_reward_value_t2"] = True
-        else:
-            patient["flag_send_reward_value_t2"] = False
+
+
 
     # Update data frame with new values for reward and
     patient["reward_value_t0"] = reward_value_t0
@@ -338,15 +341,17 @@ def find_patient_rewards(pillsy_subset, patient, run_time):
     calc_avg_adherence(patient)
 
     if reward_value_t0 > 0 and early_rx_use == 0:
-        disconnectedness = 1
+        patient["flag_send_reward_value_t0"] = True
+        patient["disconnectedness"] = 1
     elif reward_value_t0 > 0 and early_rx_use == 1:
-        disconnectedness = 0
+        patient["flag_send_reward_value_t0"] = True
+        patient["disconnectedness"] = 0
     elif reward_value_t0 == 0 and early_rx_use == 0:
-        disconnectedness = -1
-        reward_value_t0 = None
+        patient["flag_send_reward_value_t0"] = False
+        patient["disconnectedness"] = -1
         if patient["possibly_disconnected_day1"] == True:
             # Then we shift that indicator back a day and keep day1 disconnect true
-            possibly_disconnected_day2 = True
+            patient["possibly_disconnected_day2"] = True
             # We update the current variable that yes, today they were possibly_disconnected after 2 days
             # of 0 adherence / not in Pillsy data
             patient["possibly_disconnected"] = True
@@ -377,13 +382,8 @@ def find_rewards(pillsy, pt_data, run_time):
         # Filter by firstname = study_id to get data for just this one patient
         patient_pillsy_subset = pillsy[pillsy["firstname"] == study_id]
         patient_row = pt_data[pt_data["record_id"] == study_id]
-        if patient_row["censor_reward"] != 1:
-            # This function will update the patient attributes with the updated adherence data that we will find from pillsy
-            find_patient_rewards(patient_pillsy_subset, patient_row, run_time)
-            if patient_row["censor"] == 1:
-                patient_row["censor_reward"] = 0 # this is to handle when a patient was ranked last time,
-                # The function returns an updated patient
-            # We add this patient to our originally empty pt_dict_with_reward dictionary with their study_id as a key
+        # This function will update the patient attributes with the updated adherence data that we will find from pillsy
+        find_patient_rewards(patient_pillsy_subset, patient_row, run_time)
 
     #TODO ask joe how pandas df is manipulated in a function i.e. pass by val or ref?
     return

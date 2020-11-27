@@ -127,6 +127,7 @@ def update_pt_data_with_redcap(redcap_data, pt_data, run_time):
                 race_other = 1
             else:
                 race_other = 0
+            censor_date = (redcap_row["start_date"] + timedelta(days=180)).date()
             new_row = pd.Series(pt_data={'record_id': id,
                                          'trial_day_counter': 0,
                                          'age': redcap_row["age"],
@@ -158,6 +159,7 @@ def update_pt_data_with_redcap(redcap_data, pt_data, run_time):
                                          'pillsy_meds_thiazolidinedione': redcap_row["pillsy_meds___8"],
                                          'num_pillsy_meds': redcap_row["bottles"],
                                          'start_date': redcap_row["start_date"],
+                                         'censor_date': censor_date,
                                          'num_twice_daily_pillsy_meds': redcap_row["num_twice_daily_pillsy_meds"],
                                          'censor': redcap_row["censor"]}, name='new')
             pt_data = pt_data.append(new_row)
