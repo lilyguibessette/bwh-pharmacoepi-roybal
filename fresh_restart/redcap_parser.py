@@ -42,17 +42,15 @@ def redcap_vars_converter(redcap_df):
     redcap_df = redcap_df.replace({'sex': 0}, "Not listed")
     redcap_df = redcap_df.replace({'num_years_dm_rx': 1}, "0")
     redcap_df = redcap_df.replace({'num_years_dm_rx': 2}, "1-2")
-    redcap_df = redcap_df.replace({'num_years_dm_rx': 3}, "2-4")
+    redcap_df = redcap_df.replace({'num_years_dm_rx': 3}, "3-4") #TODO
     redcap_df = redcap_df.replace({'num_years_dm_rx': 4}, "5+")
     redcap_df = redcap_df.replace({'hba1c': 1}, "7.5-8.0")
     redcap_df = redcap_df.replace({'hba1c': 2}, "8.1-8.9")
     redcap_df = redcap_df.replace({'hba1c': 3}, "9.0-9.9")
     redcap_df = redcap_df.replace({'hba1c': 4}, "10+")
-    # TODO Confirm this AGAIN - No. of self-reported physicians,	num_physicians,	int (1=1, 2=2-3, 4=4+)
-    # Why do we skip 3? I assumed this was a mistake in the excel
     redcap_df = redcap_df.replace({'num_physicians': 1}, "1")
     redcap_df = redcap_df.replace({'num_physicians': 2}, "2-3")
-    redcap_df = redcap_df.replace({'num_physicians': 2}, "2-3")
+    redcap_df = redcap_df.replace({'num_physicians': 3}, "4+") #fixed
     redcap_df = redcap_df.replace({'num_rx': 1}, "1")
     redcap_df = redcap_df.replace({'num_rx': 2}, "2-4")
     redcap_df = redcap_df.replace({'num_rx': 3}, "5-9")
@@ -123,6 +121,7 @@ def update_pt_data_with_redcap(redcap_data, pt_data, run_time):
                                          'race_hispanic': redcap_row["race___4"],
                                          'race_other': redcap_row["race___5"],
                                          # TODO Need them to confirm why i have extra race in samplee redcap
+                                         # collapse race with 5,6,7 to other
                                          'race___6': redcap_row["race___6"],
                                          'race___7': redcap_row["race___7"],
                                          'num_physicians': redcap_row["num_physicians"],

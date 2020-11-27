@@ -147,7 +147,7 @@ def update_patient_dict_redcap(redcap, pt_dict, run_time):
             #TODO if updated_patient is None, then need to figure out how to handle but this is a rare possibility and seems okay to just drop them
             if updated_patient != None:
                 #TODO double check with Julie they're getting censored at day 180
-
+                    # CONFIRMED
                 # If the patient doesn't have a true censoring indicator and hasn't met the 180 end of follow up window - i.e. maximum time reached = 180 days
                 if int(row['censor']) != 1 and updated_patient.trial_day_counter < 180:
 

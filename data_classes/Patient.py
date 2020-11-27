@@ -327,7 +327,7 @@ class Patient:
             + "and reflective_sms == @self.reflective_sms"
         )
         # TODO Double check with Julie that randomization within the factor set of texts was the final decision (i.e. this is what we implemented)
-
+            # Checked and confirmed it is randomized
         # If 0,0,0,0,0 is found, then the rows will be None, so our defaults are first, the empty text message
         text_number = 0
         factor_set = 0
@@ -413,6 +413,7 @@ class Patient:
                                "pillsy_meds_thiazolidinedione": self.pillsy_meds_thiazolidinedione,
                                "num_pillsy_meds": self.num_pillsy_meds}
         # TODO confirm if num_pillsy_meds is actually a feature - I think it is but I forget? slash many iterations
+        # confirmed! ---- more meds they take the more it affects their adherence - complexity
         pillsy_med_features_dict = {"pillsy_med_features": pillsy_med_features}
         return pillsy_med_features_dict
 
@@ -597,7 +598,7 @@ class Patient:
                    self.reward_value]
         return new_row
 
-    # TODO upon Julie Confirmation
+
     # Convert to categorical variables function
     def convert_redcap_input_vars(self):
         # confirm read in appropraitely or convert this to a date object : self.start_date
