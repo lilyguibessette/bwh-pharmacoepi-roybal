@@ -7,6 +7,7 @@ import gc
 import time
 from datetime import datetime, date, timedelta
 import pytz
+from fresh_restart.patient_data import get_study_ids
 
 # For date time
 #https://realpython.com/python-datetime/
@@ -61,15 +62,7 @@ def get_drugName_list(patient_entries):
         unique_drugNames_df_list = []
     return unique_drugNames_df_list
 
-def get_study_ids(pt_data):
-    try:
-    # Subsets the firstname column to find the unique study_id's available in the Pillsy data to update adherence
-        study_ids_df = pt_data['record_id'].copy()
-        unique_study_ids_df = study_ids_df.drop_duplicates()
-        unique_study_ids_list = unique_study_ids_df.values.tolist()
-    except ValueError:
-        unique_study_ids_list = []
-    return unique_study_ids_list
+
 
 def identify_drug_freq(drugName):
     """

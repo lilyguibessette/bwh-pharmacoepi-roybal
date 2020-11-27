@@ -26,3 +26,14 @@ def export_pt_data(pt_data, runtime, purpose):
     else:
         filepath = os.path.join("..", "..", "Trash", filesave)
     pt_data.to_csv(filepath)
+
+
+def get_study_ids(pt_data):
+    try:
+    # Subsets the firstname column to find the unique study_id's available in the Pillsy data to update adherence
+        study_ids_df = pt_data['record_id'].copy()
+        unique_study_ids_df = study_ids_df.drop_duplicates()
+        unique_study_ids_list = unique_study_ids_df.values.tolist()
+    except ValueError:
+        unique_study_ids_list = []
+    return unique_study_ids_list

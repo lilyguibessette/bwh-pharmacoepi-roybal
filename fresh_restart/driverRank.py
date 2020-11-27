@@ -17,13 +17,13 @@ def write_sms_history(pt_data, run_time):
 
     # Subset updated_pt_dict to what we need for reward calls and put in dataframe
     # create an Empty DataFrame object
-    column_values = ['study_id', 'factor_set', 'text_number', 'sms_today', 'possibly_disconnected', 'trial_day_counter']
+    column_values = ['record_id', 'factor_set', 'text_number', 'sms_today', 'possibly_disconnected', 'trial_day_counter','censor_date']
     sms_history_dataframe = pd.DataFrame(columns=column_values)
 
     for pt, data in pt_data.iterrows():
         # Reward value, Rank_Id's
         new_row = [data["record_id"], data["factor_set"], data["text_number"],
-                   data["sms_today"], data["possibly_disconnected"], data["trial_day_counter"]]
+                   data["sms_today"], data["possibly_disconnected"], data["trial_day_counter"], str(data["censor_date"])]
         sms_history_dataframe.loc[len(sms_history_dataframe)] = new_row
     # Writes CSV for RA to send text messages.
     sms_history_dataframe.to_csv(sms_hist_filepath)
