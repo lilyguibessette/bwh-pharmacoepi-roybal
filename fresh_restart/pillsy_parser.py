@@ -263,8 +263,8 @@ def calc_avg_adherence(patient):
         patient["avg_adherence_1day"] = patient["adherence_day1"]
 
 def find_patient_rewards(pillsy_subset, patient, run_time):
-    three_day_ago = (run_time - timedelta(days=2)).date()
-    three_day_ago_12am = pytz.UTC.localize(datetime.combine(two_day_ago, datetime.min.time()))
+    three_day_ago = (run_time - timedelta(days=3)).date()
+    three_day_ago_12am = pytz.UTC.localize(datetime.combine(three_day_ago, datetime.min.time()))
     two_day_ago = (run_time - timedelta(days=2)).date()
     two_day_ago_12am = pytz.UTC.localize(datetime.combine(two_day_ago, datetime.min.time()))
     yesterday = (run_time - timedelta(days=1)).date()
