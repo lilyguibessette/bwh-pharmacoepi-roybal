@@ -107,3 +107,8 @@ updatedpt15 = find_patient_rewards(pillsy_subset, pt15, run_time)
 
 pillsy_study_ids_list = get_pillsy_study_ids(pilldata)
 pt_dict_with_reward, pt_dict_without_reward = find_rewards(pilldata,pillsy_study_ids_list,pt_dict,run_time)
+
+
+fp = "/Users/lilybessette/BWH_DoPE/bwh-pharmacoepi-roybal/sample_datasets_input/2020-11-23_redcap.csv"
+date_cols = ["start_date"]
+redcap = pd.read_csv(fp, sep=',', parse_dates=date_cols)
