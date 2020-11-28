@@ -212,7 +212,6 @@ def update_day2_dichot_adherence(patient,reward_value_t1):
         patient["dichot_adherence_day2"] = 0
 
 
-
 def update_day3_adherence(patient, reward_value_t2):
     """
     update_day2_adherence function to reassign the value from two days ago in case of updated sync'd/reconnected data
