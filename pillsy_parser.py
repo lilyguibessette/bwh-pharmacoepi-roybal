@@ -82,9 +82,6 @@ def identify_drug_freq(drugName):
     # Returns the number of doses that the given Medication is
     return drugFreq
 
-# def update_pt_dict(pt_dict_with_reward, pt_dict_without_reward):
-#     updated_pt_dict = {**pt_dict_with_reward, **pt_dict_without_reward}
-#     return updated_pt_dict
 
 def find_taken_events(drug, drug_subset):
     """
@@ -353,13 +350,12 @@ def find_patient_rewards(pillsy_subset, patient, run_time):
             patient["num_possibly_disconnected_indicator_true"] += 1
             # We add yesterday's date to the possibly disconnected date and list of those dates as well
             patient["possibly_disconnected_date"] = yesterday
-            patient["dates_possibly_disconnected"].append(yesterday)
+           # patient["dates_possibly_disconnected"].append(yesterday)
         else:
             patient["possibly_disconnected_day1"] = True
             patient["possibly_disconnected_day2"] = False
 
-    return patient # this function can either return the updated row of data
-    # or just update in place but dont know how dataframes work for pass by ref vs pass by val
+    return patient 
 
 def find_rewards(pillsy, pt_data, run_time):
     """
@@ -380,7 +376,6 @@ def find_rewards(pillsy, pt_data, run_time):
         # This function will update the patient attributes with the updated adherence data that we will find from pillsy
         patient_row = find_patient_rewards(patient_pillsy_subset, patient_row, run_time)
         rewarded_pt_data = rewarded_pt_data.append(patient_row)
-    #TODO ask joe how pandas df is manipulated in a function i.e. pass by val or ref?
     return rewarded_pt_data
 
 

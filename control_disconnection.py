@@ -8,7 +8,7 @@ import time
 from datetime import datetime, date, timedelta
 import pytz
 from pillsy_parser import identify_drug_freq, get_drugName_list, find_taken_events
-from patient_data import get_study_ids
+from patient_data import get_study_ids, new_empty_pt_data
 
 # For date time
 #https://realpython.com/python-datetime/
@@ -154,7 +154,7 @@ def find_patient_rewards_control(patient, pillsy_subset, run_time):
             patient["num_possibly_disconnected_indicator_true"] += 1
             # We add yesterday's date to the possibly disconnected date and list of those dates as well
             patient["possibly_disconnected_date"] = yesterday
-            patient["dates_possibly_disconnected"].append(yesterday)
+            #patient["dates_possibly_disconnected"].append(yesterday)
         else:
             patient["possibly_disconnected_day1"] = True
             patient["possibly_disconnected_day2"] = False
@@ -172,6 +172,7 @@ def find_disconnections_control(pt_data_control, pillsy_control, run_time):
     :param run_time:
     :return:
     """
+    control_pt_data = new_empty_pt_data()
     study_ids_list = get_study_ids(pt_data_control)
     for study_id in study_ids_list:
         patient = pt_data_control[pt_data_control["record_id"] == study_id].iloc[0]
@@ -179,9 +180,9 @@ def find_disconnections_control(pt_data_control, pillsy_control, run_time):
         patient_pillsy_subset = pillsy_control[pillsy_control["firstname"] == study_id]
         # This function will update the patient attributes with the updated adherence data that we will find from pillsy
         patient = find_patient_rewards_control(patient, patient_pillsy_subset, run_time)
-
+        control_pt_data = control_pt_data.append(patient)
     #TODO ask joe how pandas df is manipulated in a function i.e. pass by val or ref?
-    return pt_data_control
+    return control_pt_data
 
 
 def write_disconnected_report(pt_data_control, run_time):
@@ -205,7 +206,7 @@ def write_disconnected_report(pt_data_control, run_time):
 def export_pt_data_control(pt_data_control, runtime):
     filesave = str(runtime.date()) + "_pt_data_control" + '.csv'
     filepath = os.path.join("..", "PatientDataControl", filesave)
-    pt_data_control.to_csv(filepath)
+    pt_data_control.to_csv(filepath, index=False)
 
 def check_control_disconnectedness(run_time):
     #TODO can i just make a new column by calling it and assigning it a value in a row? or nah?

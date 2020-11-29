@@ -48,7 +48,7 @@ def get_reward_update(pt_data, run_time):
                        data_row["record_id"], data_row["trial_day_counter"]-2]
             reward_updates.loc[len(reward_updates)] = reward_row_t2
     # Write csv as a log for what we're sending to Personalizer
-    reward_updates.to_csv(reward_filepath)
+    reward_updates.to_csv(reward_filepath, index=False)
     reward_updates = reward_updates.to_numpy()
     return reward_updates
 

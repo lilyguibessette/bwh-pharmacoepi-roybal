@@ -106,19 +106,6 @@ def update_pt_data_with_redcap(redcap_data, pt_data, run_time):
             patient["pillsy_meds_sulfonylurea"] = row["pillsy_meds___7"]
             patient["pillsy_meds_thiazolidinedione"] = row["pillsy_meds___8"]
             patient["num_pillsy_meds"] = row["bottles"]
-            # shift these values for the next rank to store t0 values
-            patient["reward_value_t1"] = patient["reward_value_t0"]
-            patient["rank_id_framing_t1"] = patient["rank_id_framing_t0"]
-            patient["rank_id_history_t1"] = patient["rank_id_history_t0"]
-            patient["rank_id_social_t1"] = patient["rank_id_social_t0"]
-            patient["rank_id_content_t1"] = patient["rank_id_content_t0"]
-            patient["rank_id_reflective_t1"] = patient["rank_id_reflective_t0"]
-            patient["reward_value_t2"] = patient["reward_value_t1"]
-            patient["rank_id_framing_t2"] = patient["rank_id_framing_t1"]
-            patient["rank_id_history_t2"] = patient["rank_id_history_t1"]
-            patient["rank_id_social_t2"] = patient["rank_id_social_t1"]
-            patient["rank_id_content_t2"] = patient["rank_id_content_t1"]
-            patient["rank_id_reflective_t2"] = patient["rank_id_reflective_t1"]
 
     # Adding new patients
     for id in unique_study_ids_list_redcap:

@@ -25,11 +25,12 @@ def write_sms_history(pt_data, run_time):
         sms_history_dataframe.loc[len(sms_history_dataframe)] = [data["record_id"], data["factor_set"], data["text_number"],
                    data["sms_msg_today"], data["possibly_disconnected"], data["trial_day_counter"], str(data["censor_date"])]
     # Writes CSV for RA to send text messages.
-    sms_history_dataframe.to_csv(sms_hist_filepath)
+    sms_history_dataframe.to_csv(sms_hist_filepath, index=False)
     return
 
 
 def run_ranking(patient, client, run_time):
+    patient= shift_t0_t1_t2_rank_ids(patient)
     # framing
     rank_id_framing = str(patient["record_id"]) + "_" + str(patient["trial_day_counter"]) + "_frame"
     patient["rank_id_framing_t0"] = rank_id_framing
@@ -95,6 +96,22 @@ def run_ranking(patient, client, run_time):
     patient["trial_day_counter"] += 1
 
 
+    return patient
+
+def shift_t0_t1_t2_rank_ids(patient):
+                # shift these values for the next rank to store t0 values
+    patient["reward_value_t1"] = patient["reward_value_t0"]
+    patient["rank_id_framing_t1"] = patient["rank_id_framing_t0"]
+    patient["rank_id_history_t1"] = patient["rank_id_history_t0"]
+    patient["rank_id_social_t1"] = patient["rank_id_social_t0"]
+    patient["rank_id_content_t1"] = patient["rank_id_content_t0"]
+    patient["rank_id_reflective_t1"] = patient["rank_id_reflective_t0"]
+    patient["reward_value_t2"] = patient["reward_value_t1"]
+    patient["rank_id_framing_t2"] = patient["rank_id_framing_t1"]
+    patient["rank_id_history_t2"] = patient["rank_id_history_t1"]
+    patient["rank_id_social_t2"] = patient["rank_id_social_t1"]
+    patient["rank_id_content_t2"] = patient["rank_id_content_t1"]
+    patient["rank_id_reflective_t2"] = patient["rank_id_reflective_t1"]
     return patient
 
 
@@ -192,7 +209,7 @@ def updated_sms_today(patient):
     social = patient["social_sms"]
     content = patient["content_sms"]
     reflective = patient["reflective_sms"]
-    print("rankresult", framing, history, social, content, reflective)
+    print("records_id: ", patient["record_id"]," rankresult: ", framing, history, social, content, reflective)
 
     # TODO ask joe if this takes into account if the sms_choices 0,0,0,0,0 then will it return rows = None -> if so code is all set I modified, if not make sure it wont throw an error or fix the if else clause
     rows = sms_choices[sms_choices['framing_sms'] == framing]
@@ -200,7 +217,7 @@ def updated_sms_today(patient):
     rows = rows[rows['social_sms'] == social]
     rows = rows[rows['content_sms'] == content]
     rows = rows[rows['reflective_sms'] == reflective]
-    print(rows)
+    #print(rows)
     #TODO - @Joe, you can fix this and we can use instead of my inefficient way above
 #     rows = sms_choices.query(
 #         "framing_sms == @framing "
@@ -233,6 +250,7 @@ def updated_sms_today(patient):
     # We've updated the local variables and now store into the patient object as attributes to be exported in bulk by another function
     patient["text_number"] = text_number
     patient["factor_set"] = factor_set
+    patient["text_message"] = text_message
     patient["quantitative_sms"] = quantitative_sms
     patient["doctor_sms"] = doctor_sms
     patient["lifestyle_sms"] = lifestyle_sms
