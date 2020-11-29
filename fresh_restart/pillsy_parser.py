@@ -241,14 +241,11 @@ def calc_avg_adherence(patient):
     :return:
     """
     if patient["trial_day_counter"] < 3:
-        patient["avg_adherence_7day"] = None
-        patient["avg_adherence_3day"] = None
         patient["avg_adherence_1day"] = patient["adherence_day1"]
-    elif 3 <= patient["daysFromStartCounter"] < 7:
-        patient["avg_adherence_7day"] = None
+    elif 3 <= patient["trial_day_counter"] < 7:
         patient["avg_adherence_3day"] = (patient["adherence_day1"] + patient["adherence_day2"] + patient["adherence_day3"]) / 3
         patient["avg_adherence_1day"] = patient["adherence_day1"]
-    elif patient["daysFromStartCounter"] >= 7:
+    elif patient["trial_day_counter"] >= 7:
         patient["avg_adherence_7day"] = (
                                           patient["adherence_day1"] + patient["adherence_day2"] + patient["adherence_day3"] + patient["adherence_day4"] + patient["adherence_day5"] + patient["adherence_day6"] + patient["adherence_day7"]) / 7
         patient["avg_adherence_3day"] = (patient["adherence_day1"] + patient["adherence_day2"] + patient["adherence_day3"]) / 3
