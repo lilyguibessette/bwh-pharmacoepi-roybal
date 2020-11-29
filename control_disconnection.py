@@ -212,18 +212,21 @@ def check_control_disconnectedness(run_time):
     if pillsy_control and pt_data_control:
         find_disconnections_control(pt_data_control, pillsy_control, run_time)
         write_disconnected_report(pt_data_control) # assuming df operations are pass by ref? i.e. if we modified in find_rewards_control then
+    else:
+        fp = os.path.join("..", "PatientDataControl", "empty_start.csv")
+        date_cols = ["start_date", "censor_date", "possibly_disconnected_date"]
+        pt_data = pd.read_csv(fp, sep=',', parse_dates=date_cols)
     redcap_control = import_redcap_control(run_time)
-    if redcap_control:
-        redcap_study_ids = get_study_ids(redcap_control)
-        study_ids_list = get_study_ids(pt_data_control)
-        for id in redcap_study_ids:
-            if id not in study_ids_list:
-                redcap_row = redcap_control[redcap_control['record_id'] == id]
-                censor_date = (redcap_row["start_date"] + timedelta(days=180)).date()
-                new_row = pd.Series(pt_data={'record_id': id,
-                                             'trial_day_counter': 1,
-                                             'start_date': ["start_date"],
-                                             'censor_date': censor_date,
-                                             'censor': redcap_row["censor"]}, name="new")
-                pt_data_control = pt_data_control.append(new_row)
+    redcap_study_ids = get_study_ids(redcap_control)
+    study_ids_list = get_study_ids(pt_data_control)
+    for id in redcap_study_ids:
+        if id not in study_ids_list:
+            redcap_row = redcap_control[redcap_control['record_id'] == id].iloc[0]
+            censor_date = (redcap_row["start_date"] + timedelta(days=180)).date()
+            new_row = pd.Series({'record_id': id,
+                                         'trial_day_counter': 1,
+                                         'start_date': redcap_row["start_date"],
+                                         'censor_date': censor_date,
+                                         'censor': redcap_row["censor"]}, name=id)
+            pt_data_control = pt_data_control.append(new_row)
     export_pt_data_control(pt_data_control, run_time)

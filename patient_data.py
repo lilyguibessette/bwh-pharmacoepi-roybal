@@ -36,4 +36,7 @@ def get_study_ids(pt_data):
         unique_study_ids_list = unique_study_ids_df.values.tolist()
     except ValueError:
         unique_study_ids_list = []
+    except TypeError:
+        unique_study_ids_list = []
+        
     return unique_study_ids_list

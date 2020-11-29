@@ -93,7 +93,7 @@ def update_pt_data_with_redcap(redcap_data, pt_data, run_time):
     if not pt_data.empty:
         for index, patient in pt_data.iterrows():
             record_id = patient["record_id"]
-            row = redcap_data[redcap_data["record_id"] == record_id]
+            row = redcap_data[redcap_data["record_id"] == record_id].iloc[0]
             # need to make sure via iterating it updates this data in the df
             patient["censor"] = row["censor"]
             patient["num_twice_daily_pillsy_meds"] = row["num_twice_daily_pillsy_meds"]
