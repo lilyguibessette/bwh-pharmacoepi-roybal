@@ -16,7 +16,7 @@ def import_pt_data(run_time):
 
 
 def export_pt_data(pt_data, runtime, purpose):
-    filesave = str(runtime.date()) + "_pt_data_" + purpose.lower() + '.csv'
+    filesave = str(runtime.date()) + "_pt_data" + '.csv'
     if purpose.lower() == "reward":
         filepath = os.path.join("..",  "RewardLog", filesave)
     elif purpose.lower() == "rank":

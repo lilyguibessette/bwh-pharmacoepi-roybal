@@ -18,7 +18,7 @@ def import_pt_data_control(run_time):
     # Imports Pillsy pill taking history as a pandas data frame from a CSV
 
     pt_data_filename = str(import_date) + "_pt_data_control" + '.csv'
-    fp = os.path.join("..", "..", "PatientDataControl", pt_data_filename)
+    fp = os.path.join("..", "PatientDataControl", pt_data_filename)
     date_cols = ["start_date"]
     try:
         pt_data = pd.read_csv(fp, sep=',', parse_dates=date_cols)
@@ -30,7 +30,7 @@ def import_redcap_control(run_time):
     import_date = run_time.date()
     # Imports REDCap patients that are enrolling on an ongoing basis as a pandas data frame from a CSV
     redcap_filepath = str(import_date) + "_redcap_control" + '.csv'
-    fp = os.path.join("..", "..", "REDCapControl", redcap_filepath)
+    fp = os.path.join("..", "REDCapControl", redcap_filepath)
     date_cols = ["start_date"]
     # Reads in the csv file into a pandas data frame and ensures that the date_cols are imported as datetime.datetime objects
     # TODO potentially need to be careful here due to use of the data in redcap.py -> might want to ensure record_id column is a string, currently I think it defaults to an int - might bee fine to keep int
@@ -73,10 +73,10 @@ def import_Pillsy_control(run_time):
 
     def converter(time_string):
         import re
-        tz_abbr = re.search(r"\d\d:\d\d A|PM ([A-Z]{2,4}) \d{4}-\d\d-\d\d", time_string).group(1)
+        tz_abbr = re.search(r"\d\d:\d\d .M ([A-Z]{2,4}) \d{4}-\d\d-\d\d", time_string).group(1)
         return time_string.replace(tz_abbr, tz_ref[tz_abbr])
 
-    pillsy["eventTime"] = pd.to_datetime(converter(pillsy["eventTime"]))
+    pillsy["eventTime"] = pd.to_datetime(pd.Series([converter(str_dt) for str_dt in pillsy["eventTime"]]))
     # Note: In this dataset our study_id is actually 'firstname', hence the drop of patientId
     # Note: firstname is currently read in as int64 dtype
     pillsy.drop(["patientId", "lastname", "method", "platform"], axis=1, inplace=True)
@@ -209,20 +209,21 @@ def check_control_disconnectedness(run_time):
     pillsy_control = import_Pillsy_control(run_time)
     pt_data_control = import_pt_data_control(run_time)
 
-    if not pillsy_control and not pt_data_control:
+    if pillsy_control and pt_data_control:
         find_disconnections_control(pt_data_control, pillsy_control, run_time)
         write_disconnected_report(pt_data_control) # assuming df operations are pass by ref? i.e. if we modified in find_rewards_control then
     redcap_control = import_redcap_control(run_time)
-    redcap_study_ids = get_study_ids(redcap_control)
-    study_ids_list = get_study_ids(pt_data_control)
-    for id in redcap_study_ids:
-        if id not in study_ids_list:
-            redcap_row = redcap_control[redcap_control['record_id'] == id]
-            censor_date = (redcap_row["start_date"] + timedelta(days=180)).date()
-            new_row = pd.Series(pt_data={'record_id': id,
-                                         'trial_day_counter': 1,
-                                         'start_date': ["start_date"],
-                                         'censor_date': censor_date,
-                                         'censor': redcap_row["censor"]}, name="new")
-            pt_data_control = pt_data_control.append(new_row)
+    if redcap_control:
+        redcap_study_ids = get_study_ids(redcap_control)
+        study_ids_list = get_study_ids(pt_data_control)
+        for id in redcap_study_ids:
+            if id not in study_ids_list:
+                redcap_row = redcap_control[redcap_control['record_id'] == id]
+                censor_date = (redcap_row["start_date"] + timedelta(days=180)).date()
+                new_row = pd.Series(pt_data={'record_id': id,
+                                             'trial_day_counter': 1,
+                                             'start_date': ["start_date"],
+                                             'censor_date': censor_date,
+                                             'censor': redcap_row["censor"]}, name="new")
+                pt_data_control = pt_data_control.append(new_row)
     export_pt_data_control(pt_data_control, run_time)
