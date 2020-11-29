@@ -11,9 +11,17 @@ def import_pt_data(run_time):
     try:
         pt_data = pd.read_csv(fp, sep=',', parse_dates=date_cols)
     except FileNotFoundError:
-        return None
+        fp = os.path.join("..", "PatientData", "empty_start.csv")
+        pt_data = pd.read_csv(fp, sep=',', parse_dates=date_cols)
+        return pt_data
     return pt_data
 
+
+def new_empty_pt_data():
+    fp = os.path.join("..", "PatientData", "empty_start.csv")
+    date_cols = ["start_date", "censor_date", "possibly_disconnected_date"]
+    pt_data = pd.read_csv(fp, sep=',', parse_dates=date_cols)
+    return pt_data
 
 def export_pt_data(pt_data, runtime, purpose):
     filesave = str(runtime.date()) + "_pt_data" + '.csv'

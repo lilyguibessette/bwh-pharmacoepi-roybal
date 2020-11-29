@@ -7,10 +7,7 @@ import gc
 import time
 from datetime import datetime, date, timedelta
 import pytz
-from patient_data import get_study_ids
-
-# For date time
-#https://realpython.com/python-datetime/
+from patient_data import get_study_ids, new_empty_pt_data
 
 
 
@@ -24,8 +21,10 @@ def import_Pillsy(run_time):
     try:
         pillsy = pd.read_csv(fp)
     except FileNotFoundError:
-        return None
-
+        fp = os.path.join("..", "Pillsy", "empty_pillsy_start.csv")
+        pillsy = pd.read_csv(fp)
+        return pillsy
+    
     tz_ref = {
         "HDT": "-0900",
         "HST": "-1000",
@@ -118,7 +117,7 @@ def find_taken_events(drug, drug_subset):
                 taken_events.append(maybe_taken_event + fifteen_min)
                 taken += 1
     if drug_freq != taken and first_taken:
-        find_second_taken_subset = drug_subset[drug_subset["eventTime"] >= first_taken].copy()
+        find_second_taken_subset = drug_subset[drug_subset["eventTime"] >= first_taken]
         for index, second_pass in find_second_taken_subset.iterrows():
             if drug_freq == taken:
                 break
@@ -144,11 +143,11 @@ def compute_taken_over_expected(patient, timeframe_pillsy_subset):
     drug_num = 0
     for drug in yesterday_drugs:
         drug_num += 1
-        drug_subset = timeframe_pillsy_subset[timeframe_pillsy_subset['drugName'] == drug].copy()
+        drug_subset = timeframe_pillsy_subset[timeframe_pillsy_subset['drugName'] == drug]
         this_drug_adherence = find_taken_events(drug, drug_subset)
         yesterday_adherence_by_drug.append(this_drug_adherence)
     taken_over_expected = 0
-    if patient:
+    if not patient.empty:
         sum_yesterday_adherence = sum(yesterday_adherence_by_drug)
         taken_over_expected = sum_yesterday_adherence / patient["num_pillsy_meds"]
     else:
@@ -170,6 +169,7 @@ def shift_day_adherences(patient, reward_value_t0):
     patient["adherence_day3"] = patient["adherence_day2"]
     patient["adherence_day2"] = patient["adherence_day1"]
     patient["adherence_day1"] = reward_value_t0
+    return patient
 
 def shift_dichot_day_adherences(patient, reward_value_t0):
     """
@@ -188,6 +188,7 @@ def shift_dichot_day_adherences(patient, reward_value_t0):
         patient["dichot_adherence_day1"] = 1
     else:
         patient["dichot_adherence_day1"] = 0
+    return patient
 
 def update_day2_adherence(patient, reward_value_t1):
     """
@@ -197,6 +198,7 @@ def update_day2_adherence(patient, reward_value_t1):
     :return:
     """
     patient["adherence_day2"] = reward_value_t1
+    return patient
 
 def update_day2_dichot_adherence(patient,reward_value_t1):
     """
@@ -210,7 +212,7 @@ def update_day2_dichot_adherence(patient,reward_value_t1):
         patient["dichot_adherence_day2"] = 1
     else:
         patient["dichot_adherence_day2"] = 0
-
+    return patient
 
 def update_day3_adherence(patient, reward_value_t2):
     """
@@ -220,6 +222,7 @@ def update_day3_adherence(patient, reward_value_t2):
     :return:
     """
     patient["adherence_day3"] = reward_value_t2
+    return patient 
 
 def update_day3_dichot_adherence(patient,reward_value_t2):
     """
@@ -233,6 +236,7 @@ def update_day3_dichot_adherence(patient,reward_value_t2):
         patient["dichot_adherence_day3"] = 1
     else:
         patient["dichot_adherence_day3"] = 0
+    return patient
 
 def calc_avg_adherence(patient):
     """
@@ -250,6 +254,7 @@ def calc_avg_adherence(patient):
                                           patient["adherence_day1"] + patient["adherence_day2"] + patient["adherence_day3"] + patient["adherence_day4"] + patient["adherence_day5"] + patient["adherence_day6"] + patient["adherence_day7"]) / 7
         patient["avg_adherence_3day"] = (patient["adherence_day1"] + patient["adherence_day2"] + patient["adherence_day3"]) / 3
         patient["avg_adherence_1day"] = patient["adherence_day1"]
+    return patient
 
 def find_patient_rewards(pillsy_subset, patient, run_time):
     three_day_ago = (run_time - timedelta(days=3)).date()
@@ -262,17 +267,17 @@ def find_patient_rewards(pillsy_subset, patient, run_time):
         # https://www.w3resource.com/python-exercises/date-time-exercise/python-date-time-exercise-8.php
     today_12am = pytz.UTC.localize(datetime.combine(today_current_time, datetime.min.time()))
 
-    pillsy_three_day_ago_subset = pillsy_subset[pillsy_subset["eventTime"] < two_day_ago_12am].copy()
-    pillsy_three_day_ago_subset = pillsy_three_day_ago_subset[pillsy_three_day_ago_subset["eventTime"] >= three_day_ago_12am].copy()
+    pillsy_three_day_ago_subset = pillsy_subset[pillsy_subset["eventTime"] < two_day_ago_12am]
+    pillsy_three_day_ago_subset = pillsy_three_day_ago_subset[pillsy_three_day_ago_subset["eventTime"] >= three_day_ago_12am]
 
-    pillsy_two_day_ago_subset = pillsy_subset[pillsy_subset["eventTime"] < yesterday_12am].copy()
-    pillsy_two_day_ago_subset = pillsy_two_day_ago_subset[pillsy_two_day_ago_subset["eventTime"] >= two_day_ago_12am].copy()
+    pillsy_two_day_ago_subset = pillsy_subset[pillsy_subset["eventTime"] < yesterday_12am]
+    pillsy_two_day_ago_subset = pillsy_two_day_ago_subset[pillsy_two_day_ago_subset["eventTime"] >= two_day_ago_12am]
 
-    pillsy_yesterday_subset = pillsy_subset[pillsy_subset["eventTime"] < today_12am].copy()
-    pillsy_yesterday_subset = pillsy_yesterday_subset[pillsy_yesterday_subset["eventTime"] >= yesterday].copy()
+    pillsy_yesterday_subset = pillsy_subset[pillsy_subset["eventTime"] < today_12am]
+    pillsy_yesterday_subset = pillsy_yesterday_subset[pillsy_yesterday_subset["eventTime"] >= yesterday_12am]
 
-    pillsy_early_today_subset = pillsy_subset[pillsy_subset["eventTime"] >= today_12am].copy()
-    pillsy_early_today_subset = pillsy_early_today_subset[pillsy_early_today_subset["eventTime"] < today_current_time].copy()
+    pillsy_early_today_subset = pillsy_subset[pillsy_subset["eventTime"] >= today_12am]
+    pillsy_early_today_subset = pillsy_early_today_subset[pillsy_early_today_subset["eventTime"] < today_current_time]
 
     # Use calendar day of yesterday to compute adherence
     reward_value_t0 = compute_taken_over_expected(patient, pillsy_yesterday_subset)
@@ -313,26 +318,26 @@ def find_patient_rewards(pillsy_subset, patient, run_time):
 
     # Shifts the adherence for each day backwards by 1 day to make day1 = newest found avg_adherence
     # and day2 = old day, day3 = old day 2... etc day7 = old day 6
-    shift_day_adherences(patient, reward_value_t0)
+    patient = shift_day_adherences(patient, reward_value_t0)
         #function to shift the values of each column over by one day
-    shift_dichot_day_adherences(patient, reward_value_t0)
+    patient = shift_dichot_day_adherences(patient, reward_value_t0)
         #function to shift the values of each column over by one day
-    update_day2_adherence(patient, reward_value_t1)
+    patient = update_day2_adherence(patient, reward_value_t1)
         #function to reassign the value from two days ago in case updated sync'd data
-    update_day2_dichot_adherence(patient, reward_value_t1)
+    patient = update_day2_dichot_adherence(patient, reward_value_t1)
         #function to reassign the value from two days ago in case updated sync'd data
-    update_day3_adherence(patient, reward_value_t2)
+    patient = update_day3_adherence(patient, reward_value_t2)
     # function to reassign the value from two days ago in case updated sync'd data
-    update_day3_dichot_adherence(patient, reward_value_t2)
+    patient = update_day3_dichot_adherence(patient, reward_value_t2)
     # function to reassign the value from two days ago in case updated sync'd data
 
     # We update the avg adherences at days 1,3,7 with updated shifted daily adherence values:
-    calc_avg_adherence(patient)
+    patient = calc_avg_adherence(patient)
 
     if reward_value_t0 > 0 and early_rx_use == 0:
         patient["flag_send_reward_value_t0"] = True
         patient["disconnectedness"] = 1
-    elif reward_value_t0 > 0 and early_rx_use == 1:
+    elif reward_value_t0 > 0 and early_rx_use > 0:
         patient["flag_send_reward_value_t0"] = True
         patient["disconnectedness"] = 0
     elif reward_value_t0 == 0 and early_rx_use == 0:
@@ -366,15 +371,16 @@ def find_rewards(pillsy, pt_data, run_time):
     :param run_time:
     :return:
     """
+    rewarded_pt_data = new_empty_pt_data()
     study_ids_list = get_study_ids(pt_data)
     for study_id in study_ids_list:
         # Filter by firstname = study_id to get data for just this one patient
         patient_pillsy_subset = pillsy[pillsy["firstname"] == study_id]
-        patient_row = pt_data[pt_data["record_id"] == study_id]
+        patient_row = pt_data[pt_data["record_id"] == study_id].iloc[0]
         # This function will update the patient attributes with the updated adherence data that we will find from pillsy
-        find_patient_rewards(patient_pillsy_subset, patient_row, run_time)
-
+        patient_row = find_patient_rewards(patient_pillsy_subset, patient_row, run_time)
+        rewarded_pt_data = rewarded_pt_data.append(patient_row)
     #TODO ask joe how pandas df is manipulated in a function i.e. pass by val or ref?
-    return
+    return rewarded_pt_data
 
 

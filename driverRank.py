@@ -22,9 +22,8 @@ def write_sms_history(pt_data, run_time):
 
     for pt, data in pt_data.iterrows():
         # Reward value, Rank_Id's
-        new_row = [data["record_id"], data["factor_set"], data["text_number"],
+        sms_history_dataframe.loc[len(sms_history_dataframe)] = [data["record_id"], data["factor_set"], data["text_number"],
                    data["sms_msg_today"], data["possibly_disconnected"], data["trial_day_counter"], str(data["censor_date"])]
-        sms_history_dataframe.loc[len(sms_history_dataframe)] = new_row
     # Writes CSV for RA to send text messages.
     sms_history_dataframe.to_csv(sms_hist_filepath)
     return
@@ -41,7 +40,7 @@ def run_ranking(patient, client, run_time):
     response = client.rank(rank_request=frame_rank_request)
     framing_ranked = response.reward_action_id
 
-    update_framing_ranking(patient, framing_ranked)
+    patient = update_framing_ranking(patient, framing_ranked)
 
     # history
     rank_id_history = str(patient["record_id"]) + "_" + str(patient["trial_day_counter"]) + "_history"
@@ -53,7 +52,7 @@ def run_ranking(patient, client, run_time):
     history_response = client.rank(rank_request=history_rank_request)
     history_ranked = history_response.reward_action_id
 
-    update_history_ranking(patient, history_ranked)
+    patient = update_history_ranking(patient, history_ranked)
 
     # social
     rank_id_social = str(patient["record_id"]) + "_" + str(patient["trial_day_counter"]) + "_social"
@@ -65,7 +64,7 @@ def run_ranking(patient, client, run_time):
     social_response = client.rank(rank_request=social_rank_request)
     social_ranked = social_response.reward_action_id
 
-    update_social_ranking(patient,social_ranked)
+    patient = update_social_ranking(patient,social_ranked)
 
     # content
     rank_id_content = str(patient["record_id"]) + "_" + str(patient["trial_day_counter"]) + "_content"
@@ -77,7 +76,7 @@ def run_ranking(patient, client, run_time):
     content_response = client.rank(rank_request=content_rank_request)
     content_ranked = content_response.reward_action_id
 
-    update_content_ranking(patient, content_ranked)
+    patient = update_content_ranking(patient, content_ranked)
 
     # reflective
     rank_id_reflective = str(patient["record_id"]) + "_" + str(patient["trial_day_counter"]) + "_reflective"
@@ -89,17 +88,14 @@ def run_ranking(patient, client, run_time):
     reflective_response = client.rank(rank_request=reflective_rank_request)
     reflective_ranked = reflective_response.reward_action_id
 
-    update_reflective_ranking(patient, reflective_ranked)
+    patient = update_reflective_ranking(patient, reflective_ranked)
     
-    print(patient)
-    update_num_day_sms(patient)
-    updated_sms_today(patient)
-    patient["last_run_time"] = run_time
-
+    patient = update_num_day_sms(patient)
+    patient = updated_sms_today(patient)
     patient["trial_day_counter"] += 1
 
 
-    return
+    return patient
 
 
 def update_framing_ranking(patient, response_action_id_framing):
@@ -110,7 +106,7 @@ def update_framing_ranking(patient, response_action_id_framing):
         patient["framing_sms"] = 2
     elif patient["response_action_id_framing"] == "neutFrame":
         patient["framing_sms"] = 0
-
+    return patient
 
 def update_history_ranking(patient, response_action_id_history):
     patient["response_action_id_history"] = response_action_id_history
@@ -118,7 +114,7 @@ def update_history_ranking(patient, response_action_id_history):
         patient["history_sms"] = 1
     elif patient["response_action_id_history"] == "noHistory":
         patient["history_sms"] = 0
-
+    return patient
 
 def update_social_ranking(patient, response_action_id_social):
     patient["response_action_id_social"] = response_action_id_social
@@ -126,7 +122,7 @@ def update_social_ranking(patient, response_action_id_social):
         patient["social_sms"] = 1
     elif patient["response_action_id_social"] == "noSocial":
         patient["social_sms"] = 0
-
+    return patient
 
 def update_content_ranking(patient, response_action_id_content):
     patient["response_action_id_content"] = response_action_id_content
@@ -134,7 +130,7 @@ def update_content_ranking(patient, response_action_id_content):
         patient["content_sms"] = 1
     elif patient["response_action_id_content"] == "noContent":
         patient["content_sms"] = 0
-
+    return patient
 
 def update_reflective_ranking(patient, response_action_id_reflective):
     patient["response_action_id_reflective"] = response_action_id_reflective
@@ -142,7 +138,7 @@ def update_reflective_ranking(patient, response_action_id_reflective):
         patient["reflective_sms"] = 1
     elif patient["response_action_id_reflective"] == "noReflective":
         patient["reflective_sms"] = 0
-
+    return patient
 
 def update_num_day_sms(patient):
     if patient["response_action_id_framing"] == "posFrame":
@@ -184,7 +180,8 @@ def update_num_day_sms(patient):
     if patient["response_action_id_framing"] == "neutFrame":
         if patient["response_action_id_history"] == "noHistory" and patient["response_action_id_social"] == "noSocial" and patient["response_action_id_content"] == "noContent" and patient["response_action_id_reflective"] == "noReflective":
             patient["num_day_since_no_sms"] += 1
-
+    
+    return patient
 
 # Computes and updates the SMS text message to send to this patient today.
 def updated_sms_today(patient):
@@ -198,13 +195,19 @@ def updated_sms_today(patient):
     print("rankresult", framing, history, social, content, reflective)
 
     # TODO ask joe if this takes into account if the sms_choices 0,0,0,0,0 then will it return rows = None -> if so code is all set I modified, if not make sure it wont throw an error or fix the if else clause
-    rows = sms_choices.query(
-        "framing_sms == @framing "
-        + "and history_sms == @history "
-        + "and social_sms == @social "
-        + "and content_sms == @content "
-        + "and reflective_sms == @reflective"
-    , inplace = True)
+    rows = sms_choices[sms_choices['framing_sms'] == framing]
+    rows = rows[rows['history_sms'] == history]
+    rows = rows[rows['social_sms'] == social]
+    rows = rows[rows['content_sms'] == content]
+    rows = rows[rows['reflective_sms'] == reflective]
+    print(rows)
+    #TODO - @Joe, you can fix this and we can use instead of my inefficient way above
+#     rows = sms_choices.query(
+#         "framing_sms == @framing "
+#         + "and history_sms == @history "
+#         + "and social_sms == @social "
+#         + "and content_sms == @content "
+#         + "and reflective_sms == @reflective")
     # If 0,0,0,0,0 is found, then the rows will be None, so our defaults are first, the empty text message
     text_number = 0
     factor_set = 0
@@ -212,7 +215,7 @@ def updated_sms_today(patient):
     text_message = ""
 
     # If 0,0,0,0,0 is not found, then the rows will have some potential values,
-    if rows != None:
+    if not rows.empty:
         # Then we randomize what of the factor set text messages we will send
         row = rows.sample()
         # We record the factor_set and text_number as unique identifiers for this message
@@ -228,12 +231,13 @@ def updated_sms_today(patient):
         text = row['text_message'].item().replace("X", str(patient["total_dichot_adherence_past7"]))
 
     # We've updated the local variables and now store into the patient object as attributes to be exported in bulk by another function
-        patient["text_number"] = text_number
-        patient["factor_set"] = factor_set
-        patient["quantitative_sms"] = quantitative_sms
-        patient["doctor_sms"] = doctor_sms
-        patient["lifestyle_sms"] = lifestyle_sms
-    patient["sms_today"] = text
+    patient["text_number"] = text_number
+    patient["factor_set"] = factor_set
+    patient["quantitative_sms"] = quantitative_sms
+    patient["doctor_sms"] = doctor_sms
+    patient["lifestyle_sms"] = lifestyle_sms
+    patient["sms_msg_today"] = text
+    return patient
 
 def get_demographics_features(patient):
     demographic_features = {"age": patient["age"],
