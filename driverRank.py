@@ -32,70 +32,72 @@ def write_sms_history(pt_data, run_time):
 
 def run_ranking(patient, client, run_time):
     # framing
-    rank_id_framing = str(patient.get_study_id() + "_" + patient["trial_day_counter"] + "_frame")
+    rank_id_framing = str(patient["record_id"]) + "_" + str(patient["trial_day_counter"]) + "_frame"
     patient["rank_id_framing_t0"] = rank_id_framing
     context = get_framing_context(patient)
     actions = get_framing_actions()
 
     frame_rank_request = RankRequest(actions=actions, context_features=context, event_id=rank_id_framing)
     response = client.rank(rank_request=frame_rank_request)
-    framing_ranked = response.rewardActionId
+    framing_ranked = response.reward_action_id
 
     update_framing_ranking(patient, framing_ranked)
 
     # history
-    rank_id_history = str(patient.get_study_id() + "_" + patient["trial_day_counter"] + "_history")
+    rank_id_history = str(patient["record_id"]) + "_" + str(patient["trial_day_counter"]) + "_history"
     patient["rank_id_history_t0"] = rank_id_history
     context = get_history_context(patient)
     actions = get_history_actions()
 
     history_rank_request = RankRequest(actions=actions, context_features=context, event_id=rank_id_history)
     history_response = client.rank(rank_request=history_rank_request)
-    history_ranked = history_response.rewardActionId
+    history_ranked = history_response.reward_action_id
 
     update_history_ranking(patient, history_ranked)
 
     # social
-    rank_id_social = str(patient.get_study_id() + "_" + patient["trial_day_counter"] + "_social")
+    rank_id_social = str(patient["record_id"]) + "_" + str(patient["trial_day_counter"]) + "_social"
     patient["rank_id_social_t0"] = rank_id_social
     context = get_social_context(patient)
     actions = get_social_actions()
 
     social_rank_request = RankRequest(actions=actions, context_features=context, event_id=rank_id_social)
     social_response = client.rank(rank_request=social_rank_request)
-    social_ranked = social_response.rewardActionId
+    social_ranked = social_response.reward_action_id
 
     update_social_ranking(patient,social_ranked)
 
     # content
-    rank_id_content = str(patient.get_study_id() + "_" + patient["trial_day_counter"] + "_content")
+    rank_id_content = str(patient["record_id"]) + "_" + str(patient["trial_day_counter"]) + "_content"
     patient["rank_id_content_t0"] = rank_id_content
     context = get_content_context(patient)
     actions = get_content_actions()
 
     content_rank_request = RankRequest(actions=actions, context_features=context, event_id=rank_id_content)
     content_response = client.rank(rank_request=content_rank_request)
-    content_ranked = content_response.rewardActionId
+    content_ranked = content_response.reward_action_id
 
     update_content_ranking(patient, content_ranked)
 
     # reflective
-    rank_id_reflective = str(patient.get_study_id() + "_" + patient["trial_day_counter"] + "_reflective")
+    rank_id_reflective = str(patient["record_id"]) + "_" + str(patient["trial_day_counter"]) + "_reflective"
     patient["rank_id_reflective_t0"] = rank_id_reflective
     context = get_reflective_context(patient)
     actions = get_reflective_actions()
 
     reflective_rank_request = RankRequest(actions=actions, context_features=context, event_id=rank_id_reflective)
     reflective_response = client.rank(rank_request=reflective_rank_request)
-    reflective_ranked = reflective_response.rewardActionId
+    reflective_ranked = reflective_response.reward_action_id
 
     update_reflective_ranking(patient, reflective_ranked)
-
+    
+    print(patient)
     update_num_day_sms(patient)
     updated_sms_today(patient)
-    patient["last_run_time"] = pytz.UTC.localize(run_time)
+    patient["last_run_time"] = run_time
 
     patient["trial_day_counter"] += 1
+
 
     return
 
@@ -193,17 +195,16 @@ def updated_sms_today(patient):
     social = patient["social_sms"]
     content = patient["content_sms"]
     reflective = patient["reflective_sms"]
+    print("rankresult", framing, history, social, content, reflective)
 
     # TODO ask joe if this takes into account if the sms_choices 0,0,0,0,0 then will it return rows = None -> if so code is all set I modified, if not make sure it wont throw an error or fix the if else clause
     rows = sms_choices.query(
         "framing_sms == @framing "
         + "and history_sms == @history "
         + "and social_sms == @social "
-        + "and content_sms == @content"
+        + "and content_sms == @content "
         + "and reflective_sms == @reflective"
-    )
-    # TODO Double check with Julie that randomization within the factor set of texts was the final decision (i.e. this is what we implemented)
-
+    , inplace = True)
     # If 0,0,0,0,0 is found, then the rows will be None, so our defaults are first, the empty text message
     text_number = 0
     factor_set = 0
@@ -227,12 +228,12 @@ def updated_sms_today(patient):
         text = row['text_message'].item().replace("X", str(patient["total_dichot_adherence_past7"]))
 
     # We've updated the local variables and now store into the patient object as attributes to be exported in bulk by another function
+        patient["text_number"] = text_number
+        patient["factor_set"] = factor_set
+        patient["quantitative_sms"] = quantitative_sms
+        patient["doctor_sms"] = doctor_sms
+        patient["lifestyle_sms"] = lifestyle_sms
     patient["sms_today"] = text
-    patient["text_number"] = text_number
-    patient["factor_set"] = factor_set
-    patient["quantitative_sms"] = quantitative_sms
-    patient["doctor_sms"] = doctor_sms
-    patient["lifestyle_sms"] = lifestyle_sms
 
 def get_demographics_features(patient):
     demographic_features = {"age": patient["age"],
@@ -337,7 +338,7 @@ def get_history_context(patient):
         get_pillsy_med_features(patient),
         get_observed_feedback_features(patient),
         get_num_days_since_features(patient),
-        patient["response_action_id_framing"]]
+        {"response_action_id_framing" : patient["response_action_id_framing"]}]
     return history_context
 
 
@@ -350,8 +351,8 @@ def get_social_context(patient):
         get_pillsy_med_features(patient),
         get_observed_feedback_features(patient),
         get_num_days_since_features(patient),
-        patient["response_action_id_framing"],
-        patient["response_action_id_history"]]
+        {"response_action_id_framing" : patient["response_action_id_framing"]},
+        {"response_action_id_history" : patient["response_action_id_history"]}]
     return social_context
 
 
@@ -364,8 +365,9 @@ def get_content_context(patient):
         get_pillsy_med_features(patient),
         get_observed_feedback_features(patient),
         get_num_days_since_features(patient),
-        patient["response_action_id_framing"],
-        patient["response_action_id_history"], patient["response_action_id_social"]]
+        {"response_action_id_framing" : patient["response_action_id_framing"]},
+        {"response_action_id_history" : patient["response_action_id_history"]},
+        {"response_action_id_social" : patient["response_action_id_social"]}]
     return content_context
 
 
@@ -378,6 +380,8 @@ def get_reflective_context(patient):
         get_pillsy_med_features(patient),
         get_observed_feedback_features(patient),
         get_num_days_since_features(patient),
-        patient["response_action_id_framing"],
-        patient["response_action_id_history"], patient["response_action_id_social"], patient["response_action_id_content"]]
+        {"response_action_id_framing" : patient["response_action_id_framing"]},
+        {"response_action_id_history" : patient["response_action_id_history"]},
+        {"response_action_id_social" : patient["response_action_id_social"]},
+        {"response_action_id_content" : patient["response_action_id_content"]}]
     return reflective_context

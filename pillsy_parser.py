@@ -43,10 +43,10 @@ def import_Pillsy(run_time):
 
     def converter(time_string):
         import re
-        tz_abbr = re.search(r"\d\d:\d\d A|PM ([A-Z]{2,4}) \d{4}-\d\d-\d\d", time_string).group(1)
+        tz_abbr = re.search(r"\d\d:\d\d .M ([A-Z]{2,4}) \d{4}-\d\d-\d\d", time_string).group(1)
         return time_string.replace(tz_abbr, tz_ref[tz_abbr])
 
-    pillsy["eventTime"] = pd.to_datetime(converter(pillsy["eventTime"]))
+    pillsy["eventTime"] = pd.to_datetime(pd.Series([converter(str_dt) for str_dt in pillsy["eventTime"]]))
     # Note: In this dataset our study_id is actually 'firstname', hence the drop of patientId
     # Note: firstname is currently read in as int64 dtype
     pillsy.drop(["patientId", "lastname", "method", "platform"], axis=1, inplace=True)

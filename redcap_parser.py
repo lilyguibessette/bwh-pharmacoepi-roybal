@@ -85,11 +85,7 @@ def redcap_vars_converter(redcap_df):
 
 def update_pt_data_with_redcap(redcap_data, pt_data, run_time):
     # TODO Joe - can you check this function thats purpose is to just add the redcap data to the pt_data for new patients and for existing patients updatee their existing censor and pillsy related info with the new redcap info
-    unique_study_ids_list_redcap = get_unique_study_ids(redcap_data)
-    if not pt_data:
-        fp = os.path.join("..", "PatientData", "empty_start.csv")
-        date_cols = ["start_date", "censor_date", "possibly_disconnected_date"]
-        pt_data = pd.read_csv(fp, sep=',', parse_dates=date_cols)
+    unique_study_ids_list_redcap = get_unique_study_ids(redcap_data)   
     
     unique_study_ids_list_pt_data = get_unique_study_ids(pt_data)
 
