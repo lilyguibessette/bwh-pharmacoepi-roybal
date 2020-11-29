@@ -87,10 +87,10 @@ def update_pt_data_with_redcap(redcap_data, pt_data, run_time):
     # TODO Joe - can you check this function thats purpose is to just add the redcap data to the pt_data for new patients and for existing patients updatee their existing censor and pillsy related info with the new redcap info
     unique_study_ids_list_redcap = get_unique_study_ids(redcap_data)
     if not pt_data:
-        fp = os.path.join("..", "..", "PatientData", "empty_start.csv")
+        filepath = os.path.join("..", "..", "PatientData", "empty_start.csv")
         date_cols = ["start_date", "censor_date", "possibly_disconnected_date"]
         pt_data = pd.read_csv(fp, sep=',', parse_dates=date_cols)
-
+    
     unique_study_ids_list_pt_data = get_unique_study_ids(pt_data)
 
     # Updating existing patients
@@ -134,7 +134,7 @@ def update_pt_data_with_redcap(redcap_data, pt_data, run_time):
             else:
                 race_other = 0
             censor_date = (redcap_row["start_date"] + timedelta(days=180)).date()
-            new_row = pd.Series({'record_id': id,
+            new_row = pd.Series(pt_data={'record_id': id,
                                          'trial_day_counter': 0,
                                          'age': redcap_row["age"],
                                          'sex': redcap_row["sex"],
