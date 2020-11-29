@@ -217,6 +217,10 @@ def updated_sms_today(patient):
         # We record the factor_set and text_number as unique identifiers for this message
         factor_set = row['factor_set'].item()
         text_number = row['text_number'].item()
+        quantitative_sms = row['quantitative_sms'].item()
+        doctor_sms = row['doctor_sms'].item()
+        lifestyle_sms = row['lifestyle_sms'].item()
+
         text_message = row['text_message'].item()
         # We store the text message that will be sent for this specific patient that takes into account the history of their adherence
         # This finds and replaces the "X" in the sms_choices text_message rows to customize to the patient.
@@ -226,7 +230,9 @@ def updated_sms_today(patient):
     patient["sms_today"] = text
     patient["text_number"] = text_number
     patient["factor_set"] = factor_set
-
+    patient["quantitative_sms"] = quantitative_sms
+    patient["doctor_sms"] = doctor_sms
+    patient["lifestyle_sms"] = lifestyle_sms
 
 def get_demographics_features(patient):
     demographic_features = {"age": patient["age"],
