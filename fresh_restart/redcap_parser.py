@@ -86,37 +86,43 @@ def redcap_vars_converter(redcap_df):
 def update_pt_data_with_redcap(redcap_data, pt_data, run_time):
     # TODO Joe - can you check this function thats purpose is to just add the redcap data to the pt_data for new patients and for existing patients updatee their existing censor and pillsy related info with the new redcap info
     unique_study_ids_list_redcap = get_unique_study_ids(redcap_data)
+    if not pt_data:
+        fp = os.path.join("..", "..", "PatientData", "empty_start.csv")
+        date_cols = ["start_date", "censor_date", "possibly_disconnected_date"]
+        pt_data = pd.read_csv(fp, sep=',', parse_dates=date_cols)
+    
     unique_study_ids_list_pt_data = get_unique_study_ids(pt_data)
 
     # Updating existing patients
-    for index, patient in pt_data.iterrows():
-        record_id = patient["record_id"]
-        row = redcap_data[redcap_data["record_id"] == record_id]
-        # need to make sure via iterating it updates this data in the df
-        patient["censor"] = row["censor"]
-        patient["num_twice_daily_pillsy_meds"] = row["num_twice_daily_pillsy_meds"]
-        patient["pillsy_meds_agi"] = row["pillsy_meds___1"]
-        patient["pillsy_meds_dpp4"] = row["pillsy_meds___2"]
-        patient["pillsy_meds_glp1"] = row["pillsy_meds___3"]
-        patient["pillsy_meds_meglitinide"] = row["pillsy_meds___4"]
-        patient["pillsy_meds_metformin"] = row["pillsy_meds___5"]
-        patient["pillsy_meds_sglt2"] = row["pillsy_meds___6"]
-        patient["pillsy_meds_sulfonylurea"] = row["pillsy_meds___7"]
-        patient["pillsy_meds_thiazolidinedione"] = row["pillsy_meds___8"]
-        patient["num_pillsy_meds"] = row["bottles"]
-        # shift these values for the next rank to store t0 values
-        patient["reward_value_t1"] = patient["reward_value_t0"]
-        patient["rank_id_framing_t1"] = patient["rank_id_framing_t0"]
-        patient["rank_id_history_t1"] = patient["rank_id_history_t0"]
-        patient["rank_id_social_t1"] = patient["rank_id_social_t0"]
-        patient["rank_id_content_t1"] = patient["rank_id_content_t0"]
-        patient["rank_id_reflective_t1"] = patient["rank_id_reflective_t0"]
-        patient["reward_value_t2"] = patient["reward_value_t1"]
-        patient["rank_id_framing_t2"] = patient["rank_id_framing_t1"]
-        patient["rank_id_history_t2"] = patient["rank_id_history_t1"]
-        patient["rank_id_social_t2"] = patient["rank_id_social_t1"]
-        patient["rank_id_content_t2"] = patient["rank_id_content_t1"]
-        patient["rank_id_reflective_t2"] = patient["rank_id_reflective_t1"]
+    if pt_data:
+        for index, patient in pt_data.iterrows():
+            record_id = patient["record_id"]
+            row = redcap_data[redcap_data["record_id"] == record_id]
+            # need to make sure via iterating it updates this data in the df
+            patient["censor"] = row["censor"]
+            patient["num_twice_daily_pillsy_meds"] = row["num_twice_daily_pillsy_meds"]
+            patient["pillsy_meds_agi"] = row["pillsy_meds___1"]
+            patient["pillsy_meds_dpp4"] = row["pillsy_meds___2"]
+            patient["pillsy_meds_glp1"] = row["pillsy_meds___3"]
+            patient["pillsy_meds_meglitinide"] = row["pillsy_meds___4"]
+            patient["pillsy_meds_metformin"] = row["pillsy_meds___5"]
+            patient["pillsy_meds_sglt2"] = row["pillsy_meds___6"]
+            patient["pillsy_meds_sulfonylurea"] = row["pillsy_meds___7"]
+            patient["pillsy_meds_thiazolidinedione"] = row["pillsy_meds___8"]
+            patient["num_pillsy_meds"] = row["bottles"]
+            # shift these values for the next rank to store t0 values
+            patient["reward_value_t1"] = patient["reward_value_t0"]
+            patient["rank_id_framing_t1"] = patient["rank_id_framing_t0"]
+            patient["rank_id_history_t1"] = patient["rank_id_history_t0"]
+            patient["rank_id_social_t1"] = patient["rank_id_social_t0"]
+            patient["rank_id_content_t1"] = patient["rank_id_content_t0"]
+            patient["rank_id_reflective_t1"] = patient["rank_id_reflective_t0"]
+            patient["reward_value_t2"] = patient["reward_value_t1"]
+            patient["rank_id_framing_t2"] = patient["rank_id_framing_t1"]
+            patient["rank_id_history_t2"] = patient["rank_id_history_t1"]
+            patient["rank_id_social_t2"] = patient["rank_id_social_t1"]
+            patient["rank_id_content_t2"] = patient["rank_id_content_t1"]
+            patient["rank_id_reflective_t2"] = patient["rank_id_reflective_t1"]
 
     # Adding new patients
     for id in unique_study_ids_list_redcap:
@@ -128,16 +134,16 @@ def update_pt_data_with_redcap(redcap_data, pt_data, run_time):
             else:
                 race_other = 0
             censor_date = (redcap_row["start_date"] + timedelta(days=180)).date()
-            new_row = pd.Series(pt_data={'record_id': id,
+            new_row = pd.Series({'record_id': redcap_row["record_id"],
                                          'trial_day_counter': 0,
                                          'age': redcap_row["age"],
                                          'sex': redcap_row["sex"],
                                          'num_years_dm_rx': redcap_row["num_years_dm_rx"],
                                          'hba1c': redcap_row["hba1c"],
                                          'race_white': int(redcap_row["race___1"]),
-                                         'race_black': redcap_row["race___2"],
-                                         'race_asian': redcap_row["race___3"],
-                                         'race_hispanic': redcap_row["race___4"],
+                                         'race_black': int(redcap_row["race___2"]),
+                                         'race_asian': int(redcap_row["race___3"]),
+                                         'race_hispanic': int(redcap_row["race___4"]),
                                          'race_other': race_other,
                                          'num_physicians': redcap_row["num_physicians"],
                                          'num_rx': redcap_row["num_rx"],
@@ -176,3 +182,59 @@ def get_unique_study_ids(df):
     unique_study_ids_list = unique_study_ids.values.tolist()
     # returns a list of the unique record_id's in the redcap data
     return unique_study_ids_list
+
+
+
+
+
+
+
+
+
+
+
+# Testing new row
+import pandas as pd
+fp = "empty_start.csv"
+from dateutil.parser import parse
+from datetime import datetime, date, timedelta
+date_cols = ["start_date", "censor_date", "possibly_disconnected_date"]
+pt_data = pd.read_csv(fp, sep=',', parse_dates=date_cols)
+st_dt = "11/4/2020"
+start_date = parse(st_dt)
+censor_date = (start_date + timedelta(days=180)).date()
+new_row = pd.Series({'record_id': 12,
+                     'trial_day_counter': 0,
+                     'age': "123-123",
+                     'sex': "M",
+                     'num_years_dm_rx': "2123123",
+                     'hba1c': "string_hba1c",  
+                     'race_white': 1,
+                     'race_black': 1,
+                     'race_asian': 0,
+                     'race_hispanic': 1,
+                     'race_other': 1,
+                     'num_physicians': "numphys",
+                     'num_rx': "12",
+                     'concomitant_insulin_use': 1,
+                     'automaticity': "12123",
+                     'pt_activation': "yes",
+                     'reason_dm_rx': "supposed",
+                     'non_adherence': "222",
+                     'edu_level': "deg",
+                     'employment_status': "employ",
+                     'marital_status': "married",
+                     'pillsy_meds_agi': 1,
+                     'pillsy_meds_dpp4': 1,
+                     'pillsy_meds_glp1': 0,
+                     'pillsy_meds_meglitinide': 1,
+                     'pillsy_meds_metformin': 1,
+                     'pillsy_meds_sglt2': 0,
+                     'pillsy_meds_sulfonylurea': 0,
+                     'pillsy_meds_thiazolidinedione': 0,
+                     'num_pillsy_meds': 3,
+                     'start_date': start_date,
+                     'censor_date': censor_date,
+                     'num_twice_daily_pillsy_meds':1,
+                     'censor': 0}, name='new')
+pt_data = pt_data.append(new_row)
