@@ -86,37 +86,43 @@ def redcap_vars_converter(redcap_df):
 def update_pt_data_with_redcap(redcap_data, pt_data, run_time):
     # TODO Joe - can you check this function thats purpose is to just add the redcap data to the pt_data for new patients and for existing patients updatee their existing censor and pillsy related info with the new redcap info
     unique_study_ids_list_redcap = get_unique_study_ids(redcap_data)
+    if not pt_data:
+        fp = os.path.join("..", "..", "PatientData", "empty_start.csv")
+        date_cols = ["start_date", "censor_date", "possibly_disconnected_date"]
+        pt_data = pd.read_csv(fp, sep=',', parse_dates=date_cols)
+
     unique_study_ids_list_pt_data = get_unique_study_ids(pt_data)
 
     # Updating existing patients
-    for index, patient in pt_data.iterrows():
-        record_id = patient["record_id"]
-        row = redcap_data[redcap_data["record_id"] == record_id]
-        # need to make sure via iterating it updates this data in the df
-        patient["censor"] = row["censor"]
-        patient["num_twice_daily_pillsy_meds"] = row["num_twice_daily_pillsy_meds"]
-        patient["pillsy_meds_agi"] = row["pillsy_meds___1"]
-        patient["pillsy_meds_dpp4"] = row["pillsy_meds___2"]
-        patient["pillsy_meds_glp1"] = row["pillsy_meds___3"]
-        patient["pillsy_meds_meglitinide"] = row["pillsy_meds___4"]
-        patient["pillsy_meds_metformin"] = row["pillsy_meds___5"]
-        patient["pillsy_meds_sglt2"] = row["pillsy_meds___6"]
-        patient["pillsy_meds_sulfonylurea"] = row["pillsy_meds___7"]
-        patient["pillsy_meds_thiazolidinedione"] = row["pillsy_meds___8"]
-        patient["num_pillsy_meds"] = row["bottles"]
-        # shift these values for the next rank to store t0 values
-        patient["reward_value_t1"] = patient["reward_value_t0"]
-        patient["rank_id_framing_t1"] = patient["rank_id_framing_t0"]
-        patient["rank_id_history_t1"] = patient["rank_id_history_t0"]
-        patient["rank_id_social_t1"] = patient["rank_id_social_t0"]
-        patient["rank_id_content_t1"] = patient["rank_id_content_t0"]
-        patient["rank_id_reflective_t1"] = patient["rank_id_reflective_t0"]
-        patient["reward_value_t2"] = patient["reward_value_t1"]
-        patient["rank_id_framing_t2"] = patient["rank_id_framing_t1"]
-        patient["rank_id_history_t2"] = patient["rank_id_history_t1"]
-        patient["rank_id_social_t2"] = patient["rank_id_social_t1"]
-        patient["rank_id_content_t2"] = patient["rank_id_content_t1"]
-        patient["rank_id_reflective_t2"] = patient["rank_id_reflective_t1"]
+    if pt_data:
+        for index, patient in pt_data.iterrows():
+            record_id = patient["record_id"]
+            row = redcap_data[redcap_data["record_id"] == record_id]
+            # need to make sure via iterating it updates this data in the df
+            patient["censor"] = row["censor"]
+            patient["num_twice_daily_pillsy_meds"] = row["num_twice_daily_pillsy_meds"]
+            patient["pillsy_meds_agi"] = row["pillsy_meds___1"]
+            patient["pillsy_meds_dpp4"] = row["pillsy_meds___2"]
+            patient["pillsy_meds_glp1"] = row["pillsy_meds___3"]
+            patient["pillsy_meds_meglitinide"] = row["pillsy_meds___4"]
+            patient["pillsy_meds_metformin"] = row["pillsy_meds___5"]
+            patient["pillsy_meds_sglt2"] = row["pillsy_meds___6"]
+            patient["pillsy_meds_sulfonylurea"] = row["pillsy_meds___7"]
+            patient["pillsy_meds_thiazolidinedione"] = row["pillsy_meds___8"]
+            patient["num_pillsy_meds"] = row["bottles"]
+            # shift these values for the next rank to store t0 values
+            patient["reward_value_t1"] = patient["reward_value_t0"]
+            patient["rank_id_framing_t1"] = patient["rank_id_framing_t0"]
+            patient["rank_id_history_t1"] = patient["rank_id_history_t0"]
+            patient["rank_id_social_t1"] = patient["rank_id_social_t0"]
+            patient["rank_id_content_t1"] = patient["rank_id_content_t0"]
+            patient["rank_id_reflective_t1"] = patient["rank_id_reflective_t0"]
+            patient["reward_value_t2"] = patient["reward_value_t1"]
+            patient["rank_id_framing_t2"] = patient["rank_id_framing_t1"]
+            patient["rank_id_history_t2"] = patient["rank_id_history_t1"]
+            patient["rank_id_social_t2"] = patient["rank_id_social_t1"]
+            patient["rank_id_content_t2"] = patient["rank_id_content_t1"]
+            patient["rank_id_reflective_t2"] = patient["rank_id_reflective_t1"]
 
     # Adding new patients
     for id in unique_study_ids_list_redcap:
@@ -128,7 +134,7 @@ def update_pt_data_with_redcap(redcap_data, pt_data, run_time):
             else:
                 race_other = 0
             censor_date = (redcap_row["start_date"] + timedelta(days=180)).date()
-            new_row = pd.Series(pt_data={'record_id': id,
+            new_row = pd.Series({'record_id': id,
                                          'trial_day_counter': 0,
                                          'age': redcap_row["age"],
                                          'sex': redcap_row["sex"],
