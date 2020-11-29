@@ -2,9 +2,9 @@
 from azure.cognitiveservices.personalizer import PersonalizerClient
 from azure.cognitiveservices.personalizer.models import RankRequest
 from msrest.authentication import CognitiveServicesCredentials
-from fresh_restart.Actions import get_framing_actions, get_history_actions,get_social_actions,get_content_actions, get_reflective_actions
-from data_classes.Patient import Patient
-import data_classes.ContextFeatures
+from Actions import get_framing_actions, get_history_actions, get_social_actions, get_content_actions, get_reflective_actions
+# from data_classes.Patient import Patient
+# import data_classes.ContextFeatures
 from datetime import datetime, date, timedelta
 import pytz
 import os
@@ -13,7 +13,7 @@ import pandas as pd
 
 def write_sms_history(pt_data, run_time):
     sms_hist_filename = str(run_time.date()) + "_sms_history" + '.csv'
-    sms_hist_filepath = os.path.join("..", "..", "SMSHistory", sms_hist_filename)
+    sms_hist_filepath = os.path.join("..", "SMSHistory", sms_hist_filename)
 
     # Subset updated_pt_dict to what we need for reward calls and put in dataframe
     # create an Empty DataFrame object
@@ -32,7 +32,7 @@ def write_sms_history(pt_data, run_time):
 
 def run_ranking(patient, client, run_time):
     # framing
-    rank_id_framing = str(patient.get_study_id() + "_" + patient.trial_day_counter + "_frame")
+    rank_id_framing = str(patient.get_study_id() + "_" + patient["trial_day_counter"] + "_frame")
     patient["rank_id_framing_t0"] = rank_id_framing
     context = get_framing_context(patient)
     actions = get_framing_actions()
@@ -44,7 +44,7 @@ def run_ranking(patient, client, run_time):
     update_framing_ranking(patient, framing_ranked)
 
     # history
-    rank_id_history = str(patient.get_study_id() + "_" + patient.trial_day_counter + "_history")
+    rank_id_history = str(patient.get_study_id() + "_" + patient["trial_day_counter"] + "_history")
     patient["rank_id_history_t0"] = rank_id_history
     context = get_history_context(patient)
     actions = get_history_actions()
@@ -56,7 +56,7 @@ def run_ranking(patient, client, run_time):
     update_history_ranking(patient, history_ranked)
 
     # social
-    rank_id_social = str(patient.get_study_id() + "_" + patient.trial_day_counter + "_social")
+    rank_id_social = str(patient.get_study_id() + "_" + patient["trial_day_counter"] + "_social")
     patient["rank_id_social_t0"] = rank_id_social
     context = get_social_context(patient)
     actions = get_social_actions()
@@ -68,7 +68,7 @@ def run_ranking(patient, client, run_time):
     update_social_ranking(patient,social_ranked)
 
     # content
-    rank_id_content = str(patient.get_study_id() + "_" + patient.trial_day_counter + "_content")
+    rank_id_content = str(patient.get_study_id() + "_" + patient["trial_day_counter"] + "_content")
     patient["rank_id_content_t0"] = rank_id_content
     context = get_content_context(patient)
     actions = get_content_actions()
@@ -80,7 +80,7 @@ def run_ranking(patient, client, run_time):
     update_content_ranking(patient, content_ranked)
 
     # reflective
-    rank_id_reflective = str(patient.get_study_id() + "_" + patient.trial_day_counter + "_reflective")
+    rank_id_reflective = str(patient.get_study_id() + "_" + patient["trial_day_counter"] + "_reflective")
     patient["rank_id_reflective_t0"] = rank_id_reflective
     context = get_reflective_context(patient)
     actions = get_reflective_actions()
@@ -186,7 +186,7 @@ def update_num_day_sms(patient):
 
 # Computes and updates the SMS text message to send to this patient today.
 def updated_sms_today(patient):
-    fp = os.path.join("..", "..", "SMSChoices", "sms_choices.csv")
+    fp = os.path.join("..", "SMSChoices", "sms_choices.csv")
     sms_choices = pd.read_csv(fp)
     framing = patient["framing_sms"]
     history = patient["history_sms"]

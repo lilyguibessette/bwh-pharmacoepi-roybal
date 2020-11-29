@@ -19,7 +19,7 @@ from datetime import date
 
 def get_reward_update(pt_data, run_time):
     reward_filename = str(run_time.date()) + "_reward_updates" + '.csv'
-    reward_filepath = os.path.join("..", "..", "RewardData", reward_filename)
+    reward_filepath = os.path.join("..", "RewardData", reward_filename)
     today = run_time.date()
     two_day_ago = (run_time - timedelta(days=2)).date()
     yesterday = (run_time - timedelta(days=1)).date()

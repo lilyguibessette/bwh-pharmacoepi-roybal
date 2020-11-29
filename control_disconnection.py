@@ -7,8 +7,8 @@ import gc
 import time
 from datetime import datetime, date, timedelta
 import pytz
-from fresh_restart.pillsy_parser import identify_drug_freq, get_drugName_list,find_taken_events
-from fresh_restart.patient_data import get_study_ids
+from pillsy_parser import identify_drug_freq, get_drugName_list, find_taken_events
+from patient_data import get_study_ids
 
 # For date time
 #https://realpython.com/python-datetime/

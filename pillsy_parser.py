@@ -7,7 +7,7 @@ import gc
 import time
 from datetime import datetime, date, timedelta
 import pytz
-from fresh_restart.patient_data import get_study_ids
+from patient_data import get_study_ids
 
 # For date time
 #https://realpython.com/python-datetime/
@@ -19,7 +19,7 @@ def import_Pillsy(run_time):
     # Imports Pillsy pill taking history as a pandas data frame from a CSV
 
     pillsy_filename = str(import_date) + "_pillsy" + '.csv'
-    fp = os.path.join("..", "..", "Pillsy", pillsy_filename)
+    fp = os.path.join("..", "Pillsy", pillsy_filename)
 
     try:
         pillsy = pd.read_csv(fp)

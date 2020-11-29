@@ -6,7 +6,7 @@ def import_pt_data(run_time):
     # Imports Pillsy pill taking history as a pandas data frame from a CSV
 
     pt_data_filename = str(import_date) + "_pt_data" + '.csv'
-    fp = os.path.join("..", "..", "PatientData", pt_data_filename)
+    fp = os.path.join("..",  "PatientData", pt_data_filename)
     date_cols = ["start_date", "censor_date", "possibly_disconnected_date"]
     try:
         pt_data = pd.read_csv(fp, sep=',', parse_dates=date_cols)
@@ -18,13 +18,13 @@ def import_pt_data(run_time):
 def export_pt_data(pt_data, runtime, purpose):
     filesave = str(runtime.date()) + "_pt_data_" + purpose.lower() + '.csv'
     if purpose.lower() == "reward":
-        filepath = os.path.join("..", "..", "RewardLog", filesave)
+        filepath = os.path.join("..",  "RewardLog", filesave)
     elif purpose.lower() == "rank":
-        filepath = os.path.join("..", "..", "RankLog", filesave)
+        filepath = os.path.join("..",  "RankLog", filesave)
     elif purpose.lower() == "final":
-        filepath = os.path.join("..", "..", "PatientData", filesave)
+        filepath = os.path.join("..",  "PatientData", filesave)
     else:
-        filepath = os.path.join("..", "..", "Trash", filesave)
+        filepath = os.path.join("..",  "Trash", filesave)
     pt_data.to_csv(filepath)
 
 

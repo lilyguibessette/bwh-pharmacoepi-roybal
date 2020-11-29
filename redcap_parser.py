@@ -11,7 +11,7 @@ def import_redcap(run_time):
     import_date = run_time.date()
     # Imports REDCap patients that are enrolling on an ongoing basis as a pandas data frame from a CSV
     redcap_filepath = str(import_date) + "_redcap" + '.csv'
-    fp = os.path.join("..", "..", "REDCap", redcap_filepath)
+    fp = os.path.join("..", "REDCap", redcap_filepath)
     date_cols = ["start_date"]
     # Reads in the csv file into a pandas data frame and ensures that the date_cols are imported as datetime.datetime objects
     # TODO potentially need to be careful here due to use of the data in redcap.py -> might want to ensure record_id column is a string, currently I think it defaults to an int - might bee fine to keep int
@@ -87,14 +87,14 @@ def update_pt_data_with_redcap(redcap_data, pt_data, run_time):
     # TODO Joe - can you check this function thats purpose is to just add the redcap data to the pt_data for new patients and for existing patients updatee their existing censor and pillsy related info with the new redcap info
     unique_study_ids_list_redcap = get_unique_study_ids(redcap_data)
     if not pt_data:
-        filepath = os.path.join("..", "..", "PatientData", "empty_start.csv")
+        fp = os.path.join("..", "PatientData", "empty_start.csv")
         date_cols = ["start_date", "censor_date", "possibly_disconnected_date"]
         pt_data = pd.read_csv(fp, sep=',', parse_dates=date_cols)
     
     unique_study_ids_list_pt_data = get_unique_study_ids(pt_data)
 
     # Updating existing patients
-    if pt_data:
+    if not pt_data.empty:
         for index, patient in pt_data.iterrows():
             record_id = patient["record_id"]
             row = redcap_data[redcap_data["record_id"] == record_id]
@@ -127,14 +127,15 @@ def update_pt_data_with_redcap(redcap_data, pt_data, run_time):
     # Adding new patients
     for id in unique_study_ids_list_redcap:
         if id not in unique_study_ids_list_pt_data:
-            redcap_row = redcap_data[redcap_data['record_id'] == id]
+            redcap_row = redcap_data[redcap_data['record_id'] == id].iloc[0]
             # Collapses race to other
+            
             if redcap_row["race___5"] == 1 or redcap_row["race___6"] == 1 or redcap_row["race___7"] == 1:
                 race_other = 1
             else:
                 race_other = 0
             censor_date = (redcap_row["start_date"] + timedelta(days=180)).date()
-            new_row = pd.Series(pt_data={'record_id': id,
+            new_row = pd.Series({'record_id': id,
                                          'trial_day_counter': 0,
                                          'age': redcap_row["age"],
                                          'sex': redcap_row["sex"],
@@ -167,7 +168,7 @@ def update_pt_data_with_redcap(redcap_data, pt_data, run_time):
                                          'start_date': redcap_row["start_date"],
                                          'censor_date': censor_date,
                                          'num_twice_daily_pillsy_meds': redcap_row["num_twice_daily_pillsy_meds"],
-                                         'censor': redcap_row["censor"]}, name='new')
+                                         'censor': redcap_row["censor"]}, name=id)
             pt_data = pt_data.append(new_row)
 
     return pt_data
