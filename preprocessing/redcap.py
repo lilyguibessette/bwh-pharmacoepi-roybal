@@ -17,7 +17,11 @@ def get_redcap_study_ids(redcap):
     # returns a list of the unique record_id's in the redcap data
     return unique_study_ids_list_redcap
 
+<<<<<<< HEAD
 def update_patient_dict_redcap(redcap, pt_dict):
+=======
+def update_patient_dict_redcap(redcap, pt_dict, run_time):
+>>>>>>> a89090f9422cf1e64bf60e9e9dd30a920db9982f
     # Get a list of the patient record_id's in the REDCap dataset
     unique_study_ids_list_redcap = get_redcap_study_ids(redcap)
     # Get a list of current patients as pt_dict_keys = patients record_id's that we already have in our pickle/patient dictionary
@@ -27,7 +31,11 @@ def update_patient_dict_redcap(redcap, pt_dict):
     # For each patient in the list of record_id's that exists in the redcap data
     for record_id in unique_study_ids_list_redcap:
         # We get the patient's row of data in redcap
+<<<<<<< HEAD
         row = redcap.loc[redcap['record_id'] == record_id]
+=======
+        row = redcap.loc[redcap['record_id'] == record_id] # pick first row #TODO
+>>>>>>> a89090f9422cf1e64bf60e9e9dd30a920db9982f
         # TODO - have Joe think about what if for whatever reason there were multiple rows of data in redcap with the same record_id => same patient
         # Need this to make sure that making a new Patient/Calling on the row[]'s that we will get one value back and not 2
 
@@ -37,7 +45,11 @@ def update_patient_dict_redcap(redcap, pt_dict):
             # This new patient has the counter set to 0 on day that they're beginning follow up in the study.
             new_patient = Patient(str(record_id),
                                   row['start_date'].values[0],
+<<<<<<< HEAD
                                   datetime.now(),
+=======
+                                  run_time,
+>>>>>>> a89090f9422cf1e64bf60e9e9dd30a920db9982f
                                   0,
                                   False,
                                   int(row['age'].values[0]),
@@ -70,7 +82,11 @@ def update_patient_dict_redcap(redcap, pt_dict):
                                   int(row['pillsy_meds___6']),
                                   int(row['pillsy_meds___7']),
                                   int(row['pillsy_meds___8']),
+<<<<<<< HEAD
                                   # row['num_pillsy_meds'],
+=======
+                                  int(row['bottles']),
+>>>>>>> a89090f9422cf1e64bf60e9e9dd30a920db9982f
                                   0,
                                   0,
                                   0,
@@ -147,9 +163,17 @@ def update_patient_dict_redcap(redcap, pt_dict):
             #TODO if updated_patient is None, then need to figure out how to handle but this is a rare possibility and seems okay to just drop them
             if updated_patient != None:
                 #TODO double check with Julie they're getting censored at day 180
+<<<<<<< HEAD
 
                 # If the patient doesn't have a true censoring indicator and hasn't met the 180 end of follow up window - i.e. maximum time reached = 180 days
                 if int(row['censor']) != 1 and updated_patient.trial_day_counter < 180:
+=======
+                    # CONFIRMED
+                # If the patient doesn't have a true censoring indicator and hasn't met the 180 end of follow up window - i.e. maximum time reached = 180 days
+                if int(row['censor']) != 1 and updated_patient.trial_day_counter < 180:
+
+                    #TODO make an exported list to appended to the record_ids that are getting censored here
+>>>>>>> a89090f9422cf1e64bf60e9e9dd30a920db9982f
                     # Then we'll update to the current values in the REDCap dataset for their Pillsy baseline information
                     updated_patient.update_redcap_pillsy_vars(int(row['num_twice_daily_pillsy_meds']),
                                                           int(row['pillsy_meds___1']),
@@ -159,7 +183,12 @@ def update_patient_dict_redcap(redcap, pt_dict):
                                                           int(row['pillsy_meds___5']),
                                                           int(row['pillsy_meds___6']),
                                                           int(row['pillsy_meds___7']),
+<<<<<<< HEAD
                                                           int(row['pillsy_meds___8']))
+=======
+                                                          int(row['pillsy_meds___8']),
+                                                              int(row['bottles']))
+>>>>>>> a89090f9422cf1e64bf60e9e9dd30a920db9982f
                     # Then we'll add this patient to our patient dictionary with their record_id
                     updated_pt_dict[record_id] = updated_patient
     # We return the updated patient dictionary that takes into account the new patients/new patient data from REDCap and

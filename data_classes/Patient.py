@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 import pandas as pd
 import numpy as np
 import math
@@ -363,6 +364,8 @@ class Patient:
 
         # waiting for julie's response to email
 =======
+=======
+>>>>>>> a89090f9422cf1e64bf60e9e9dd30a920db9982f
 import pandas as pd
 import numpy as np
 import math
@@ -378,6 +381,10 @@ import pickle
 import json
 from data_classes import ContextFeatures
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> a89090f9422cf1e64bf60e9e9dd30a920db9982f
 class Patient:
     def __init__(self, study_id,
                  start_date,
@@ -414,7 +421,11 @@ class Patient:
                  pillsy_meds_sglt2,
                  pillsy_meds_sulfonylurea,
                  pillsy_meds_thiazolidinedione,
+<<<<<<< HEAD
                  #num_pillsy_meds,
+=======
+                 num_pillsy_meds,
+>>>>>>> a89090f9422cf1e64bf60e9e9dd30a920db9982f
                  avg_adherence_7day,
                  avg_adherence_3day,
                  avg_adherence_1day,
@@ -506,8 +517,12 @@ class Patient:
         self.pillsy_meds_sglt2 = pillsy_meds_sglt2
         self.pillsy_meds_sulfonylurea = pillsy_meds_sulfonylurea
         self.pillsy_meds_thiazolidinedione = pillsy_meds_thiazolidinedione
+<<<<<<< HEAD
         #TODO question to julie about this waiting on response, might need to make sure no bugs come from junk string data or non-int data (want 1 or 0 for these variables)
         self.num_pillsy_meds = pillsy_meds_agi + pillsy_meds_dpp4 + pillsy_meds_glp1 + pillsy_meds_meglitinide + pillsy_meds_metformin + pillsy_meds_sglt2 + pillsy_meds_sulfonylurea + pillsy_meds_thiazolidinedione
+=======
+        self.num_pillsy_meds = num_pillsy_meds
+>>>>>>> a89090f9422cf1e64bf60e9e9dd30a920db9982f
         self.avg_adherence_7day = avg_adherence_7day
         self.avg_adherence_3day = avg_adherence_3day
         self.avg_adherence_1day = avg_adherence_1day
@@ -573,9 +588,15 @@ class Patient:
         self.dichot_adherence_day3 = self.dichot_adherence_day2
         self.dichot_adherence_day2 = self.dichot_adherence_day1
         if todays_avg_adherence > 0:
+<<<<<<< HEAD
             self.day1 = 1
         else:
             self.day1 = 0
+=======
+            self.dichot_adherence_day1 = 1
+        else:
+            self.dichot_adherence_day1 = 0
+>>>>>>> a89090f9422cf1e64bf60e9e9dd30a920db9982f
 
     def shift_day_adherences(self, todays_avg_adherence):
         self.adherence_day7 = self.adherence_day6
@@ -596,7 +617,12 @@ class Patient:
             self.avg_adherence_3day = (self.adherence_day1 + self.adherence_day2 + self.adherence_day3) / 3
             self.avg_adherence_1day = self.adherence_day1
         elif self.daysFromStartCounter >= 7:
+<<<<<<< HEAD
             self.avg_adherence_7day = (self.adherence_day1 + self.adherence_day2 + self.adherence_day3 + self.adherence_day4 + self.adherence_day5 + self.adherence_day6 + self.adherence_day7) / 7
+=======
+            self.avg_adherence_7day = (
+                                              self.adherence_day1 + self.adherence_day2 + self.adherence_day3 + self.adherence_day4 + self.adherence_day5 + self.adherence_day6 + self.adherence_day7) / 7
+>>>>>>> a89090f9422cf1e64bf60e9e9dd30a920db9982f
             self.avg_adherence_3day = (self.adherence_day1 + self.adherence_day2 + self.adherence_day3) / 3
             self.avg_adherence_1day = self.adherence_day1
 
@@ -682,7 +708,11 @@ class Patient:
     def updated_sms_today(self):
         fp = os.path.join("..", "..", "SMSChoices", "sms_choices.csv")
         sms_choices = pd.read_csv(fp)
+<<<<<<< HEAD
         #TODO ask joe if this takes into account if the sms_choices 0,0,0,0,0 then will it return rows = None -> if so code is all set I modified, if not make sure it wont throw an error or fix the if else clause
+=======
+        # TODO ask joe if this takes into account if the sms_choices 0,0,0,0,0 then will it return rows = None -> if so code is all set I modified, if not make sure it wont throw an error or fix the if else clause
+>>>>>>> a89090f9422cf1e64bf60e9e9dd30a920db9982f
         rows = sms_choices.query(
             "framing_sms == @self.framing_sms "
             + "and history_sms == @self.history_sms "
@@ -690,8 +720,13 @@ class Patient:
             + "and content_sms == @self.content_sms"
             + "and reflective_sms == @self.reflective_sms"
         )
+<<<<<<< HEAD
         #TODO Double check with Julie that randomization within the factor set of texts was the final decision (i.e. this is what we implemented)
 
+=======
+        # TODO Double check with Julie that randomization within the factor set of texts was the final decision (i.e. this is what we implemented)
+            # Checked and confirmed it is randomized
+>>>>>>> a89090f9422cf1e64bf60e9e9dd30a920db9982f
         # If 0,0,0,0,0 is found, then the rows will be None, so our defaults are first, the empty text message
         text_number = 0
         factor_set = 0
@@ -716,7 +751,13 @@ class Patient:
         self.factor_set = factor_set
 
     # Option for updates from REDCap data for changes in Pillsy medication use in follow up
+<<<<<<< HEAD
     def update_redcap_pillsy_vars(self, num_twice_daily_pillsy_meds, pillsy_meds_agi, pillsy_meds_dpp4, pillsy_meds_glp1, pillsy_meds_meglitinide, pillsy_meds_metformin, pillsy_meds_sglt2, pillsy_meds_sulfonylurea, pillsy_meds_thiazolidinedione):
+=======
+    def update_redcap_pillsy_vars(self, num_twice_daily_pillsy_meds, pillsy_meds_agi, pillsy_meds_dpp4,
+                                  pillsy_meds_glp1, pillsy_meds_meglitinide, pillsy_meds_metformin, pillsy_meds_sglt2,
+                                  pillsy_meds_sulfonylurea, pillsy_meds_thiazolidinedione, num_pillsy_meds):
+>>>>>>> a89090f9422cf1e64bf60e9e9dd30a920db9982f
         self.num_twice_daily_pillsy_meds = num_twice_daily_pillsy_meds
         self.pillsy_meds_agi = pillsy_meds_agi
         self.pillsy_meds_dpp4 = pillsy_meds_dpp4
@@ -726,6 +767,7 @@ class Patient:
         self.pillsy_meds_sglt2 = pillsy_meds_sglt2
         self.pillsy_meds_sulfonylurea = pillsy_meds_sulfonylurea
         self.pillsy_meds_thiazolidinedione = pillsy_meds_thiazolidinedione
+<<<<<<< HEAD
         self.num_pillsy_meds = pillsy_meds_agi + pillsy_meds_dpp4 + pillsy_meds_glp1 + pillsy_meds_meglitinide + pillsy_meds_metformin + pillsy_meds_sglt2 + pillsy_meds_sulfonylurea + pillsy_meds_thiazolidinedione
 
 
@@ -746,6 +788,243 @@ class Patient:
         return ContextFeatures.ReflectiveContext(self)
 
     #TODO upon Julie Confirmation
+=======
+        self.num_pillsy_meds = num_pillsy_meds
+
+    def get_demographics_features(self):
+        demographic_features = {"age": self.age,
+                                "sex": self.sex,
+                                "race_white": self.race_white,
+                                "race_black": self.race_black,
+                                "race_asian": self.race_asian,
+                                "race_hispanic": self.race_hispanic,
+                                "race_other": self.race_other,
+                                "education_level": self.edu_level,
+                                "employment_status": self.employment_status,
+                                "marital_status": self.marital_status}
+        demographic_features_dict = {"demographic_features": demographic_features}
+        return demographic_features_dict
+
+    def get_clinical_features(self):
+        clinical_features = {"num_physicians": self.num_physicians,
+                             "num_years_dm_rx": self.num_years_dm_rx,
+                             "hba1c": self.hba1c}
+        clinical_features_dict = {"clinical_features": clinical_features}
+        return clinical_features_dict
+
+    def get_motivational_features(self):
+        motivational_features = {"automaticity": self.automaticity,
+                                 "pt_activation": self.pt_activation,
+                                 "reason_dm_rx": self.reason_dm_rx}
+        motivational_features_dict = {"motivational_features": motivational_features}
+        return motivational_features_dict
+
+    def get_rx_use_features(self):
+        rx_use = {"num_rx": self.num_rx,
+                  "concomitant_insulin_use": self.concomitant_insulin_use,
+                  "non_adherence": self.non_adherence}
+        rx_use_dict = {"rx_use": rx_use}
+        return rx_use_dict
+
+    def get_pillsy_med_features(self):
+        pillsy_med_features = {"num_twice_daily_pillsy_meds": self.num_twice_daily_pillsy_meds,
+                               "pillsy_meds_agi": self.pillsy_meds_agi,
+                               "pillsy_meds_dpp4": self.pillsy_meds_dpp4,
+                               "pillsy_meds_glp1": self.pillsy_meds_glp1,
+                               "pillsy_meds_meglitinide": self.pillsy_meds_meglitinide,
+                               "pillsy_meds_metformin": self.pillsy_meds_metformin,
+                               "pillsy_meds_sglt2": self.pillsy_meds_sglt2,
+                               "pillsy_meds_sulfonylurea": self.pillsy_meds_sulfonylurea,
+                               "pillsy_meds_thiazolidinedione": self.pillsy_meds_thiazolidinedione,
+                               "num_pillsy_meds": self.num_pillsy_meds}
+        # TODO confirm if num_pillsy_meds is actually a feature - I think it is but I forget? slash many iterations
+        # confirmed! ---- more meds they take the more it affects their adherence - complexity
+        pillsy_med_features_dict = {"pillsy_med_features": pillsy_med_features}
+        return pillsy_med_features_dict
+
+    def get_observed_feedback_features(self):
+        observed_feedback_features = {}
+        if self.early_rx_use_before_sms != None:
+            observed_feedback_features["early_rx_use_before_sms"] = self.early_rx_use_before_sms
+        if self.avg_adherence_1day != None:
+            observed_feedback_features["avg_adherence_1day"] = self.avg_adherence_1day
+        if self.avg_adherence_3day != None:
+            observed_feedback_features["avg_adherence_3day"] = self.avg_adherence_3day
+        if self.avg_adherence_7day != None:
+            observed_feedback_features["avg_adherence_7day"] = self.avg_adherence_7day
+        observed_feedback_features_dict = {"observed_feedback_features": observed_feedback_features}
+        return observed_feedback_features_dict
+
+    def get_num_days_since_features(self):
+        num_days_since_features = {"num_day_since_no_sms": self.num_day_since_no_sms,
+                                   "num_day_since_pos_framing": self.num_day_since_pos_framing,
+                                   "num_day_since_neg_framing": self.num_day_since_neg_framing,
+                                   "num_day_since_history": self.num_day_since_history,
+                                   "num_day_since_social": self.num_day_since_social,
+                                   "num_day_since_content": self.num_day_since_content,
+                                   "num_day_since_reflective": self.num_day_since_reflective}
+        num_days_since_features_dict = {"num_days_since_features": num_days_since_features}
+        return num_days_since_features_dict
+
+    def get_framing_context(self):
+        framing_context = [
+            self.get_demographics_features(),
+            self.get_clinical_features(),
+            self.get_motivational_features(),
+            self.get_rx_use_features(),
+            self.get_pillsy_med_features(),
+            self.get_observed_feedback_features(),
+            self.get_num_days_since_features()]
+        return framing_context
+
+    def get_history_context(self):
+        history_context = [
+            self.get_demographics_features(),
+            self.get_clinical_features(),
+            self.get_motivational_features(),
+            self.get_rx_use_features(),
+            self.get_pillsy_med_features(),
+            self.get_observed_feedback_features(),
+            self.get_num_days_since_features(),
+            self.response_action_id_framing]
+        return history_context
+
+    def get_social_context(self):
+        social_context = [
+            self.get_demographics_features(),
+            self.get_clinical_features(),
+            self.get_motivational_features(),
+            self.get_rx_use_features(),
+            self.get_pillsy_med_features(),
+            self.get_observed_feedback_features(),
+            self.get_num_days_since_features(),
+            self.response_action_id_framing,
+            self.response_action_id_history]
+        return social_context
+
+    def get_content_context(self):
+        content_context = [
+            self.get_demographics_features(),
+            self.get_clinical_features(),
+            self.get_motivational_features(),
+            self.get_rx_use_features(),
+            self.get_pillsy_med_features(),
+            self.get_observed_feedback_features(),
+            self.get_num_days_since_features(),
+            self.response_action_id_framing,
+            self.response_action_id_history, self.response_action_id_social]
+        return content_context
+
+    def get_reflective_context(self):
+        reflective_context = [
+            self.get_demographics_features(),
+            self.get_clinical_features(),
+            self.get_motivational_features(),
+            self.get_rx_use_features(),
+            self.get_pillsy_med_features(),
+            self.get_observed_feedback_features(),
+            self.get_num_days_since_features(),
+            self.response_action_id_framing,
+            self.response_action_id_history, self.response_action_id_social, self.response_action_id_content]
+        return reflective_context
+
+    def export_to_row(self):
+        new_row = [self.study_id,
+                   self.start_date,
+                   self.last_run_time,
+                   self.trial_day_counter,
+                   self.censor,
+                   self.age,
+                   self.sex,
+                   self.num_years_dm_rx,
+                   self.hba1c,
+                   self.race_white,
+                   self.race_black,
+                   self.race_asian,
+                   self.race_hispanic,
+                   self.race_native,
+                   self.race_pacific,
+                   self.race_other,
+                   self.num_physicians,
+                   self.num_rx,
+                   self.concomitant_insulin_use,
+                   self.automaticity,
+                   self.pt_activation,
+                   self.reason_dm_rx,
+                   self.non_adherence,
+                   self.edu_level,
+                   self.employment_status,
+                   self.marital_status,
+                   self.num_twice_daily_pillsy_meds,
+                   self.pillsy_meds_agi,
+                   self.pillsy_meds_dpp4,
+                   self.pillsy_meds_glp1,
+                   self.pillsy_meds_meglitinide,
+                   self.pillsy_meds_metformin,
+                   self.pillsy_meds_sglt2,
+                   self.pillsy_meds_sulfonylurea,
+                   self.pillsy_meds_thiazolidinedione,
+                   self.num_pillsy_meds,
+                   self.avg_adherence_7day,
+                   self.avg_adherence_3day,
+                   self.avg_adherence_1day,
+                   self.adherence_day1,
+                   self.adherence_day2,
+                   self.adherence_day3,
+                   self.adherence_day4,
+                   self.adherence_day5,
+                   self.adherence_day6,
+                   self.adherence_day7,
+                   self.dichot_adherence_day1,
+                   self.dichot_adherence_day2,
+                   self.dichot_adherence_day3,
+                   self.dichot_adherence_day4,
+                   self.dichot_adherence_day5,
+                   self.dichot_adherence_day6,
+                   self.dichot_adherence_day7,
+                   self.total_dichot_adherence_past7,
+                   self.early_rx_use_before_sms,
+                   self.possibly_disconnected_day1,
+                   self.possibly_disconnected_day2,
+                   self.possibly_disconnected,
+                   self.possibly_disconnected_date,
+                   self.dates_possibly_disconnected,
+                   self.num_dates_possibly_disconnected,
+                   self.num_possibly_disconnected_indicator_true,
+                   self.num_day_since_no_sms,
+                   self.num_day_since_pos_framing,
+                   self.num_day_since_neg_framing,
+                   self.num_day_since_history,
+                   self.num_day_since_social,
+                   self.num_day_since_content,
+                   self.num_day_since_reflective,
+                   self.sms_msg_today,
+                   self.factor_set,
+                   self.text_number,
+                   self.text_message,
+                   self.framing_sms,
+                   self.history_sms,
+                   self.social_sms,
+                   self.content_sms,
+                   self.reflective_sms,
+                   self.quantitative_sms,
+                   self.doctor_sms,
+                   self.lifestyle_sms,
+                   self.response_action_id_framing,
+                   self.response_action_id_history,
+                   self.response_action_id_social,
+                   self.response_action_id_content,
+                   self.response_action_id_reflective,
+                   self.rank_id_framing,
+                   self.rank_id_history,
+                   self.rank_id_social,
+                   self.rank_id_content,
+                   self.rank_id_reflective,
+                   self.reward_value]
+        return new_row
+
+
+>>>>>>> a89090f9422cf1e64bf60e9e9dd30a920db9982f
     # Convert to categorical variables function
     def convert_redcap_input_vars(self):
         # confirm read in appropraitely or convert this to a date object : self.start_date
@@ -754,13 +1033,18 @@ class Patient:
         elif self.age == 2:
             self.age = "35-44"
         elif self.age == 3:
+<<<<<<< HEAD
             self.age ="45-54"
+=======
+            self.age = "45-54"
+>>>>>>> a89090f9422cf1e64bf60e9e9dd30a920db9982f
         elif self.age == 4:
             self.age = "55-64"
         elif self.age == 5:
             self.age = "65-74"
         elif self.age == 6:
             self.age = "75-84"
+<<<<<<< HEAD
         # self.age  # m
         # self.sex
         # self.num_years_dm_rx
@@ -775,6 +1059,110 @@ class Patient:
         # self.edu_level = edu_level
         # self.employment_status = employment_status
         # self.marital_status = marital_status
+=======
+
+        if self.sex == 2:
+            self.sex = "M"
+        elif self.sex == 1:
+            self.sex = "F"
+        else:
+            self.sex = "Not listed"
+
+        if self.num_years_dm_rx == 1:
+            self.num_years_dm_rx = "0"
+        elif self.num_years_dm_rx == 2:
+            self.num_years_dm_rx = "1-2"
+        elif self.num_years_dm_rx == 3:
+            self.num_years_dm_rx = "2-4"
+        elif self.num_years_dm_rx == 4:
+            self.num_years_dm_rx = "5+"
+
+        if self.hba1c == 1:
+            self.hba1c = "7.5-8.0"
+        elif self.hba1c == 2:
+            self.hba1c = "8.1-8.9"
+        elif self.hba1c == 3:
+            self.hba1c = "9.0-9.9"
+        elif self.hba1c == 4:
+            self.hba1c = "10+"
+
+        if self.num_physicians == 1:
+            self.num_physicians = "1"
+        elif self.num_physicians == 2:
+            self.num_physicians = "2-3"
+        else:
+            self.num_physicians = "4+"
+
+        if self.num_rx == 1:
+            self.num_rx = "1"
+        elif self.num_rx == 2:
+            self.num_rx = "2-4"
+        elif self.num_rx == 3:
+            self.num_rx = "5-9"
+        elif self.num_rx == 4:
+            self.num_rx = "10+"
+
+        # self.concomitant_insulin_use = concomitant_insulin_use -- binary Y = 1, N = 0
+
+        if self.automaticity == 0:
+            self.automaticity = "0"
+        elif self.automaticity == 1:
+            self.automaticity = "1"
+        elif self.automaticity == 2:
+            self.automaticity = "2-3"
+        elif self.automaticity == 3:
+            self.automaticity = "4"
+
+        if self.pt_activation == 1:
+            self.pt_activation = "yes"
+        elif self.pt_activation == 2:
+            self.pt_activation = "most"
+        elif self.pt_activation == 3:
+            self.pt_activation = "no"
+
+        if self.reason_dm_rx == 1:
+            self.reason_dm_rx = "Supposed to"
+        elif self.reason_dm_rx == 2:
+            self.reason_dm_rx = "Own good"
+        elif self.reason_dm_rx == 3:
+            self.reason_dm_rx = "No choice"
+        elif self.reason_dm_rx == 4:
+            self.reason_dm_rx = "Feel good"
+        elif self.reason_dm_rx == 5:
+            self.reason_dm_rx = "Important"
+
+        if self.non_adherence == 0:
+            self.non_adherence = "0"
+        elif self.non_adherence == 1:
+            self.non_adherence = "1"
+        elif self.non_adherence == 2:
+            self.non_adherence = "2-3"
+        elif self.non_adherence == 3:
+            self.non_adherence = "4-6"
+        elif self.non_adherence == 4:
+            self.non_adherence = "7+"
+
+        if self.edu_level == 1:
+            self.edu_level = "HS or below/HS grad"
+        elif self.edu_level == 2:
+            self.edu_level = "Some college"
+        elif self.edu_level == 3:
+            self.edu_level = "College grad/Postgrad"
+        elif self.edu_level == 4:
+            self.edu_level = "other"
+
+        if self.employment_status == 1:
+            self.employment_status = "Employed"
+        elif self.employment_status == 2:
+            self.employment_status = "Retired/Other"
+
+        if self.marital_status == 1:
+            self.marital_status = "Married/partner"
+        elif self.marital_status == 2:
+            self.marital_status = "window/divorced/single/other"
+
+        # REST OF VARIABLES -- shouldn't need modification
+>>>>>>> a89090f9422cf1e64bf60e9e9dd30a920db9982f
         # self.num_twice_daily_pillsy_meds = num_twice_daily_pillsy_meds
         # self.pillsy_meds_agi = pillsy_meds_agi
         # self.pillsy_meds_dpp4 = pillsy_meds_dpp4
@@ -784,8 +1172,13 @@ class Patient:
         # self.pillsy_meds_sglt2 = pillsy_meds_sglt2
         # self.pillsy_meds_sulfonylurea = pillsy_meds_sulfonylurea
         # self.pillsy_meds_thiazolidinedione = pillsy_meds_thiazolidinedione
+<<<<<<< HEAD
         #
         #
+=======
+        # self.censor
+
+>>>>>>> a89090f9422cf1e64bf60e9e9dd30a920db9982f
         # row['start_date'],
         # row['age'],
         # row['sex'],
@@ -818,4 +1211,7 @@ class Patient:
         # row['pillsy_meds___7'],
         # row['pillsy_meds___8'],
         # waiting for julie's response to email
+<<<<<<< HEAD
 >>>>>>> f4ea9f77adc91d9941245d47074699761fcafc1f
+=======
+>>>>>>> a89090f9422cf1e64bf60e9e9dd30a920db9982f

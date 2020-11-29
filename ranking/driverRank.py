@@ -15,6 +15,7 @@ import os
 import pandas as pd
 
 
+<<<<<<< HEAD
 def write_sms_history(pt_dict):
     sms_hist_filename = str(date.today()) + "_sms_history" + '.csv'
     sms_hist_filepath = os.path.join("..", "..", "..", "SMSHistory", sms_hist_filename)
@@ -33,11 +34,31 @@ def write_sms_history(pt_dict):
     sms_history_dataframe.to_csv(sms_hist_filepath)
     return
 
+=======
+def write_sms_history(pt_dict, run_time):
+    sms_hist_filename = str(run_time.date()) + "_sms_history" + '.csv'
+    sms_hist_filepath = os.path.join("..", "..", "SMSHistory", sms_hist_filename)
+>>>>>>> a89090f9422cf1e64bf60e9e9dd30a920db9982f
 
-def run_ranking(patient, client):
+    # Subset updated_pt_dict to what we need for reward calls and put in dataframe
+    # create an Empty DataFrame object
+    column_values = ['study_id', 'factor_set', 'text_number', 'sms_today', 'possibly_disconnected', 'trial_day_counter']
+    sms_history_dataframe = pd.DataFrame(columns=column_values)
+
+    for pt, data in pt_dict:
+        # Reward value, Rank_Id's
+        new_row = [data.study_id, data.factor_set, data.text_number,
+                   data.sms_today, data.possibly_disconnected, data.trial_day_counter]
+        sms_history_dataframe.loc[len(sms_history_dataframe)] = new_row
+    # Writes CSV for RA to send text messages.
+    sms_history_dataframe.to_csv(sms_hist_filepath)
+    return
+
+
+def run_ranking(patient, client, run_time):
 
 # framing
-    rank_id_framing = str(patient.get_study_id() + "_" + patient.counter() + "_frame")
+    rank_id_framing = str(patient.get_study_id() + "_" + patient.trial_day_counter + "_frame")
     context = patient.get_framing_context()
     actions = get_framing_actions()
 
@@ -48,7 +69,7 @@ def run_ranking(patient, client):
     patient.update_framing_ranking(framing_ranked)
 
 # history
-    rank_id_history = str(patient.get_study_id() + "_" + patient.counter() + "_history")
+    rank_id_history = str(patient.get_study_id() + "_" + patient.trial_day_counter + "_history")
     context = patient.get_history_context()
     actions = get_history_actions()
 
@@ -59,8 +80,8 @@ def run_ranking(patient, client):
     patient.update_history_ranking(history_ranked)
 
 # social
-    rank_id_social = str(patient.get_study_id() + "_" + patient.counter() + "_social")
-    context = patient.get_context()
+    rank_id_social = str(patient.get_study_id() + "_" + patient.trial_day_counter + "_social")
+    context = patient.get_social_context()
     actions = get_social_actions()
 
     social_rank_request = RankRequest(actions=actions, context_features=context, event_id=rank_id_social)
@@ -70,8 +91,8 @@ def run_ranking(patient, client):
     patient.update_social_ranking(social_ranked)
 
 # content
-    rank_id_content = str(patient.get_study_id() + "_" + patient.counter() + "_content")
-    context = patient.get_context()
+    rank_id_content = str(patient.get_study_id() + "_" + patient.trial_day_counter + "_content")
+    context = patient.get_content_context()
     actions = get_content_actions()
 
     content_rank_request = RankRequest(actions=actions, context_features=context, event_id=rank_id_content)
@@ -81,8 +102,8 @@ def run_ranking(patient, client):
     patient.update_content_ranking(content_ranked)
 
 # reflective
-    rank_id_reflective = str(patient.get_study_id() + "_" + patient.counter() + "_reflective")
-    context = patient.get_context()
+    rank_id_reflective = str(patient.get_study_id() + "_" + patient.trial_day_counter + "_reflective")
+    context = patient.get_reflective_context()
     actions = get_reflective_actions()
 
     reflective_rank_request = RankRequest(actions=actions, context_features=context, event_id=rank_id_reflective)
@@ -93,8 +114,13 @@ def run_ranking(patient, client):
 
     patient.update_num_day_sms()
     patient.updated_sms_today()
+<<<<<<< HEAD
     patient.last_run_time = pytz.UTC.localize(datetime.now())
     patient.counter += 1
+=======
+    patient.last_run_time = pytz.UTC.localize(run_time)
+    patient.trial_day_counter += 1
+>>>>>>> a89090f9422cf1e64bf60e9e9dd30a920db9982f
 
     return patient
 

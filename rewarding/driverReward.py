@@ -16,9 +16,15 @@ import json
 import os
 from datetime import date
 
+<<<<<<< HEAD
 def get_reward_update(pt_dict_with_reward):
     reward_filename = str(date.today()) + "_reward_updates" + '.csv'
     reward_filepath = os.path.join("..", "..", "..", "RewardData", reward_filename)
+=======
+def get_reward_update(pt_dict_with_reward, run_time):
+    reward_filename = str(run_time.date()) + "_reward_updates" + '.csv'
+    reward_filepath = os.path.join("..", "..", "RewardData", reward_filename)
+>>>>>>> a89090f9422cf1e64bf60e9e9dd30a920db9982f
 
     # Subset updated_pt_dict to what we need for reward calls and put in dataframe
     # create an Empty DataFrame object
