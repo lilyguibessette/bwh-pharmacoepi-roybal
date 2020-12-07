@@ -1,0 +1,23 @@
+Git SCM: 
+https://gitforwindows.org/ 
+or https://sourceforge.net/projects/git-for-windows.mirror/
+
+Command Line operations:
+“ls” – Shows current files/folders in current directory
+“cd” – change directory use “..”’s to move up a folder and cd FOLDERNAME to go into a folder/file path
+
+git clone https://GITHUBUSERNAME:GITHUBPASSWORD@github.com/BWHDoPE-ResearchAssistants/RA_Resources.git
+https://github.com/BWHDoPE-ResearchAssistants/RA_Resources.git
+“git add FILENAME” 
+or
+“git add .” ---- to add all
+git commit -m”MESSAGE ABOUT WHAT YOU’VE ADDED”
+git push
+
+git status
+
+git pull 
+
+GitHub RA Account:
+bwhdope.ramanager@gmail.com
+BWHpharma3030
