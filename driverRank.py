@@ -30,6 +30,19 @@ def write_sms_history(pt_data, run_time):
 
 
 def run_ranking(patient, client, run_time):
+    """Send rank calls to Personalizer and update corresponding patient variables.
+
+    1. Shift rank ids
+    2. Make rank calls (framing, history, social, content, reflective)
+        a. construct event_id
+        b. get context features
+        c. get actions
+        d. call RankRequest
+        e. get response, convert to int
+        f. update patient var
+    3. Update patient num days since rank calls
+    4. Update appropriate sms vars in patient row
+    """
     patient= shift_t0_t1_t2_rank_ids(patient)
     # framing
     rank_id_framing = str(patient["record_id"]) + "_" + str(patient["trial_day_counter"]) + "_frame"

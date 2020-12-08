@@ -12,18 +12,22 @@ from patient_data import get_study_ids, new_empty_pt_data
 
 
 def import_Pillsy(run_time):
+    """Import Pillsy pill taking history as pd.DataFrame from CSV
+    """
+    
     import_date = (run_time - pd.Timedelta("1 day")).date()
-    # Imports Pillsy pill taking history as a pandas data frame from a CSV
-
     pillsy_filename = str(import_date) + "_pillsy" + '.csv'
     fp = os.path.join("..", "Pillsy", pillsy_filename)
 
     try:
         pillsy = pd.read_csv(fp)
-    except FileNotFoundError:
-        fp = os.path.join("..", "Pillsy", "empty_pillsy_start.csv")
-        pillsy = pd.read_csv(fp)
-        return pillsy
+    except FileNotFoundError as fnfe:
+        print("in pillsy_parser.py, in import_Pillsy")
+        print("fp file not found, fp = {}".format(os.path.abspath(fp)))
+        print("error = {}".format(fnfe))
+        # fp = os.path.join("..", "Pillsy", "empty_pillsy_start.csv")
+        # pillsy = pd.read_csv(fp)
+        return None
     
     tz_ref = {
         "HDT": "-0900",
@@ -45,7 +49,7 @@ def import_Pillsy(run_time):
         tz_abbr = re.search(r"\d\d:\d\d .M ([A-Z]{2,4}) \d{4}-\d\d-\d\d", time_string).group(1)
         return time_string.replace(tz_abbr, tz_ref[tz_abbr])
 
-    pillsy["eventTime"] = pd.to_datetime(pd.Series([converter(str_dt) for str_dt in pillsy["eventTime"]]))
+    pillsy["eventTime"] = pd.to_datetime(pd.Series([converter(str_dt) for str_dt in pillsy["eventTime"]]), utc=True)
     # Note: In this dataset our study_id is actually 'firstname', hence the drop of patientId
     # Note: firstname is currently read in as int64 dtype
     pillsy.drop(["patientId", "lastname", "method", "platform"], axis=1, inplace=True)
@@ -149,6 +153,8 @@ def compute_taken_over_expected(patient, timeframe_pillsy_subset):
         taken_over_expected = sum_yesterday_adherence / patient["num_pillsy_meds"]
     else:
         taken_over_expected = 0
+    ## TODO: return disconnectedness=-1 if num_pillsy_meds != len(yesterday_drug)
+    ## WAIT to implement -- need to consider early_rx use
     return taken_over_expected
 
 

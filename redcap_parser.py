@@ -8,22 +8,18 @@ import re
 
 
 def import_redcap(run_time):
+    """Import REDCap patients that are enrolling on an ongoing basis as a pd.DataFrame from a CSV
+
+    Does not overwrite old pt_data object since we calculate additional features based on historical data that should not be overwritten.
+    This new data will be used to update existing patients: if censored, changes in pillsy rx
+    """
     import_date = run_time.date()
-    # Imports REDCap patients that are enrolling on an ongoing basis as a pandas data frame from a CSV
-    redcap_filepath = str(import_date) + "_redcap" + '.csv'
+    redcap_filepath = str(import_date) + "_redcap.csv"
     fp = os.path.join("..", "REDCap", redcap_filepath)
     date_cols = ["start_date"]
-    # Reads in the csv file into a pandas data frame and ensures that the date_cols are imported as datetime.datetime objects
-    # TODO potentially need to be careful here due to use of the data in redcap.py -> might want to ensure record_id column is a string, currently I think it defaults to an int - might bee fine to keep int
+
     redcap = pd.read_csv(fp, sep=',', parse_dates=date_cols)
     redcap = redcap_vars_converter(redcap)
-    # Returns the pandas dataframe of REDCap patient data that is read in
-    # Note: The REDCap data does not contain observed feedback.
-    # Hence why we do not overwrite our previous patient dictionary based on this data.
-    # This is used to update patient dictionary data about:
-    #   -   Whether patients are censored (i.e. due to death, consent withdrawal,
-    #   -   Changes in Pillsy medications that a patient is taking
-    #   -   Add entirely new patients initiating in the study to our patient dictionary by creating new patient objects
     return redcap
 
 
@@ -84,9 +80,16 @@ def redcap_vars_converter(redcap_df):
 
 
 def update_pt_data_with_redcap(redcap_data, pt_data, run_time):
-    # TODO Joe - can you check this function thats purpose is to just add the redcap data to the pt_data for new patients and for existing patients updatee their existing censor and pillsy related info with the new redcap info
+    """Update patient data with new and existing patients from REDCap, return pt_data.
+
+    redcap_data -- pd.DataFrame, parsed from CSV downloaded from REDCap
+    pt_data -- pd.DataFrame, parsed from / written to CSV each run
+    run_time -- to be used for later testing
+
+    Add any new patients to the pt_data object.
+    Update censor and pillsy related variables for existing patients.
+    """
     unique_study_ids_list_redcap = get_unique_study_ids(redcap_data)   
-    
     unique_study_ids_list_pt_data = get_unique_study_ids(pt_data)
 
     # Updating existing patients
@@ -105,26 +108,29 @@ def update_pt_data_with_redcap(redcap_data, pt_data, run_time):
             patient["pillsy_meds_sglt2"] = row["pillsy_meds___6"]
             patient["pillsy_meds_sulfonylurea"] = row["pillsy_meds___7"]
             patient["pillsy_meds_thiazolidinedione"] = row["pillsy_meds___8"]
+            ## TODO store prev num_pillsy_meds
             patient["num_pillsy_meds"] = row["bottles"]
 
     # Adding new patients
     for id in unique_study_ids_list_redcap:
         if id not in unique_study_ids_list_pt_data:
+
             redcap_row = redcap_data[redcap_data['record_id'] == id].iloc[0]
-            # Collapses race to other
+            if redcap_row['censor'] == 1:
+                continue
             
             if redcap_row["race___5"] == 1 or redcap_row["race___6"] == 1 or redcap_row["race___7"] == 1:
                 race_other = 1
             else:
                 race_other = 0
-            censor_date = (redcap_row["start_date"] + timedelta(days=180)).date()
+            censor_date = (redcap_row["start_date"] + timedelta(days=180)).date() ##TODO check trial length
             new_row = pd.Series({'record_id': id,
                                  'trial_day_counter': 0,
                                  'age': redcap_row["age"],
                                  'sex': redcap_row["sex"],
                                  'num_years_dm_rx': redcap_row["num_years_dm_rx"],
                                  'hba1c': redcap_row["hba1c"],
-                                 'race_white': int(redcap_row["race___1"]),
+                                 'race_white': redcap_row["race___1"],
                                  'race_black': redcap_row["race___2"],
                                  'race_asian': redcap_row["race___3"],
                                  'race_hispanic': redcap_row["race___4"],
