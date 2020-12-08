@@ -337,10 +337,10 @@ def find_patient_rewards(pillsy_subset, patient, run_time):
     # We update the avg adherences at days 1,3,7 with updated shifted daily adherence values:
     patient = calc_avg_adherence(patient)
 
-    if reward_value_t0 > 0 and early_rx_use == 0:
+    if reward_value_t0 > 0:
         patient["flag_send_reward_value_t0"] = True
         patient["disconnectedness"] = 1
-    elif reward_value_t0 > 0 and early_rx_use > 0:
+    elif reward_value_t0 == 0 and early_rx_use > 0:
         patient["flag_send_reward_value_t0"] = True
         patient["disconnectedness"] = 0
     elif reward_value_t0 == 0 and early_rx_use == 0:
