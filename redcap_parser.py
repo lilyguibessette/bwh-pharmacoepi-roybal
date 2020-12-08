@@ -109,6 +109,9 @@ def update_pt_data_with_redcap(redcap_data, pt_data, run_time):
             patient["pillsy_meds_sulfonylurea"] = row["pillsy_meds___7"]
             patient["pillsy_meds_thiazolidinedione"] = row["pillsy_meds___8"]
             ## TODO store prev num_pillsy_meds
+            # patient["num_pillsy_meds_t2"] = patient["num_pillsy_meds_t1"]
+            # patient["num_pillsy_meds_t1"] = patient["num_pillsy_meds_t0"]
+            # patient["num_pillsy_meds_t0"] = row["bottles"]
             patient["num_pillsy_meds"] = row["bottles"]
 
     # Adding new patients
