@@ -142,7 +142,7 @@ def find_taken_events(drug, drug_subset):
             print("diff:", diff, row['eventTime'].value[0], maybe_taken_event)
             if diff < fifteen_min:
                 print("diff < 15 min -> taken: ", row['eventTime'].value[0])
-                taken_events.append(maybe_taken_event + fifteen_min)
+                taken_events.append(row['eventTime'].value[0])
                 taken += 1
     second_possible_start_taken = taken_events[0] + two_hr_45_min
     drug_subset = drug_subset[drug_subset['eventTime'] > second_possible_start_taken]
