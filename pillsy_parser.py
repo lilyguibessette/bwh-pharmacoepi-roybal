@@ -357,7 +357,7 @@ def find_patient_rewards(pillsy_subset, patient, run_time):
     print("disconnectedness:", yesterday_disconnectedness)
           
     # Check if two reward assessments ago we were unsure about disconnectedness
-
+    # These logical steps are determined by yesterdays values regarding disconnectedness
     if patient["possibly_disconnected"] == True:
         print("possibly_disconnected is TRUE")
         print("flag_send_reward_value_t2 is TRUE")
