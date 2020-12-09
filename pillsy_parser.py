@@ -313,7 +313,8 @@ def find_patient_rewards(pillsy_subset, patient, run_time):
     
     pillsy_yesterday_disconnectedness_subset = pillsy_subset[pillsy_subset["eventTime"] < today_current_time]
     pillsy_yesterday_disconnectedness_subset = pillsy_yesterday_subset[pillsy_yesterday_subset["eventTime"] >= yesterday_12am]
-
+    
+    print("-----------------------------BEGIN CHECKING REWARDS FOR PT ", patient["record_id"], "----------------------------")
     print("record_id:", patient["record_id"])
     
     # Use calendar day of yesterday to compute adherence
@@ -350,15 +351,23 @@ def find_patient_rewards(pillsy_subset, patient, run_time):
     # Check if two reward assessments ago we were unsure about disconnectedness
 
     if patient["possibly_disconnected"] == True:
+        print("possibly_disconnected is TRUE")
+        print("flag_send_reward_value_t2 is TRUE")
         patient["flag_send_reward_value_t2"] = True
     else:
         patient["flag_send_reward_value_t2"] = False
+        print("possibly_disconnected is FALSE")
+        print("flag_send_reward_value_t2 is FALSE")
 
     if patient["disconnectedness"] == -1:
+        print("disconnectedness is -1")
         if reward_value_t1 != patient["reward_value_t0"]:
             patient["flag_send_reward_value_t1"] = True
+            print("possibly_disconnected is TRUE")
+            print("flag_send_reward_value_t1 is TRUE B/C old and new backfilled reward are unequal")
         else:
             patient["flag_send_reward_value_t1"] = False
+            print("flag_send_reward_value_t1 is FALSE")
 
 
     # Update data frame with new values for reward and

@@ -120,19 +120,20 @@ def run_ranking(patient, client, run_time):
     return patient
 
 def shift_t0_t1_t2_rank_ids(patient):
-                # shift these values for the next rank to store t0 values
-    patient["reward_value_t1"] = patient["reward_value_t0"]
-    patient["rank_id_framing_t1"] = patient["rank_id_framing_t0"]
-    patient["rank_id_history_t1"] = patient["rank_id_history_t0"]
-    patient["rank_id_social_t1"] = patient["rank_id_social_t0"]
-    patient["rank_id_content_t1"] = patient["rank_id_content_t0"]
-    patient["rank_id_reflective_t1"] = patient["rank_id_reflective_t0"]
+                # shift these values for the next rank to store t0 values  
     patient["reward_value_t2"] = patient["reward_value_t1"]
     patient["rank_id_framing_t2"] = patient["rank_id_framing_t1"]
     patient["rank_id_history_t2"] = patient["rank_id_history_t1"]
     patient["rank_id_social_t2"] = patient["rank_id_social_t1"]
     patient["rank_id_content_t2"] = patient["rank_id_content_t1"]
     patient["rank_id_reflective_t2"] = patient["rank_id_reflective_t1"]
+    patient["reward_value_t1"] = patient["reward_value_t0"]
+    patient["rank_id_framing_t1"] = patient["rank_id_framing_t0"]
+    patient["rank_id_history_t1"] = patient["rank_id_history_t0"]
+    patient["rank_id_social_t1"] = patient["rank_id_social_t0"]
+    patient["rank_id_content_t1"] = patient["rank_id_content_t0"]
+    patient["rank_id_reflective_t1"] = patient["rank_id_reflective_t0"]
+
     return patient
 
 
