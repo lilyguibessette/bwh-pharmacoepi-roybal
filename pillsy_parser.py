@@ -25,9 +25,9 @@ def import_Pillsy(run_time):
         print("in pillsy_parser.py, in import_Pillsy")
         print("fp file not found, fp = {}".format(os.path.abspath(fp)))
         print("error = {}".format(fnfe))
-        # fp = os.path.join("..", "Pillsy", "empty_pillsy_start.csv")
-        # pillsy = pd.read_csv(fp)
-        return None
+        fp = os.path.join("..", "Pillsy", "empty_pillsy_start.csv")
+        pillsy = pd.read_csv(fp)
+        return pillsy
     
     tz_ref = {
         "HDT": "-0900",
