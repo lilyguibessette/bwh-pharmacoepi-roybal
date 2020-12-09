@@ -56,6 +56,7 @@ def import_Pillsy(run_time):
     subset=None,
     inplace=True)
     #https://hackersandslackers.com/pandas-dataframe-drop/
+    
     #TODO: Here we need to drop the empty rows.
     pillsy["eventTime"] = pd.to_datetime(pd.Series([converter(str_dt) for str_dt in pillsy["eventTime"]])) #, utc=True)
     # Note: In this dataset our study_id is actually 'firstname', hence the drop of patientId
@@ -99,6 +100,13 @@ def find_taken_events(drug, drug_subset):
     """
     find_taken_events function finds the adherence for a particular drug when run over a particular time period using
     the investigator specified algorithm for evaluating OPEN/CLOSE sequences as taken events
+    (Note: 
+    Ways to identify Taken Events:
+        1. OPEN 
+        2. CLOSE CLOSE (within 15 min of each other)
+        3. CLOSE OPEN  (within 15 min of each other)
+        4. if drug_freq > 1, then for second taken event only need OPEN/CLOSE with wait time of 2 hr 45 min after first
+    After identifying first taken event, need to wait 2 hr 45 min to identify second taken event if drug_freq == 2
     :param drug:
     :param drug_subset:
     :return:
@@ -112,34 +120,34 @@ def find_taken_events(drug, drug_subset):
     first_taken = None
     maybe_taken_event = None
     for index, row in drug_subset.iterrows():
-        if drug_freq == taken:
+        if drug_freq == 1 and taken == 1:
+            print("drug:", drug)
+            print("num taken:", taken)
+            print("drug_freq:", drug_freq)
+            print("drug_adherence", drug_adherence)
+            drug_adherence = 1.0
+            return drug_adherence
+        if taken == 1:
             break
         if row['eventValue'] == "OPEN" and not taken_events:
-            first_taken = row['eventTime']
+            first_taken = row['eventTime'].value[0]
             print("OPEN taken_event:", first_taken)
             taken_events.append(first_taken)
             taken += 1
         elif row['eventValue'] == "CLOSE" and not taken_events:
-            maybe_taken_event = row['eventTime']
+            maybe_taken_event = row['eventTime'].value[0]
             print("CLOSE maybe_taken_event:", maybe_taken_event)
         elif maybe_taken_event:
             diff = row['eventTime'] - maybe_taken_event
-            print("diff:", diff, row['eventTime'], maybe_taken_event)
+            print("diff:", diff, row['eventTime'].value[0], maybe_taken_event)
             if diff < fifteen_min:
-                print("diff < 15 min -> taken: ", row['eventTime'])
+                print("diff < 15 min -> taken: ", row['eventTime'].value[0])
                 taken_events.append(maybe_taken_event + fifteen_min)
                 taken += 1
-    if drug_freq != taken and first_taken:
-        print("drug_freq != taken => second_pass starting...")
-        find_second_taken_subset = drug_subset[drug_subset["eventTime"] >= first_taken]
-        for index, second_pass in find_second_taken_subset.iterrows():
-            if drug_freq == taken:
-                break
-            diff_second = second_pass['eventTime'] - first_taken
-            if diff_second > two_hr_45_min:
-                print("diff_second > two_hr_45_min -> taken: ", row['eventTime'])
-                taken_events.append(second_pass['eventTime'])
-                taken += 1
+    second_possible_start_taken = taken_events[0] + two_hr_45_min
+    drug_subset = drug_subset[drug_subset['eventTime'] > second_possible_start_taken]
+    if not drug_subset.empty:
+        taken += 1
     if drug_freq > 0:
         drug_adherence = taken / drug_freq
         print("drug:", drug)
@@ -147,6 +155,7 @@ def find_taken_events(drug, drug_subset):
         print("drug_freq:", drug_freq)
         print("drug_adherence", drug_adherence)
     return drug_adherence
+        
 
 def compute_taken_over_expected(patient, timeframe_pillsy_subset, num_pillsy_meds):
     """
