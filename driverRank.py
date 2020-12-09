@@ -329,8 +329,8 @@ def get_pillsy_med_features(patient):
 def get_observed_feedback_features(patient):
     observed_feedback_features = {}
     observed_feedback_features["disconnectedness"] = patient["disconnectedness"]
-    if patient["early_rx_use_before_sms"] != None:
-        observed_feedback_features["early_rx_use_before_sms"] = patient["early_rx_use_before_sms"]
+    if patient["early_rx_use"] != None:
+        observed_feedback_features["early_rx_use"] = patient["early_rx_use"]
     if patient["avg_adherence_1day"] != None:
         observed_feedback_features["avg_adherence_1day"] = patient["avg_adherence_1day"]
         if patient["avg_adherence_3day"] != None:

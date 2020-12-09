@@ -25,9 +25,9 @@ def import_Pillsy(run_time):
         print("in pillsy_parser.py, in import_Pillsy")
         print("fp file not found, fp = {}".format(os.path.abspath(fp)))
         print("error = {}".format(fnfe))
-        fp = os.path.join("..", "Pillsy", "empty_pillsy_start.csv")
-        pillsy = pd.read_csv(fp)
-        return pillsy
+        #fp = os.path.join("..", "Pillsy", "empty_pillsy_start.csv")
+        #pillsy = pd.read_csv(fp)
+        return None
     
     tz_ref = {
         "HDT": "-0900",
@@ -130,7 +130,7 @@ def find_taken_events(drug, drug_subset):
         drug_adherence = taken / drug_freq
     return drug_adherence
 
-def compute_taken_over_expected(patient, timeframe_pillsy_subset):
+def compute_taken_over_expected(patient, timeframe_pillsy_subset, num_pillsy_meds):
     """
     compute_taken_over_expected function runs find_taken_events for each drug to find the adherence of each drug
     over a given time frame and then computes the average adherence for the time period by dividing the sum of
@@ -139,22 +139,20 @@ def compute_taken_over_expected(patient, timeframe_pillsy_subset):
     :param timeframe_pillsy_subset:
     :return:
     """
-    yesterday_drugs = get_drugName_list(timeframe_pillsy_subset)
-    yesterday_adherence_by_drug = [0] * len(yesterday_drugs)
+    timeframe_drugs = get_drugName_list(timeframe_pillsy_subset)
+    timeframe_adherence_by_drug = [0] * len(timeframe_drugs)
     drug_num = 0
-    for drug in yesterday_drugs:
+    for drug in timeframe_drugs:
         drug_num += 1
         drug_subset = timeframe_pillsy_subset[timeframe_pillsy_subset['drugName'] == drug]
         this_drug_adherence = find_taken_events(drug, drug_subset)
-        yesterday_adherence_by_drug.append(this_drug_adherence)
+        timeframe_adherence_by_drug.append(this_drug_adherence)
     taken_over_expected = 0
     if not patient.empty:
-        sum_yesterday_adherence = sum(yesterday_adherence_by_drug)
-        taken_over_expected = sum_yesterday_adherence / patient["num_pillsy_meds"]
+        sum_timeframe_adherence = sum(timeframe_adherence_by_drug)
+        taken_over_expected = sum_timeframe_adherence / num_pillsy_meds
     else:
         taken_over_expected = 0
-    ## TODO: return disconnectedness=-1 if num_pillsy_meds != len(yesterday_drug)
-    ## WAIT to implement -- need to consider early_rx use
     return taken_over_expected
 
 
@@ -281,23 +279,30 @@ def find_patient_rewards(pillsy_subset, patient, run_time):
 
     pillsy_early_today_subset = pillsy_subset[pillsy_subset["eventTime"] >= today_12am]
     pillsy_early_today_subset = pillsy_early_today_subset[pillsy_early_today_subset["eventTime"] < today_current_time]
+    
+    pillsy_yesterday_disconnectedness_subset = pillsy_subset[pillsy_subset["eventTime"] < today_current_time]
+    pillsy_yesterday_disconnectedness_subset = pillsy_yesterday_subset[pillsy_yesterday_subset["eventTime"] >= yesterday_12am]
 
     # Use calendar day of yesterday to compute adherence
-    reward_value_t0 = compute_taken_over_expected(patient, pillsy_yesterday_subset)
+    reward_value_t0 = compute_taken_over_expected(patient, pillsy_yesterday_subset, patient["num_pillsy_meds_t0"])
 
     # if early_today_rx_use = 1 from last run then we don't need this measurement because
     # then two runs ago was truly 0 and we should still find 0 so might as well run again
     # Use calendar day of two days ago to update the reward if we suspected a disconnection
-    reward_value_t1 = compute_taken_over_expected(patient, pillsy_two_day_ago_subset)
+    reward_value_t1 = compute_taken_over_expected(patient, pillsy_two_day_ago_subset, patient["num_pillsy_meds_t1"])
     # if disconnectedness was -1 last time, then we need to send this updated reward_value_t1
     # regardless of what it is now (i.e. we will send 0's or the updated adherence if they reconnected
 
-    reward_value_t2 = compute_taken_over_expected(patient, pillsy_three_day_ago_subset)
-
+    reward_value_t2 = compute_taken_over_expected(patient, pillsy_three_day_ago_subset, patient["num_pillsy_meds_t2"])
 
     early_rx_use = compute_taken_over_expected(patient, pillsy_early_today_subset)
-
-
+    
+    observed_num_drugs = get_drugName_list(pillsy_yesterday_disconnectedness_subset)
+    if observed_num_drugs == patient["num_pillsy_meds_t0"]:
+        yesterday_disconnectedness = 1
+    else:
+        yesterday_disconnectedness = -1        
+    
     # Check if two reward assessments ago we were unsure about disconnectedness
 
     if patient["possibly_disconnected"] == True:
@@ -312,12 +317,14 @@ def find_patient_rewards(pillsy_subset, patient, run_time):
             patient["flag_send_reward_value_t1"] = False
 
 
-
     # Update data frame with new values for reward and
     patient["reward_value_t0"] = reward_value_t0
     patient["reward_value_t1"] = reward_value_t1
     patient["reward_value_t2"] = reward_value_t2
     patient["early_rx_use"] = early_rx_use
+    
+    if early_rx_use > 0:
+        patient["num_dates_early_rx_use"] += 1
 
     # Shifts the adherence for each day backwards by 1 day to make day1 = newest found avg_adherence
     # and day2 = old day, day3 = old day 2... etc day7 = old day 6
@@ -337,15 +344,13 @@ def find_patient_rewards(pillsy_subset, patient, run_time):
     # We update the avg adherences at days 1,3,7 with updated shifted daily adherence values:
     patient = calc_avg_adherence(patient)
 
-    if reward_value_t0 > 0:
+    if yesterday_disconnectedness == 1:
         patient["flag_send_reward_value_t0"] = True
         patient["disconnectedness"] = 1
-    elif reward_value_t0 == 0 and early_rx_use > 0:
-        patient["flag_send_reward_value_t0"] = True
-        patient["disconnectedness"] = 0
-    elif reward_value_t0 == 0 and early_rx_use == 0:
+    elif yesterday_disconnectedness == -1:
         patient["flag_send_reward_value_t0"] = False
         patient["disconnectedness"] = -1
+        patient["num_dates_disconnectedness"] += 1
         if patient["possibly_disconnected_day1"] == True:
             # Then we shift that indicator back a day and keep day1 disconnect true
             patient["possibly_disconnected_day2"] = True
