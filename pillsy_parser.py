@@ -116,7 +116,6 @@ def find_taken_events(drug, drug_subset):
     drug_freq = identify_drug_freq(drug)
     taken = 0
     drug_adherence = 0
-    taken_events = []
     first_taken = None
     maybe_taken_event = None
     for index, row in drug_subset.iterrows():
@@ -129,24 +128,24 @@ def find_taken_events(drug, drug_subset):
             return drug_adherence
         if taken == 1:
             break
-        if row['eventValue'] == "OPEN" and not taken_events:
-            first_taken = row['eventTime'].value[0]
+        if row['eventValue'] == "OPEN" and not first_taken:
+            first_taken = row['eventTime']
             print("OPEN taken_event:", first_taken)
-            taken_events.append(first_taken)
             taken += 1
-        elif row['eventValue'] == "CLOSE" and not taken_events:
-            maybe_taken_event = row['eventTime'].value[0]
+        elif row['eventValue'] == "CLOSE" and not first_taken:
+            maybe_taken_event = row['eventTime']
             print("CLOSE maybe_taken_event:", maybe_taken_event)
         elif maybe_taken_event:
             diff = row['eventTime'] - maybe_taken_event
-            print("diff:", diff, row['eventTime'].value[0], maybe_taken_event)
+            print("diff:", diff, row['eventTime'], maybe_taken_event)
             if diff < fifteen_min:
                 print("diff < 15 min -> taken: ", row['eventTime'].value[0])
-                taken_events.append(row['eventTime'].value[0])
+                first_taken = row['eventTime']
                 taken += 1
-    second_possible_start_taken = taken_events[0] + two_hr_45_min
+    second_possible_start_taken = first_taken + two_hr_45_min
     drug_subset = drug_subset[drug_subset['eventTime'] > second_possible_start_taken]
     if not drug_subset.empty:
+        print("Second taken event subset is non-empty => second taken event exists")
         taken += 1
     if drug_freq > 0:
         drug_adherence = taken / drug_freq
