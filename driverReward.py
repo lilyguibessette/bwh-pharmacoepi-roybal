@@ -27,7 +27,8 @@ def get_reward_update(pt_data, run_time):
 
     # Subset updated_pt_dict to what we need for reward calls and put in dataframe
     # create an Empty DataFrame object
-    column_values = ['reward', 'frame_id', 'history_id', 'social_id', 'content_id', 'reflective_id', 'record_id', 'trial_day_counter']
+    column_values = ['reward', 'frame_id', 'history_id', 'social_id', 'content_id', 'reflective_id', 'record_id', 'trial_day_counter', 
+                     'flag_send_reward_value_tX']
     reward_updates = pd.DataFrame(columns=column_values)
 
     for pt,data_row in pt_data.iterrows():
@@ -35,17 +36,17 @@ def get_reward_update(pt_data, run_time):
         if(data_row["flag_send_reward_value_t0"] == True and data_row["censor_date"] >= today):
             reward_row_t0 = [data_row["reward_value_t0"], data_row["rank_id_framing_t0"], data_row["rank_id_history_t0"],
                        data_row["rank_id_social_t0"], data_row["rank_id_content_t0"], data_row["rank_id_reflective_t0"],
-                       data_row["record_id"], data_row["trial_day_counter"]]
+                       data_row["record_id"], data_row["trial_day_counter"], "flag_send_reward_value_t0"]
             reward_updates.loc[len(reward_updates)] = reward_row_t0
         if(data_row["flag_send_reward_value_t1"] == True and data_row["censor_date"] >= yesterday):
             reward_row_t1 = [data_row["reward_value_t1"], data_row["rank_id_framing_t1"], data_row["rank_id_history_t1"],
                        data_row["rank_id_social_t1"], data_row["rank_id_content_t1"], data_row["rank_id_reflective_t1"],
-                       data_row["record_id"], data_row["trial_day_counter"]-1]
+                       data_row["record_id"], data_row["trial_day_counter"], "flag_send_reward_value_t1"]
             reward_updates.loc[len(reward_updates)] = reward_row_t1
         if(data_row["flag_send_reward_value_t2"] == True and data_row["censor_date"]  >= two_day_ago):
             reward_row_t2 = [data_row["reward_value_t2"], data_row["rank_id_framing_t2"], data_row["rank_id_history_t2"],
                        data_row["rank_id_social_t2"], data_row["rank_id_content_t2"], data_row["rank_id_reflective_t2"],
-                       data_row["record_id"], data_row["trial_day_counter"]-2]
+                       data_row["record_id"], data_row["trial_day_counter"], "flag_send_reward_value_t2"]
             reward_updates.loc[len(reward_updates)] = reward_row_t2
     # Write csv as a log for what we're sending to Personalizer
     reward_updates.to_csv(reward_filepath, index=False)
@@ -61,6 +62,6 @@ def send_rewards(reward_updates, client):
         row = reward_updates[i, :]
         reward_val = row[0]
         for j in range(1,6):
-            #print("reward_val: ", reward_val)
-            #print("event_id: ", row[j])
+            print("reward_val: ", reward_val)
+            print("event_id: ", row[j])
             client.events.reward(event_id=row[j], value=reward_val)

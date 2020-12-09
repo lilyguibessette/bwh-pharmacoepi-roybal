@@ -49,7 +49,15 @@ def import_Pillsy(run_time):
         tz_abbr = re.search(r"\d\d:\d\d .M ([A-Z]{2,4}) \d{4}-\d\d-\d\d", time_string).group(1)
         return time_string.replace(tz_abbr, tz_ref[tz_abbr])
 
-    pillsy["eventTime"] = pd.to_datetime(pd.Series([converter(str_dt) for str_dt in pillsy["eventTime"]]), utc=True)
+    pillsy.dropna(
+    axis=0,
+    how='all',
+    thresh=None,
+    subset=None,
+    inplace=True)
+    #https://hackersandslackers.com/pandas-dataframe-drop/
+    #TODO: Here we need to drop the empty rows.
+    pillsy["eventTime"] = pd.to_datetime(pd.Series([converter(str_dt) for str_dt in pillsy["eventTime"]])) #, utc=True)
     # Note: In this dataset our study_id is actually 'firstname', hence the drop of patientId
     # Note: firstname is currently read in as int64 dtype
     pillsy.drop(["patientId", "lastname", "method", "platform"], axis=1, inplace=True)
@@ -108,26 +116,36 @@ def find_taken_events(drug, drug_subset):
             break
         if row['eventValue'] == "OPEN" and not taken_events:
             first_taken = row['eventTime']
+            print("OPEN taken_event:", first_taken)
             taken_events.append(first_taken)
             taken += 1
         elif row['eventValue'] == "CLOSE" and not taken_events:
             maybe_taken_event = row['eventTime']
+            print("CLOSE maybe_taken_event:", maybe_taken_event)
         elif maybe_taken_event:
             diff = row['eventTime'] - maybe_taken_event
+            print("diff:", diff, row['eventTime'], maybe_taken_event)
             if diff < fifteen_min:
+                print("diff < 15 min -> taken: ", row['eventTime'])
                 taken_events.append(maybe_taken_event + fifteen_min)
                 taken += 1
     if drug_freq != taken and first_taken:
+        print("drug_freq != taken => second_pass starting...")
         find_second_taken_subset = drug_subset[drug_subset["eventTime"] >= first_taken]
         for index, second_pass in find_second_taken_subset.iterrows():
             if drug_freq == taken:
                 break
             diff_second = second_pass['eventTime'] - first_taken
             if diff_second > two_hr_45_min:
+                print("diff_second > two_hr_45_min -> taken: ", row['eventTime'])
                 taken_events.append(second_pass['eventTime'])
                 taken += 1
     if drug_freq > 0:
         drug_adherence = taken / drug_freq
+        print("drug:", drug)
+        print("num taken:", taken)
+        print("drug_freq:", drug_freq)
+        print("drug_adherence", drug_adherence)
     return drug_adherence
 
 def compute_taken_over_expected(patient, timeframe_pillsy_subset, num_pillsy_meds):
@@ -151,6 +169,9 @@ def compute_taken_over_expected(patient, timeframe_pillsy_subset, num_pillsy_med
     if not patient.empty:
         sum_timeframe_adherence = sum(timeframe_adherence_by_drug)
         taken_over_expected = sum_timeframe_adherence / num_pillsy_meds
+        print("sum_timeframe_adherence:", sum_timeframe_adherence)
+        print("num_pillsy_meds:", num_pillsy_meds)
+        print("taken_over_expected:", taken_over_expected)
     else:
         taken_over_expected = 0
     return taken_over_expected
@@ -258,15 +279,25 @@ def calc_avg_adherence(patient):
     return patient
 
 def find_patient_rewards(pillsy_subset, patient, run_time):
-    three_day_ago = (run_time - timedelta(days=3)).date()
-    three_day_ago_12am = pytz.UTC.localize(datetime.combine(three_day_ago, datetime.min.time()))
-    two_day_ago = (run_time - timedelta(days=2)).date()
-    two_day_ago_12am = pytz.UTC.localize(datetime.combine(two_day_ago, datetime.min.time()))
-    yesterday = (run_time - timedelta(days=1)).date()
-    yesterday_12am = pytz.UTC.localize(datetime.combine(yesterday, datetime.min.time()))
-    today_current_time = run_time
+    # From pillsy_subset, get timezone of patient, then use that to calculate the time cut points so that it is relative to the
+    # patient's view of time.
+    curtime = run_time
+    tzinfo_first_row = run_time.tzinfo
+    first_row = pillsy_subset.head(1)
+    if not first_row.empty:
+        print(first_row['eventTime'].values[0])
+        tzinfo_first_row = first_row['eventTime'].values[0].tzinfo
+        curtime = curtime.astimezone(tzinfo_first_row)
+
+    three_day_ago = (curtime - timedelta(days=3)).date()
+    three_day_ago_12am = datetime.combine(three_day_ago, datetime.min.time()).astimezone(tzinfo_first_row)
+    two_day_ago = (curtime - timedelta(days=2)).date()
+    two_day_ago_12am = datetime.combine(two_day_ago, datetime.min.time()).astimezone(tzinfo_first_row)
+    yesterday = (curtime - timedelta(days=1)).date()
+    yesterday_12am =datetime.combine(yesterday, datetime.min.time()).astimezone(tzinfo_first_row)
+    today_current_time = curtime
         # https://www.w3resource.com/python-exercises/date-time-exercise/python-date-time-exercise-8.php
-    today_12am = pytz.UTC.localize(datetime.combine(today_current_time, datetime.min.time()))
+    today_12am = datetime.combine(today_current_time, datetime.min.time()).astimezone(tzinfo_first_row)
 
     pillsy_three_day_ago_subset = pillsy_subset[pillsy_subset["eventTime"] < two_day_ago_12am]
     pillsy_three_day_ago_subset = pillsy_three_day_ago_subset[pillsy_three_day_ago_subset["eventTime"] >= three_day_ago_12am]
@@ -283,26 +314,39 @@ def find_patient_rewards(pillsy_subset, patient, run_time):
     pillsy_yesterday_disconnectedness_subset = pillsy_subset[pillsy_subset["eventTime"] < today_current_time]
     pillsy_yesterday_disconnectedness_subset = pillsy_yesterday_subset[pillsy_yesterday_subset["eventTime"] >= yesterday_12am]
 
+    print("record_id:", patient["record_id"])
+    
     # Use calendar day of yesterday to compute adherence
+    print("Computing... reward_value_t0 in pillsy_yesterday_subset with # med:", patient["num_pillsy_meds_t0"])
     reward_value_t0 = compute_taken_over_expected(patient, pillsy_yesterday_subset, patient["num_pillsy_meds_t0"])
-
+    print("reward_value_t0:", reward_value_t0)
+    
     # if early_today_rx_use = 1 from last run then we don't need this measurement because
     # then two runs ago was truly 0 and we should still find 0 so might as well run again
     # Use calendar day of two days ago to update the reward if we suspected a disconnection
+    print("Computing... reward_value_t1 in pillsy_two_day_ago_subset with # med:", patient["num_pillsy_meds_t1"])
     reward_value_t1 = compute_taken_over_expected(patient, pillsy_two_day_ago_subset, patient["num_pillsy_meds_t1"])
+    print("reward_value_t1:", reward_value_t1)
+    
     # if disconnectedness was -1 last time, then we need to send this updated reward_value_t1
     # regardless of what it is now (i.e. we will send 0's or the updated adherence if they reconnected
-
+    print("Computing... reward_value_t2 in pillsy_three_day_ago_subset with # med:", patient["num_pillsy_meds_t2"])
     reward_value_t2 = compute_taken_over_expected(patient, pillsy_three_day_ago_subset, patient["num_pillsy_meds_t2"])
-
-    early_rx_use = compute_taken_over_expected(patient, pillsy_early_today_subset)
+    print("reward_value_t2:", reward_value_t2)
     
+    print("Computing... early_rx_use in pillsy_early_today_subset with # med:", patient["num_pillsy_meds_t0"])
+    early_rx_use = compute_taken_over_expected(patient, pillsy_early_today_subset, patient["num_pillsy_meds_t0"])
+    print("early_rx_use:", early_rx_use)
+    
+    print("Computing... yesterday_disconnectedness in pillsy_yesterday_disconnectedness_subset with # med:", patient["num_pillsy_meds_t0"])
     observed_num_drugs = get_drugName_list(pillsy_yesterday_disconnectedness_subset)
-    if observed_num_drugs == patient["num_pillsy_meds_t0"]:
+    print("expected # rx:",  patient["num_pillsy_meds_t0"],"// observed # rx:", len(observed_num_drugs), "\n observed rx names:",observed_num_drugs)
+    if len(observed_num_drugs) == patient["num_pillsy_meds_t0"]:
         yesterday_disconnectedness = 1
     else:
         yesterday_disconnectedness = -1        
-    
+    print("disconnectedness:", yesterday_disconnectedness)
+          
     # Check if two reward assessments ago we were unsure about disconnectedness
 
     if patient["possibly_disconnected"] == True:
@@ -358,10 +402,9 @@ def find_patient_rewards(pillsy_subset, patient, run_time):
             # of 0 adherence / not in Pillsy data
             patient["possibly_disconnected"] = True
             # We increment the number of times this patient was flagged for possibly disconnected
-            patient["num_possibly_disconnected_indicator_true"] += 1
-            # We add yesterday's date to the possibly disconnected date and list of those dates as well
+            patient["num_dates_possibly_disconnected"] += 1
+            # We add yesterday's date to the possibly disconnected date
             patient["possibly_disconnected_date"] = yesterday
-           # patient["dates_possibly_disconnected"].append(yesterday)
         else:
             patient["possibly_disconnected_day1"] = True
             patient["possibly_disconnected_day2"] = False

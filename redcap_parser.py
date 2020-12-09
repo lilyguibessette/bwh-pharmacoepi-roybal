@@ -171,10 +171,11 @@ def update_pt_data_with_redcap(redcap_data, pt_data, run_time):
                                  'num_day_since_content':0,
                                  'num_day_since_reflective':0,
                                  'total_dichot_adherence_past7':0,
-                                 'disconnectedness': 1,
                                  'possibly_disconnected': False,
                                  'possibly_disconnected_day1':False,
-                                 'possibly_disconnected_day2':False}, name=id)
+                                 'possibly_disconnected_day2':False,
+                                 'num_dates_disconnectedness': 0,
+                                 'num_dates_early_rx_use':0,}, name=id)
             pt_data = pt_data.append(new_row)
 
     return pt_data

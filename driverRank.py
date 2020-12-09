@@ -17,13 +17,13 @@ def write_sms_history(pt_data, run_time):
 
     # Subset updated_pt_dict to what we need for reward calls and put in dataframe
     # create an Empty DataFrame object
-    column_values = ['record_id', 'factor_set', 'text_number', 'sms_msg_today', 'possibly_disconnected', 'trial_day_counter','censor_date']
+    column_values = ['record_id', 'factor_set', 'text_number', 'sms_msg_today', 'trial_day_counter','censor_date']
     sms_history_dataframe = pd.DataFrame(columns=column_values)
 
     for pt, data in pt_data.iterrows():
         # Reward value, Rank_Id's
         sms_history_dataframe.loc[len(sms_history_dataframe)] = [data["record_id"], data["factor_set"], data["text_number"],
-                   data["sms_msg_today"], data["possibly_disconnected"], data["trial_day_counter"], str(data["censor_date"])]
+                   data["sms_msg_today"], data["trial_day_counter"], str(data["censor_date"])]
     # Writes CSV for RA to send text messages.
     sms_history_dataframe.to_csv(sms_hist_filepath, index=False)
     return
@@ -57,15 +57,23 @@ def run_ranking(patient, client, run_time):
     patient = update_framing_ranking(patient, framing_ranked)
 
     # history
-    rank_id_history = str(patient["record_id"]) + "_" + str(patient["trial_day_counter"]) + "_history"
-    patient["rank_id_history_t0"] = rank_id_history
-    context = get_history_context(patient)
-    actions = get_history_actions()
+    
+    if patient["disconnectedness"] == 1 and patient["trial_day_counter"] > 7:
+        rank_id_history = str(patient["record_id"]) + "_" + str(patient["trial_day_counter"]) + "_history"
+        patient["rank_id_history_t0"] = rank_id_history
+        context = get_history_context(patient)
+        actions = get_history_actions()
+        
+        history_rank_request = RankRequest(actions=actions, context_features=context, event_id=rank_id_history)
+        history_response = client.rank(rank_request=history_rank_request)
+        history_ranked = history_response.reward_action_id
 
-    history_rank_request = RankRequest(actions=actions, context_features=context, event_id=rank_id_history)
-    history_response = client.rank(rank_request=history_rank_request)
-    history_ranked = history_response.reward_action_id
-
+    else:
+        rank_id_history = None
+        patient["rank_id_history_t0"] = None
+        history_ranked = "noHistory"
+        
+        
     patient = update_history_ranking(patient, history_ranked)
 
     # social
@@ -230,14 +238,8 @@ def updated_sms_today(patient):
     rows = rows[rows['social_sms'] == social]
     rows = rows[rows['content_sms'] == content]
     rows = rows[rows['reflective_sms'] == reflective]
-    #print(rows)
-    #TODO - @Joe, you can fix this and we can use instead of my inefficient way above
-#     rows = sms_choices.query(
-#         "framing_sms == @framing "
-#         + "and history_sms == @history "
-#         + "and social_sms == @social "
-#         + "and content_sms == @content "
-#         + "and reflective_sms == @reflective")
+
+  
     # If 0,0,0,0,0 is found, then the rows will be None, so our defaults are first, the empty text message
     text_number = 0
     factor_set = 0
@@ -319,9 +321,7 @@ def get_pillsy_med_features(patient):
                            "pillsy_meds_sglt2": patient["pillsy_meds_sglt2"],
                            "pillsy_meds_sulfonylurea": patient["pillsy_meds_sulfonylurea"],
                            "pillsy_meds_thiazolidinedione": patient["pillsy_meds_thiazolidinedione"],
-                           "num_pillsy_meds": patient["num_pillsy_meds"]}
-    # TODO confirm if num_pillsy_meds is actually a feature - I think it is but I forget? slash many iterations
-    # confirmed - due to complexity
+                           "num_pillsy_meds": patient["num_pillsy_meds_t0"]}
     pillsy_med_features_dict = {"pillsy_med_features": pillsy_med_features}
     return pillsy_med_features_dict
 
