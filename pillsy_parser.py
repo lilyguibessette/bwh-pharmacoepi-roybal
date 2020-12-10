@@ -111,49 +111,75 @@ def find_taken_events(drug, drug_subset):
     :param drug_subset:
     :return:
     """
-    fifteen_min = pd.Timedelta('15 minutes')
-    two_hr_45_min = pd.Timedelta('2 hours, 45 minutes')
+#     fifteen_min = pd.Timedelta('15 minutes')
+#     two_hr_45_min = pd.Timedelta('2 hours, 45 minutes')
     drug_freq = identify_drug_freq(drug)
     taken = 0
-    drug_adherence = 0
-    first_taken = None
-    maybe_taken_event = None
-    for index, row in drug_subset.iterrows():
-        if drug_freq == 1 and taken == 1:
-            print("drug:", drug)
-            print("num taken:", taken)
-            print("drug_freq:", drug_freq)
-            print("drug_adherence", drug_adherence)
-            drug_adherence = 1.0
-            return drug_adherence
-        if taken == 1:
-            break
-        if row['eventValue'] == "OPEN" and not first_taken:
-            first_taken = row['eventTime']
-            print("OPEN taken_event:", first_taken)
-            taken += 1
-        elif row['eventValue'] == "CLOSE" and not first_taken:
-            maybe_taken_event = row['eventTime']
-            print("CLOSE maybe_taken_event:", maybe_taken_event)
-        elif maybe_taken_event:
-            diff = row['eventTime'] - maybe_taken_event
-            print("diff:", diff, row['eventTime'], maybe_taken_event)
-            if diff < fifteen_min:
-                print("diff < 15 min -> taken: ", row['eventTime'].value[0])
-                first_taken = row['eventTime']
+    last_event = None
+    waiting_after_close = True
+    for index, event in drug_subset.iterrows():
+        if last_event is None:
+            if event['eventValue'] == "OPEN":
+                if drug_freq == 1:
+                    return 1.0
                 taken += 1
-    second_possible_start_taken = first_taken + two_hr_45_min
-    drug_subset = drug_subset[drug_subset['eventTime'] > second_possible_start_taken]
-    if not drug_subset.empty:
-        print("Second taken event subset is non-empty => second taken event exists")
-        taken += 1
-    if drug_freq > 0:
-        drug_adherence = taken / drug_freq
-        print("drug:", drug)
-        print("num taken:", taken)
-        print("drug_freq:", drug_freq)
-        print("drug_adherence", drug_adherence)
-    return drug_adherence
+                last_event = event
+            else:
+                last_event = event
+                waiting_after_close = True
+        else:
+            if waiting_after_close:
+                if last_event['eventTime'] + pd.Timedelta('15 minutes') > event['eventTime']:
+                    if drug_freq == 1:
+                        return 1.0
+                    taken += 1
+                    last_event = event
+                waiting_after_close = False # either way, 15 min passed or taken event occurred
+            else:
+                if last_event['eventTime'] + pd.Timedelta('2 hours, 45 minutes') < event['eventTime']:
+                    return 1.0 # must be second taken event
+    return 0.5
+
+    
+#     drug_adherence = 0
+#     first_taken = None
+#     maybe_taken_event = None
+#     for index, row in drug_subset.iterrows():
+#         if drug_freq == 1 and taken == 1:
+#             print("drug:", drug)
+#             print("num taken:", taken)
+#             print("drug_freq:", drug_freq)
+#             print("drug_adherence", drug_adherence)
+#             drug_adherence = 1.0
+#             return drug_adherence
+#         if taken == 1:
+#             break
+#         if row['eventValue'] == "OPEN" and not first_taken:
+#             first_taken = row['eventTime']
+#             print("OPEN taken_event:", first_taken)
+#             taken += 1
+#         elif row['eventValue'] == "CLOSE" and not first_taken:
+#             maybe_taken_event = row['eventTime']
+#             print("CLOSE maybe_taken_event:", maybe_taken_event)
+#         elif maybe_taken_event:
+#             diff = row['eventTime'] - maybe_taken_event
+#             print("diff:", diff, row['eventTime'], maybe_taken_event)
+#             if diff < fifteen_min:
+#                 print("diff < 15 min -> taken: ", row['eventTime'].value[0])
+#                 first_taken = row['eventTime']
+#                 taken += 1
+#     second_possible_start_taken = first_taken + two_hr_45_min
+#     drug_subset = drug_subset[drug_subset['eventTime'] > second_possible_start_taken]
+#     if not drug_subset.empty:
+#         print("Second taken event subset is non-empty => second taken event exists")
+#         taken += 1
+#     if drug_freq > 0:
+#         drug_adherence = taken / drug_freq
+#         print("drug:", drug)
+#         print("num taken:", taken)
+#         print("drug_freq:", drug_freq)
+#         print("drug_adherence", drug_adherence)
+#     return drug_adherence
         
 
 def compute_taken_over_expected(patient, timeframe_pillsy_subset, num_pillsy_meds):
@@ -376,7 +402,7 @@ def find_patient_rewards(pillsy_subset, patient, run_time):
         else:
             patient["flag_send_reward_value_t1"] = False
             print("flag_send_reward_value_t1 is FALSE")
-
+    
 
     # Update data frame with new values for reward and
     patient["reward_value_t0"] = reward_value_t0
