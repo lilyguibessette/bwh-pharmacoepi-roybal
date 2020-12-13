@@ -37,8 +37,11 @@ The parent directory of this code repository should contain 3 folders containing
 - this is the link between the numeric codes associated with text messages to be sent and the texts themselves
 
 Likewise, the control group should have the following set of folders with file naming conventions as above:
+
 `PatientDataControl`
+
 `PillsyControl`
+
 `REDCapControl`
 
 The parent directory should also have these folder for the program to export to:
