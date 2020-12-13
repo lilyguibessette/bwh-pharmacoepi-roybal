@@ -36,6 +36,10 @@ The parent directory of this code repository should contain 3 folders containing
 - contains one file sms_choices.csv
 - this is the link between the numeric codes associated with text messages to be sent and the texts themselves
 
+Likewise, the control group should have the following set of folders with file naming conventions as above:
+`PatientDataControl`
+`PillsyControl`
+`REDCapControl`
 
 The parent directory should also have these folder for the program to export to:
 
@@ -53,3 +57,9 @@ The parent directory should also have these folder for the program to export to:
     - exists as csv of data for each day
     - named "YYYY-MM-DD_reward_updates" with date prepended in format as indicated
     - date used is of when reward data is generated from computation from Pillsy data and patient dictionary and sent to Personalizer (i.e. today)
+
+`ProgramLog`
+- contains a log from running the program to record error messages and program status
+    - exists as txt file for each daily run of the program
+    - named "YYYY-MM-DD_RL_Personalizer_log.txt" with date prepended in format as indicated
+    
