@@ -32,9 +32,6 @@ The parent directory of this code repository should contain 3 folders containing
 - named "YYYY-MM-DD_redcap" with date prepended in format as indicated
 - date used is of when data is to be updated in patient dictionary (i.e. today)
 
-`SMSChoices`
-- contains one file sms_choices.csv
-- this is the link between the numeric codes associated with text messages to be sent and the texts themselves
 
 Likewise, the control group should have the following set of folders with file naming conventions as above:
 
@@ -44,7 +41,7 @@ Likewise, the control group should have the following set of folders with file n
 
 `REDCapControl`
 
-The parent directory should also have these folder for the program to export to:
+The parent directory should also have these folders for the program to export to:
 
 `SMSHistory`
 - contains all SMS messaging history generated from the decisions of the rank calls to Personalizer
@@ -66,3 +63,15 @@ The parent directory should also have these folder for the program to export to:
     - exists as txt file for each daily run of the program
     - named "YYYY-MM-DD_RL_Personalizer_log.txt" with date prepended in format as indicated
     
+
+The parent directory should also have these folders for the program to read unchanging data from:
+
+`SMSChoices`
+- contains one file sms_choices.csv
+- this is the link between the numeric codes associated with text messages to be sent and the texts themselves
+
+    
+`.keys`
+- contains one file azure-personalizer-key.txt
+- this is the file that contains the Personalizer client key and endpoint for instantiation of a Personalizer client at run time
+
