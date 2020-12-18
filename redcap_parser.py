@@ -108,11 +108,11 @@ def update_pt_data_with_redcap(redcap_data, pt_data, run_time):
             patient["pillsy_meds_sglt2"] = row["pillsy_meds___6"]
             patient["pillsy_meds_sulfonylurea"] = row["pillsy_meds___7"]
             patient["pillsy_meds_thiazolidinedione"] = row["pillsy_meds___8"]
-            ## TODO store prev num_pillsy_meds
+            # Shift previous number of meds over a day for measurement of backfilling of data 
             patient["num_pillsy_meds_t2"] = patient["num_pillsy_meds_t1"]
             patient["num_pillsy_meds_t1"] = patient["num_pillsy_meds_t0"]
             patient["num_pillsy_meds_t0"] = row["bottles"]
-            # patient["num_pillsy_meds"] = row["bottles"]
+    
 
     # Adding new patients
     for id in unique_study_ids_list_redcap:
@@ -121,7 +121,9 @@ def update_pt_data_with_redcap(redcap_data, pt_data, run_time):
             redcap_row = redcap_data[redcap_data['record_id'] == id].iloc[0]
             if redcap_row['censor'] == 1:
                 continue # skips this patient in the for loop and continues to the next patient
-            
+            if redcap_row['start_date'] > run_time.date(): # ask joe about this thought - 
+                #we can assume clean data here or control for some nuances to make RA life easier
+                continue # basically we only add them in if today is their startdate
             if redcap_row["race___5"] == 1 or redcap_row["race___6"] == 1 or redcap_row["race___7"] == 1:
                 race_other = 1
             else:
