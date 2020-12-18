@@ -114,8 +114,6 @@ def run_ranking(patient, client, run_time):
     patient = update_num_day_sms(patient)
     patient = updated_sms_today(patient)
     patient["trial_day_counter"] += 1
-
-
     return patient
 
 def shift_t0_t1_rank_ids(patient):
@@ -127,6 +125,13 @@ def shift_t0_t1_rank_ids(patient):
     patient["rank_id_social_t1"] = patient["rank_id_social_t0"]
     patient["rank_id_content_t1"] = patient["rank_id_content_t0"]
     patient["rank_id_reflective_t1"] = patient["rank_id_reflective_t0"]
+    patient["reward_value_t0"] = 0
+    patient["flag_send_reward_value_t0"] = False
+    patient["rank_id_framing_t0"] = None
+    patient["rank_id_history_t0"] = None
+    patient["rank_id_social_t0"] = None
+    patient["rank_id_content_t0"] = None
+    patient["rank_id_reflective_t0"] = None
     return patient
 
 
@@ -239,7 +244,10 @@ def updated_sms_today(patient):
     factor_set = 0
     text = ""
     text_message = ""
-
+    quantitative_sms = 0
+    doctor_sms = 0
+    lifestyle_sms = 0
+    
     # If 0,0,0,0,0 is not found, then the rows will have some potential values,
     if not rows.empty:
         # Then we randomize what of the factor set text messages we will send
