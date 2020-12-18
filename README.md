@@ -37,8 +37,6 @@ Likewise, the control group should have the following set of folders with file n
 
 `PatientDataControl`
 
-`PillsyControl`
-
 `REDCapControl`
 
 The parent directory should also have these folders for the program to export to:
