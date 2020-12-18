@@ -215,23 +215,23 @@ def find_disconnections_control(pt_data_control, pillsy_control, run_time):
     return control_pt_data
 
 
-def write_disconnected_report(pt_data_control, run_time):
-    disconnected_report_filename = str(run_time.date()) + "_disconnected_report_control" + '.csv'
-    disconnected_report_filepath = os.path.join("..",  "DisconnectedHistoryControl", disconnected_report_filename)
+# def write_disconnected_report(pt_data_control, run_time):
+#     disconnected_report_filename = str(run_time.date()) + "_disconnected_report_control" + '.csv'
+#     disconnected_report_filepath = os.path.join("..",  "DisconnectedHistoryControl", disconnected_report_filename)
 
-    # Subset updated_pt_dict to what we need for reward calls and put in dataframe
-    # create an Empty DataFrame object
-    column_values = ['record_id','disconnectedness','num_dates_disconnectedness', 'possibly_disconnected', 'num_dates_possibly_disconnected','early_rx_use','num_dates_early_rx_use', 'trial_day_counter', 'censor_date']
-    disconnected_report_df = pd.DataFrame(columns=column_values)
+#     # Subset updated_pt_dict to what we need for reward calls and put in dataframe
+#     # create an Empty DataFrame object
+#     column_values = ['record_id','disconnectedness','num_dates_disconnectedness', 'possibly_disconnected', 'num_dates_possibly_disconnected','early_rx_use','num_dates_early_rx_use', 'trial_day_counter', 'censor_date']
+#     disconnected_report_df = pd.DataFrame(columns=column_values)
 
-    for pt, data in pt_data_control.iterrows():
-        # Reward value, Rank_Id's
-        new_row = [data["record_id"], data["disconnectedness"],data["num_dates_disconnectedness"],  data["possibly_disconnected"], 
-                   data["num_dates_possibly_disconnected"], data["early_rx_use"], data["num_dates_early_rx_use"], data["trial_day_counter"], str(data['censor_date'])]
-        disconnected_report_df.loc[len(disconnected_report_df)] = new_row
-    # Writes CSV for RA to send text messages.
-    disconnected_report_df.to_csv(disconnected_report_filepath)
-    return
+#     for pt, data in pt_data_control.iterrows():
+#         # Reward value, Rank_Id's
+#         new_row = [data["record_id"], data["disconnectedness"],data["num_dates_disconnectedness"],  data["possibly_disconnected"], 
+#                    data["num_dates_possibly_disconnected"], data["early_rx_use"], data["num_dates_early_rx_use"], data["trial_day_counter"], str(data['censor_date'])]
+#         disconnected_report_df.loc[len(disconnected_report_df)] = new_row
+#     # Writes CSV for RA to send text messages.
+#     disconnected_report_df.to_csv(disconnected_report_filepath)
+#     return
 
 
 def export_pt_data_control(pt_data_control, runtime):
@@ -247,7 +247,7 @@ def check_control_disconnectedness(run_time):
 
     if not pillsy_control.empty and not pt_data_control.empty:
         pt_data_control = find_disconnections_control(pt_data_control, pillsy_control, run_time)
-        write_disconnected_report(pt_data_control, run_time)
+        # write_disconnected_report(pt_data_control, run_time)
         
     redcap_control = import_redcap_control(run_time)
     redcap_study_ids = get_study_ids(redcap_control)
