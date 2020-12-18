@@ -16,6 +16,7 @@ import pickle
 import json
 import os
 from datetime import date
+import http.client, urllib.request, urllib.parse, urllib.error, base64
 
 def get_reward_update(pt_data, run_time):
     reward_filename = str(run_time.date()) + "_reward_updates" + '.csv'
@@ -43,11 +44,11 @@ def get_reward_update(pt_data, run_time):
                        data_row["rank_id_social_t1"], data_row["rank_id_content_t1"], data_row["rank_id_reflective_t1"],
                        data_row["record_id"], data_row["trial_day_counter"], "flag_send_reward_value_t1"]
             reward_updates.loc[len(reward_updates)] = reward_row_t1
-        if(data_row["flag_send_reward_value_t2"] == True and data_row["censor_date"]  >= two_day_ago):
-            reward_row_t2 = [data_row["reward_value_t2"], data_row["rank_id_framing_t2"], data_row["rank_id_history_t2"],
-                       data_row["rank_id_social_t2"], data_row["rank_id_content_t2"], data_row["rank_id_reflective_t2"],
-                       data_row["record_id"], data_row["trial_day_counter"], "flag_send_reward_value_t2"]
-            reward_updates.loc[len(reward_updates)] = reward_row_t2
+        # if(data_row["flag_send_reward_value_t2"] == True and data_row["censor_date"]  >= two_day_ago):
+        #     reward_row_t2 = [data_row["reward_value_t2"], data_row["rank_id_framing_t2"], data_row["rank_id_history_t2"],
+        #                data_row["rank_id_social_t2"], data_row["rank_id_content_t2"], data_row["rank_id_reflective_t2"],
+        #                data_row["record_id"], data_row["trial_day_counter"], "flag_send_reward_value_t2"]
+        #     reward_updates.loc[len(reward_updates)] = reward_row_t2
     # Write csv as a log for what we're sending to Personalizer
     reward_updates.to_csv(reward_filepath, index=False)
     reward_updates = reward_updates.to_numpy()
@@ -64,4 +65,26 @@ def send_rewards(reward_updates, client):
         for j in range(1,6):
             print("reward_val: ", reward_val)
             print("event_id: ", row[j])
+            
             client.events.reward(event_id=row[j], value=reward_val)
+            
+            # headers = {
+            #     # Request headers
+            #     'Content-Type': 'application/json-patch+json',
+            #     'Ocp-Apim-Subscription-Key': '{subscription key}',
+            # }
+
+            # params = urllib.parse.urlencode({
+            # })
+
+            # try:
+            #     conn = http.client.HTTPSConnection('westus2.api.cognitive.microsoft.com')
+            #     conn.request("POST", "/personalizer/v1.0/events/{eventId}/reward?%s" % params, "{body}", headers)
+            #     response = conn.getresponse()
+            #     data = response.read()
+            #     print(data)
+            #     conn.close()
+            # except Exception as e:
+            #     print("[Errno {0}] {1}".format(e.errno, e.strerror))
+
+            ###################################

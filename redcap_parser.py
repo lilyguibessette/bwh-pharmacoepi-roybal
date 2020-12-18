@@ -120,7 +120,7 @@ def update_pt_data_with_redcap(redcap_data, pt_data, run_time):
 
             redcap_row = redcap_data[redcap_data['record_id'] == id].iloc[0]
             if redcap_row['censor'] == 1:
-                continue
+                continue # skips this patient in the for loop and continues to the next patient
             
             if redcap_row["race___5"] == 1 or redcap_row["race___6"] == 1 or redcap_row["race___7"] == 1:
                 race_other = 1
@@ -173,7 +173,6 @@ def update_pt_data_with_redcap(redcap_data, pt_data, run_time):
                                  'total_dichot_adherence_past7':0,
                                  'flag_send_reward_value_t0':False,
                                  'flag_send_reward_value_t1':False,
-                                 'flag_send_reward_value_t2':False,
                                  'possibly_disconnected': False,
                                  'possibly_disconnected_day1':False,
                                  'possibly_disconnected_day2':False,
