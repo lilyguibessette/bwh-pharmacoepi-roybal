@@ -11,7 +11,7 @@ __pycache__/
 .ipynb_checkpoints/
 pip-selfcheck.json
 *.sublime-workspace
-.keys
+.keys/
 PatientData/
 PatientDataControl/
 Pillsy/
@@ -21,3 +21,5 @@ REDCapControl/
 RewardData/
 SMSChoices/
 SMSHistory/
+ARCHIVE/
+debugging/
