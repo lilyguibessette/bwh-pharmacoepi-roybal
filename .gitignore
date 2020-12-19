@@ -9,5 +9,15 @@ share/
 etc/
 __pycache__/
 .ipynb_checkpoints/
-pip-selfcheck.json 
-RL_Personalizer.sublime-workspace
+pip-selfcheck.json
+*.sublime-workspace
+.keys
+PatientData/
+PatientDataControl/
+Pillsy/
+ProgramLog/
+REDCap/
+REDCapControl/
+RewardData/
+SMSChoices/
+SMSHistory/

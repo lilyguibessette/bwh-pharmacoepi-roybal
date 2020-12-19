@@ -10,11 +10,11 @@ import pytz
 import os
 import pandas as pd
 
+from exe_functions import build_path
+
 
 def write_sms_history(pt_data, run_time):
-    sms_hist_filename = str(run_time.date()) + "_sms_history" + '.csv'
-    sms_hist_filepath = os.path.join("..", "SMSHistory", sms_hist_filename)
-
+    fp = build_path("SMSHistory", str(run_time.date()) + "_sms_history.csv")
     # Subset updated_pt_dict to what we need for reward calls and put in dataframe
     # create an Empty DataFrame object
     column_values = ['record_id','sms_msg_today', 'factor_set', 'text_number',  'trial_day_counter','censor_date']
@@ -24,9 +24,7 @@ def write_sms_history(pt_data, run_time):
         # Reward value, Rank_Id's
         sms_history_dataframe.loc[len(sms_history_dataframe)] = [data["record_id"], data["sms_msg_today"], data["factor_set"], data["text_number"], data["trial_day_counter"], str(data["censor_date"])]
     # Writes CSV for RA to send text messages.
-    sms_history_dataframe.to_csv(sms_hist_filepath, index=False)
-    return
-
+    sms_history_dataframe.to_csv(fp, index=False)
 
 def run_ranking(patient, client, run_time):
     """Send rank calls to Personalizer and update corresponding patient variables.
@@ -222,7 +220,7 @@ def update_num_day_sms(patient):
 
 # Computes and updates the SMS text message to send to this patient today.
 def updated_sms_today(patient):
-    fp = os.path.join("..", "SMSChoices", "sms_choices.csv")
+    fp = build_path("SMSChoices", "sms_choices.csv")
     sms_choices = pd.read_csv(fp)
     framing = patient["framing_sms"]
     history = patient["history_sms"]
