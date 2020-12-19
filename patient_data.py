@@ -7,7 +7,7 @@ def import_pt_data(run_time):
 
     pt_data_filename = str(import_date) + "_pt_data" + '.csv'
     fp = os.path.join("..",  "PatientData", pt_data_filename)
-    date_cols = ["start_date", "censor_date", "possibly_disconnected_date"]
+    date_cols = ["start_date", "censor_date"]
 #     data_types = [{"record_id":int64},
 #                   {"trial_day_counter":int64},
 #                   {"censor":int64},

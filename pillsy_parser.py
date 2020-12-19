@@ -169,88 +169,6 @@ def compute_taken_over_expected(patient, timeframe_pillsy_subset, num_pillsy_med
     return taken_over_expected
 
 
-def shift_day_adherences(patient, reward_value_t0):
-    """
-    shift_day_adherences function to shift the values of each column over by one day
-    :param patient:
-    :param reward_value_t0:
-    :return:
-    """
-    patient["adherence_day7"] = patient["adherence_day6"]
-    patient["adherence_day6"] = patient["adherence_day5"]
-    patient["adherence_day5"] = patient["adherence_day4"]
-    patient["adherence_day4"] = patient["adherence_day3"]
-    patient["adherence_day3"] = patient["adherence_day2"]
-    patient["adherence_day2"] = patient["adherence_day1"]
-    patient["adherence_day1"] = reward_value_t0
-    return patient
-
-def shift_dichot_day_adherences(patient, reward_value_t0):
-    """
-    shift_dichot_day_adherences function to shift the values of each column over by one day
-    :param patient:
-    :param reward_value_t0:
-    :return:
-    """
-    patient["dichot_adherence_day7"] = patient["dichot_adherence_day6"]
-    patient["dichot_adherence_day6"] = patient["dichot_adherence_day5"]
-    patient["dichot_adherence_day5"] = patient["dichot_adherence_day4"]
-    patient["dichot_adherence_day4"] = patient["dichot_adherence_day3"]
-    patient["dichot_adherence_day3"] = patient["dichot_adherence_day2"]
-    patient["dichot_adherence_day2"] = patient["dichot_adherence_day1"]
-    if reward_value_t0 > 0:
-        patient["dichot_adherence_day1"] = 1
-    else:
-        patient["dichot_adherence_day1"] = 0
-    return patient
-
-def update_day2_adherence(patient, reward_value_t1):
-    """
-    update_day2_adherence function to reassign the value from two days ago in case of updated sync'd/reconnected data
-    :param patient:
-    :param reward_value_t1:
-    :return:
-    """
-    patient["adherence_day2"] = reward_value_t1
-    return patient
-
-def update_day2_dichot_adherence(patient,reward_value_t1):
-    """
-    update_day2_dichot_adherence function to reassign the value from two days ago in case of updated sync'd/reconnected data
-    :param patient:
-    :param reward_value_t1:
-    :return:
-    """
-    # We update the avg adherences at days 1,3,7 with updated shifted daily adherence values:
-    if reward_value_t1 > 0:
-        patient["dichot_adherence_day2"] = 1
-    else:
-        patient["dichot_adherence_day2"] = 0
-    return patient
-
-def update_day3_adherence(patient, reward_value_t2):
-    """
-    update_day2_adherence function to reassign the value from two days ago in case of updated sync'd/reconnected data
-    :param patient:
-    :param reward_value_t1:
-    :return:
-    """
-    patient["adherence_day3"] = reward_value_t2
-    return patient 
-
-def update_day3_dichot_adherence(patient,reward_value_t2):
-    """
-    update_day2_dichot_adherence function to reassign the value from two days ago in case of updated sync'd/reconnected data
-    :param patient:
-    :param reward_value_t1:
-    :return:
-    """
-    # We update the avg adherences at days 1,3,7 with updated shifted daily adherence values:
-    if reward_value_t2 > 0:
-        patient["dichot_adherence_day3"] = 1
-    else:
-        patient["dichot_adherence_day3"] = 0
-    return patient
 
 def calc_avg_adherence(patient):
     """
@@ -270,6 +188,9 @@ def calc_avg_adherence(patient):
         patient["avg_adherence_1day"] = patient["adherence_day1"]
     return patient
 
+
+    
+
 def find_patient_rewards(pillsy_subset, patient, run_time):
     # From pillsy_subset, get timezone of patient, then use that to calculate the time cut points so that it is relative to the
     # patient's view of time.
@@ -280,16 +201,43 @@ def find_patient_rewards(pillsy_subset, patient, run_time):
         #print(first_row['eventTime'].values[0])
         tzinfo_first_row = first_row['eventTime'].values[0].tzinfo
         curtime = curtime.astimezone(tzinfo_first_row)
-
+        
+    seven_day_ago = (curtime - timedelta(days=7)).date()
+    seven_day_ago_12am = datetime.combine(seven_day_ago, datetime.min.time()).astimezone(tzinfo_first_row)    
+    
+    six_day_ago = (curtime - timedelta(days=6)).date()
+    six_day_ago_12am = datetime.combine(six_day_ago, datetime.min.time()).astimezone(tzinfo_first_row)    
+    
+    five_day_ago = (curtime - timedelta(days=5)).date()
+    five_day_ago_12am = datetime.combine(five_day_ago, datetime.min.time()).astimezone(tzinfo_first_row)
+        
+    four_day_ago = (curtime - timedelta(days=4)).date()
+    four_day_ago_12am = datetime.combine(four_day_ago, datetime.min.time()).astimezone(tzinfo_first_row)
+    
     three_day_ago = (curtime - timedelta(days=3)).date()
     three_day_ago_12am = datetime.combine(three_day_ago, datetime.min.time()).astimezone(tzinfo_first_row)
+    
     two_day_ago = (curtime - timedelta(days=2)).date()
     two_day_ago_12am = datetime.combine(two_day_ago, datetime.min.time()).astimezone(tzinfo_first_row)
+    
     yesterday = (curtime - timedelta(days=1)).date()
     yesterday_12am =datetime.combine(yesterday, datetime.min.time()).astimezone(tzinfo_first_row)
+    
     today_current_time = curtime
         # https://www.w3resource.com/python-exercises/date-time-exercise/python-date-time-exercise-8.php
     today_12am = datetime.combine(today_current_time, datetime.min.time()).astimezone(tzinfo_first_row)
+        
+    pillsy_seven_day_ago_subset = pillsy_subset[pillsy_subset["eventTime"] < six_day_ago_12am]
+    pillsy_seven_day_ago_subset = pillsy_seven_day_ago_subset[pillsy_seven_day_ago_subset["eventTime"] >= seven_day_ago_12am]
+
+    pillsy_six_day_ago_subset = pillsy_subset[pillsy_subset["eventTime"] < five_day_ago_12am]
+    pillsy_six_day_ago_subset = pillsy_six_day_ago_subset[pillsy_six_day_ago_subset["eventTime"] >= six_day_ago_12am]
+
+    pillsy_five_day_ago_subset = pillsy_subset[pillsy_subset["eventTime"] < four_day_ago_12am]
+    pillsy_five_day_ago_subset = pillsy_five_day_ago_subset[pillsy_five_day_ago_subset["eventTime"] >= five_day_ago_12am]
+
+    pillsy_four_day_ago_subset = pillsy_subset[pillsy_subset["eventTime"] < three_day_ago_12am]
+    pillsy_four_day_ago_subset = pillsy_four_day_ago_subset[pillsy_four_day_ago_subset["eventTime"] >= four_day_ago_12am]
 
     pillsy_three_day_ago_subset = pillsy_subset[pillsy_subset["eventTime"] < two_day_ago_12am]
     pillsy_three_day_ago_subset = pillsy_three_day_ago_subset[pillsy_three_day_ago_subset["eventTime"] >= three_day_ago_12am]
@@ -309,23 +257,19 @@ def find_patient_rewards(pillsy_subset, patient, run_time):
     print("-----------------------------BEGIN CHECKING REWARDS FOR PT ", patient["record_id"], "----------------------------")
     print("record_id:", patient["record_id"])
     
-    # Use calendar day of yesterday to compute adherence
     print("Computing... reward_value_t0 in pillsy_yesterday_subset with # med:", patient["num_pillsy_meds_t0"])
     reward_value_t0 = compute_taken_over_expected(patient, pillsy_yesterday_subset, patient["num_pillsy_meds_t0"])
     print("reward_value_t0:", reward_value_t0)
-    
-    # if early_today_rx_use = 1 from last run then we don't need this measurement because
-    # then two runs ago was truly 0 and we should still find 0 so might as well run again
-    # Use calendar day of two days ago to update the reward if we suspected a disconnection
     print("Computing... reward_value_t1 in pillsy_two_day_ago_subset with # med:", patient["num_pillsy_meds_t1"])
     reward_value_t1 = compute_taken_over_expected(patient, pillsy_two_day_ago_subset, patient["num_pillsy_meds_t1"])
     print("reward_value_t1:", reward_value_t1)
-    
-    # if disconnectedness was -1 last time, then we need to send this updated reward_value_t1
-    # regardless of what it is now (i.e. we will send 0's or the updated adherence if they reconnected
-    print("Computing... reward_value_t2 in pillsy_three_day_ago_subset with # med:", patient["num_pillsy_meds_t2"])
-    reward_value_t2 = compute_taken_over_expected(patient, pillsy_three_day_ago_subset, patient["num_pillsy_meds_t2"])
-    print("reward_value_t2:", reward_value_t2)
+
+    adherence_day3 = compute_taken_over_expected(patient, pillsy_three_day_ago_subset, patient["num_pillsy_meds_t2"])
+    adherence_day4 = compute_taken_over_expected(patient, pillsy_three_day_ago_subset, patient["num_pillsy_meds_t3"])
+    adherence_day5 = compute_taken_over_expected(patient, pillsy_three_day_ago_subset, patient["num_pillsy_meds_t4"])
+    adherence_day6 = compute_taken_over_expected(patient, pillsy_three_day_ago_subset, patient["num_pillsy_meds_t5"])
+    adherence_day7 = compute_taken_over_expected(patient, pillsy_three_day_ago_subset, patient["num_pillsy_meds_t6"])
+   
     
     print("Computing... early_rx_use in pillsy_early_today_subset with # med:", patient["num_pillsy_meds_t0"])
     early_rx_use = compute_taken_over_expected(patient, pillsy_early_today_subset, patient["num_pillsy_meds_t0"])
@@ -334,81 +278,49 @@ def find_patient_rewards(pillsy_subset, patient, run_time):
     print("Computing... yesterday_disconnectedness in pillsy_yesterday_disconnectedness_subset with # med:", patient["num_pillsy_meds_t0"])
     observed_num_drugs = get_drugName_list(pillsy_yesterday_disconnectedness_subset)
     print("expected # rx:",  patient["num_pillsy_meds_t0"],"// observed # rx:", len(observed_num_drugs), "\n observed rx names:",observed_num_drugs)
+    
+    # if we didn't send reward for 2 days ago yesterday, we send it today
+    if patient["flag_send_reward_value_t1"] == False:
+        patient["flag_send_reward_value_t0"] = True   
+    
+    # now we check to see if we should send yesterday's reward today 
     if len(observed_num_drugs) == patient["num_pillsy_meds_t0"]:
         yesterday_disconnectedness = 1
+        # patient is connected so we can send the reward for yesterday
+        patient["flag_send_reward_value_t0"] = True
     else:
-        yesterday_disconnectedness = -1        
+        # patient is disconnected so we will give it some time to back fill and send tomorrow
+        yesterday_disconnectedness = -1
+        patient["num_dates_disconnectedness"] += 1
+        patient["flag_send_reward_value_t0"] = False   
     print("disconnectedness:", yesterday_disconnectedness)
-          
-    # Check if two reward assessments ago we were unsure about disconnectedness
-    # These logical steps are determined by yesterdays values regarding disconnectedness
-    if patient["possibly_disconnected"] == True:
-        print("possibly_disconnected is TRUE")
-        print("flag_send_reward_value_t2 is TRUE")
-        patient["flag_send_reward_value_t2"] = True
-    else:
-        patient["flag_send_reward_value_t2"] = False
-        print("possibly_disconnected is FALSE")
-        print("flag_send_reward_value_t2 is FALSE")
-
-    if patient["disconnectedness"] == -1:
-        print("disconnectedness is -1")
-        if reward_value_t1 != patient["reward_value_t0"]:
-            patient["flag_send_reward_value_t1"] = True
-            print("possibly_disconnected is TRUE")
-            print("flag_send_reward_value_t1 is TRUE B/C old and new backfilled reward are unequal")
-        else:
-            patient["flag_send_reward_value_t1"] = False
-            print("flag_send_reward_value_t1 is FALSE")
-    
 
     # Update data frame with new values for reward and
     patient["reward_value_t0"] = reward_value_t0
     patient["reward_value_t1"] = reward_value_t1
-    patient["reward_value_t2"] = reward_value_t2
     patient["early_rx_use"] = early_rx_use
     
     if early_rx_use > 0:
         patient["num_dates_early_rx_use"] += 1
 
-    # Shifts the adherence for each day backwards by 1 day to make day1 = newest found avg_adherence
-    # and day2 = old day, day3 = old day 2... etc day7 = old day 6
-    patient = shift_day_adherences(patient, reward_value_t0)
-        #function to shift the values of each column over by one day
-    patient = shift_dichot_day_adherences(patient, reward_value_t0)
-        #function to shift the values of each column over by one day
-    patient = update_day2_adherence(patient, reward_value_t1)
-        #function to reassign the value from two days ago in case updated sync'd data
-    patient = update_day2_dichot_adherence(patient, reward_value_t1)
-        #function to reassign the value from two days ago in case updated sync'd data
-    patient = update_day3_adherence(patient, reward_value_t2)
-    # function to reassign the value from two days ago in case updated sync'd data
-    patient = update_day3_dichot_adherence(patient, reward_value_t2)
-    # function to reassign the value from two days ago in case updated sync'd data
-
+    patient["adherence_day7"] = adherence_day7
+    patient["adherence_day6"] = adherence_day6
+    patient["adherence_day5"] = adherence_day5
+    patient["adherence_day4"] = adherence_day4
+    patient["adherence_day3"] = adherence_day3
+    patient["adherence_day2"] = reward_value_t1
+    patient["adherence_day1"] = reward_value_t0
+    
+    patient["dichot_adherence_day7"] = (adherence_day7 > 0)*1
+    patient["dichot_adherence_day6"] = (adherence_day6 > 0)*1
+    patient["dichot_adherence_day5"] = (adherence_day5 > 0)*1
+    patient["dichot_adherence_day4"] = (adherence_day4 > 0)*1
+    patient["dichot_adherence_day3"] = (adherence_day3 > 0)*1
+    patient["dichot_adherence_day2"] = (reward_value_t1 > 0)*1
+    patient["dichot_adherence_day1"] = (reward_value_t0 > 0)*1
+   
     # We update the avg adherences at days 1,3,7 with updated shifted daily adherence values:
     patient = calc_avg_adherence(patient)
-
-    if yesterday_disconnectedness == 1:
-        patient["flag_send_reward_value_t0"] = True
-        patient["disconnectedness"] = 1
-    elif yesterday_disconnectedness == -1:
-        patient["flag_send_reward_value_t0"] = False
-        patient["disconnectedness"] = -1
-        patient["num_dates_disconnectedness"] += 1
-        if patient["possibly_disconnected_day1"] == True:
-            # Then we shift that indicator back a day and keep day1 disconnect true
-            patient["possibly_disconnected_day2"] = True
-            # We update the current variable that yes, today they were possibly_disconnected after 2 days
-            # of 0 adherence / not in Pillsy data
-            patient["possibly_disconnected"] = True
-            # We increment the number of times this patient was flagged for possibly disconnected
-            patient["num_dates_possibly_disconnected"] += 1
-            # We add yesterday's date to the possibly disconnected date
-            patient["possibly_disconnected_date"] = yesterday
-        else:
-            patient["possibly_disconnected_day1"] = True
-            patient["possibly_disconnected_day2"] = False
 
     return patient 
 
