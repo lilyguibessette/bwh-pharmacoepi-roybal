@@ -19,15 +19,16 @@ from redcap_parser import update_pt_data_with_redcap
 def import_pt_data_control(run_time):
     import_date = (run_time - pd.Timedelta("1 day")).date()
     fp = build_path("PatientDataControl", str(import_date) + "_pt_data_control.csv")
+    print(fp)
     date_cols = ["start_date", "censor_date"]
     try:
-        pt_data = pd.read_csv(fp, sep=',', parse_dates=date_cols) #, dtype=data_types)
+        pt_data = pd.read_csv(fp, sep=',', parse_dates=date_cols)
     except FileNotFoundError as fnfe:
         print("in patient_data.py, in import_pt_data")
         print("fp file not found, fp = {}".format(os.path.abspath(fp)))
         print("error = {}".format(fnfe))
         pt_data = new_empty_pt_data()
-
+        return pt_data
     return pt_data
 
 def import_redcap_control(run_time):
@@ -79,7 +80,7 @@ def check_control_disconnectedness(pillsy, redcap_data, pt_data, run_time):
     pt_data_control = update_pt_data_with_redcap(redcap_data, pt_data, run_time)
     
     ranked_pt_data = new_empty_pt_data()
-    for index, patient in pt_data.iterrows():
+    for index, patient in pt_data_control.iterrows():
         if patient["censor"] != 1 and patient["censor_date"] > run_time.date():
             patient= shift_t0_t1_rank_ids(patient)
             patient["trial_day_counter"] += 1
