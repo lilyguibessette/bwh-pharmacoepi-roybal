@@ -112,6 +112,10 @@ def update_pt_data_with_redcap(redcap_data, pt_data, run_time):
             patient["pillsy_meds_sulfonylurea"] = row["pillsy_meds___7"]
             patient["pillsy_meds_thiazolidinedione"] = row["pillsy_meds___8"]
             # Shift previous number of meds over a day for measurement of backfilling of data 
+            patient["num_pillsy_meds_t6"] = patient["num_pillsy_meds_t5"]
+            patient["num_pillsy_meds_t5"] = patient["num_pillsy_meds_t4"]
+            patient["num_pillsy_meds_t4"] = patient["num_pillsy_meds_t3"]
+            patient["num_pillsy_meds_t3"] = patient["num_pillsy_meds_t2"]
             patient["num_pillsy_meds_t2"] = patient["num_pillsy_meds_t1"]
             patient["num_pillsy_meds_t1"] = patient["num_pillsy_meds_t0"]
             patient["num_pillsy_meds_t0"] = row["bottles"]
@@ -162,8 +166,12 @@ def update_pt_data_with_redcap(redcap_data, pt_data, run_time):
                                  'pillsy_meds_sulfonylurea': redcap_row["pillsy_meds___7"],
                                  'pillsy_meds_thiazolidinedione': redcap_row["pillsy_meds___8"],
                                  'num_pillsy_meds_t0': redcap_row["bottles"],
-                                 'num_pillsy_meds_t1': redcap_row["bottles"],
-                                 'num_pillsy_meds_t2': redcap_row["bottles"],
+                                 'num_pillsy_meds_t1': 0,
+                                 'num_pillsy_meds_t2': 0,
+                                 'num_pillsy_meds_t3': 0,
+                                 'num_pillsy_meds_t4': 0,
+                                 'num_pillsy_meds_t5': 0,
+                                 'num_pillsy_meds_t6': 0,
                                  'start_date': redcap_row["start_date"],
                                  'censor_date': censor_date,
                                  'num_twice_daily_pillsy_meds': redcap_row["num_twice_daily_pillsy_meds"],

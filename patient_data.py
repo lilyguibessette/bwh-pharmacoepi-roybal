@@ -5,7 +5,7 @@ from exe_functions import build_path
 def import_pt_data(run_time):
     import_date = (run_time - pd.Timedelta("1 day")).date()
     fp = build_path("PatientData", str(import_date) + "_pt_data.csv")
-    date_cols = ["start_date", "censor_date", "possibly_disconnected_date"]
+    date_cols = ["start_date", "censor_date"]
     try:
         pt_data = pd.read_csv(fp, sep=',', parse_dates=date_cols)
     except FileNotFoundError as fnfe:

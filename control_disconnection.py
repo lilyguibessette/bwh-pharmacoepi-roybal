@@ -269,8 +269,6 @@ def check_control_disconnectedness(run_time):
                                  'possibly_disconnected':False,
                                  'possibly_disconnected_day1':False,
                                  'possibly_disconnected_day2':False,
-                                 'num_pillsy_meds_t0': redcap_row["bottles"],
-                                 'num_pillsy_meds_t1': redcap_row["bottles"],
-                                 'num_pillsy_meds_t2': redcap_row["bottles"]}, name=id)
+                                 'num_pillsy_meds_t0': redcap_row["bottles"]}, name=id)
             pt_data_control = pt_data_control.append(new_row)
     export_pt_data_control(pt_data_control, run_time)
