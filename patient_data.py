@@ -18,7 +18,7 @@ def import_pt_data(run_time):
 
 def new_empty_pt_data():
     fp = build_path("PatientData", "empty_start.csv")
-    date_cols = ["start_date", "censor_date", "possibly_disconnected_date"]
+    date_cols = ["start_date", "censor_date"]
     pt_data = pd.read_csv(fp, sep=',', header=0, parse_dates=date_cols)
     return pt_data
 
