@@ -7,8 +7,9 @@ import gc
 import time
 from datetime import datetime, date, timedelta
 import pytz
-from patient_data import get_study_ids, new_empty_pt_data
 
+from patient_data import get_study_ids, new_empty_pt_data
+from exe_functions import build_path
 
 
 def import_Pillsy(run_time):
@@ -16,8 +17,8 @@ def import_Pillsy(run_time):
     """
     
     import_date = (run_time - pd.Timedelta("1 day")).date()
-    pillsy_filename = str(import_date) + "_pillsy" + '.csv'
-    fp = os.path.join("..", "Pillsy", pillsy_filename)
+    pillsy_filename = str(import_date) + "_pillsy.csv"
+    fp = build_path("Pillsy", pillsy_filename)
 
     try:
         pillsy = pd.read_csv(fp)
@@ -47,7 +48,7 @@ def import_Pillsy(run_time):
     def converter(time_string):
         import re
         tz_abbr = re.search(r"\d\d:\d\d .M ([A-Z]{2,4}) \d{4}-\d\d-\d\d", time_string).group(1)
-        return time_string.replace(tz_abbr, tz_ref[tz_abbr])
+        return time_string.replace(tz_abbr, tz_ref.get(tz_abbr, "-0500"))
 
     pillsy.dropna(
     axis=0,

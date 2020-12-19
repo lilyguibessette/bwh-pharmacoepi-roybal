@@ -18,9 +18,10 @@ import os
 from datetime import date
 import http.client, urllib.request, urllib.parse, urllib.error, base64
 
+from exe_functions import build_path
+
 def get_reward_update(pt_data, run_time):
-    reward_filename = str(run_time.date()) + "_reward_updates" + '.csv'
-    reward_filepath = os.path.join("..", "RewardData", reward_filename)
+    fp = build_path("RewardData", str(run_time.date()) + "_reward_updates.csv")
     today = run_time.date()
     two_day_ago = (run_time - timedelta(days=2)).date()
     yesterday = (run_time - timedelta(days=1)).date()
@@ -50,7 +51,7 @@ def get_reward_update(pt_data, run_time):
         #                data_row["record_id"], data_row["trial_day_counter"], "flag_send_reward_value_t2"]
         #     reward_updates.loc[len(reward_updates)] = reward_row_t2
     # Write csv as a log for what we're sending to Personalizer
-    reward_updates.to_csv(reward_filepath, index=False)
+    reward_updates.to_csv(fp, index=False)
     reward_updates = reward_updates.to_numpy()
     return reward_updates
 

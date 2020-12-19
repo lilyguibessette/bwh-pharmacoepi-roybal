@@ -13,3 +13,13 @@ pip-selfcheck.json
 RL_Personalizer.sublime-workspace
 Actions.sublime-workspace
 *.sublime-workspace
+.keys
+PatientData/
+PatientDataControl/
+Pillsy/
+ProgramLog/
+REDCap/
+REDCapControl/
+RewardData/
+SMSChoices/
+SMSHistory/
