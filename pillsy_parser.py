@@ -159,7 +159,7 @@ def compute_taken_over_expected(patient, timeframe_pillsy_subset, num_pillsy_med
         this_drug_adherence = find_taken_events(drug, drug_subset)
         timeframe_adherence_by_drug.append(this_drug_adherence)
     taken_over_expected = 0
-    if not patient.empty:
+    if not patient.empty and num_pillsy_meds > 0:
         sum_timeframe_adherence = sum(timeframe_adherence_by_drug)
         taken_over_expected = sum_timeframe_adherence / num_pillsy_meds
         print("sum_timeframe_adherence:", sum_timeframe_adherence)

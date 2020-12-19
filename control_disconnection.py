@@ -19,7 +19,6 @@ from redcap_parser import update_pt_data_with_redcap
 def import_pt_data_control(run_time):
     import_date = (run_time - pd.Timedelta("1 day")).date()
     fp = build_path("PatientDataControl", str(import_date) + "_pt_data_control.csv")
-    print(fp)
     date_cols = ["start_date", "censor_date"]
     try:
         pt_data = pd.read_csv(fp, sep=',', parse_dates=date_cols)
