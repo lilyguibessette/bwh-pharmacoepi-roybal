@@ -7,7 +7,7 @@ import gc
 import time
 from datetime import datetime, date, timedelta
 import pytz
-from pillsy_parser import identify_drug_freq, get_drugName_list, find_taken_events
+from pillsy_parser import identify_drug_freq, find_patient_rewards, get_drugName_list, find_taken_events, find_rewards
 from patient_data import get_study_ids, new_empty_pt_data
 
 # For date time
@@ -18,14 +18,15 @@ def import_pt_data_control(run_time):
  
     pt_data_filename = str(import_date) + "_pt_data_control" + '.csv'
     fp = os.path.join("..", "PatientDataControl", pt_data_filename)
-    date_cols = ["start_date", "censor_date", "possibly_disconnected_date"]
+    date_cols = ["start_date", "censor_date"]
     try:
-        pt_data = pd.read_csv(fp, sep=',', parse_dates=date_cols)
-    except FileNotFoundError:
-        fp = os.path.join("..", "PatientDataControl", "empty_start.csv")
-        date_cols = ["start_date", "censor_date", "possibly_disconnected_date"]
-        pt_data_control = pd.read_csv(fp, sep=',', parse_dates=date_cols)
-        return pt_data_control
+        pt_data = pd.read_csv(fp, sep=',', parse_dates=date_cols) #, dtype=data_types)
+    except FileNotFoundError as fnfe:
+        print("in patient_data.py, in import_pt_data")
+        print("fp file not found, fp = {}".format(os.path.abspath(fp)))
+        print("error = {}".format(fnfe))
+        pt_data = new_empty_pt_data()
+        return pt_data
     return pt_data
 
 def import_redcap_control(run_time):
@@ -79,118 +80,22 @@ def import_Pillsy_control(run_time):
         import re
         tz_abbr = re.search(r"\d\d:\d\d .M ([A-Z]{2,4}) \d{4}-\d\d-\d\d", time_string).group(1)
         return time_string.replace(tz_abbr, tz_ref[tz_abbr])
-    
+
     pillsy.dropna(
     axis=0,
     how='all',
     thresh=None,
     subset=None,
     inplace=True)
-    pillsy["eventTime"] = pd.to_datetime(pd.Series([converter(str_dt) for str_dt in pillsy["eventTime"]]))
+    #https://hackersandslackers.com/pandas-dataframe-drop/
+    
+    #TODO: Here we need to drop the empty rows.
+    pillsy["eventTime"] = pd.to_datetime(pd.Series([converter(str_dt) for str_dt in pillsy["eventTime"]])) #, utc=True)
     # Note: In this dataset our study_id is actually 'firstname', hence the drop of patientId
     # Note: firstname is currently read in as int64 dtype
     pillsy.drop(["patientId", "lastname", "method", "platform"], axis=1, inplace=True)
     return pillsy
 
-def check_for_any_taken_events(timeframe_pillsy_subset):
-    """
-    compute_taken_over_expected function runs find_taken_events for each drug to find the adherence of each drug
-    over a given time frame and then computes the average adherence for the time period by dividing the sum of
-    adherence of all drugs over the number of drugs (i.e. expected maximum sum of adherence) for a patient
-    :param patient:
-    :param timeframe_pillsy_subset:
-    :return:
-    """
-    yesterday_drugs = get_drugName_list(timeframe_pillsy_subset)
-    yesterday_adherence_by_drug = [0] * len(yesterday_drugs)
-    drug_num = 0
-    for drug in yesterday_drugs:
-        drug_num += 1
-        drug_subset = timeframe_pillsy_subset[timeframe_pillsy_subset['drugName'] == drug]
-        this_drug_adherence = find_taken_events(drug, drug_subset)
-        yesterday_adherence_by_drug.append(this_drug_adherence)
-
-    sum_yesterday_adherence = sum(yesterday_adherence_by_drug)
-    if sum_yesterday_adherence > 0:
-        return True
-    else:
-        return False
-
-
-def find_patient_rewards_control(patient, pillsy_subset, run_time):
-    # From pillsy_subset, get timezone of patient, then use that to calculate the time cut points so that it is relative to the
-    # patient's view of time.
-    curtime = run_time
-    tzinfo_first_row = run_time.tzinfo
-    first_row = pillsy_subset.head(1)
-    if not first_row.empty:
-        print(first_row['eventTime'].values[0])
-        tzinfo_first_row = first_row['eventTime'].values[0].tzinfo
-        curtime = curtime.astimezone(tzinfo_first_row)
-
-    three_day_ago = (curtime - timedelta(days=3)).date()
-    three_day_ago_12am = datetime.combine(three_day_ago, datetime.min.time()).astimezone(tzinfo_first_row)
-    two_day_ago = (curtime - timedelta(days=2)).date()
-    two_day_ago_12am = datetime.combine(two_day_ago, datetime.min.time()).astimezone(tzinfo_first_row)
-    yesterday = (curtime - timedelta(days=1)).date()
-    yesterday_12am =datetime.combine(yesterday, datetime.min.time()).astimezone(tzinfo_first_row)
-    today_current_time = curtime
-        # https://www.w3resource.com/python-exercises/date-time-exercise/python-date-time-exercise-8.php
-    today_12am = datetime.combine(today_current_time, datetime.min.time()).astimezone(tzinfo_first_row)
-
-    pillsy_three_day_ago_subset = pillsy_subset[pillsy_subset["eventTime"] < two_day_ago_12am]
-    pillsy_three_day_ago_subset = pillsy_three_day_ago_subset[pillsy_three_day_ago_subset["eventTime"] >= three_day_ago_12am]
-
-    pillsy_two_day_ago_subset = pillsy_subset[pillsy_subset["eventTime"] < yesterday_12am]
-    pillsy_two_day_ago_subset = pillsy_two_day_ago_subset[pillsy_two_day_ago_subset["eventTime"] >= two_day_ago_12am]
-
-    pillsy_yesterday_subset = pillsy_subset[pillsy_subset["eventTime"] < today_12am]
-    pillsy_yesterday_subset = pillsy_yesterday_subset[pillsy_yesterday_subset["eventTime"] >= yesterday_12am]
-
-    pillsy_early_today_subset = pillsy_subset[pillsy_subset["eventTime"] >= today_12am]
-    pillsy_early_today_subset = pillsy_early_today_subset[pillsy_early_today_subset["eventTime"] < today_current_time]
-
-    pillsy_yesterday_disconnectedness_subset = pillsy_subset[pillsy_subset["eventTime"] < today_current_time]
-    pillsy_yesterday_disconnectedness_subset = pillsy_yesterday_subset[pillsy_yesterday_subset["eventTime"] >= yesterday_12am]
-
-    taken_exists_t0 = check_for_any_taken_events(pillsy_yesterday_subset)
-    taken_exists_t1 = check_for_any_taken_events(pillsy_two_day_ago_subset)
-    taken_exists_t2 = check_for_any_taken_events(pillsy_three_day_ago_subset)
-    early_rx_use = check_for_any_taken_events(pillsy_early_today_subset)
-
-    
-    observed_num_drugs = get_drugName_list(pillsy_yesterday_disconnectedness_subset)
-    if len(observed_num_drugs) == patient["num_pillsy_meds_t0"]:
-        yesterday_disconnectedness = 1
-    else:
-        yesterday_disconnectedness = -1        
-    
-        
-    if early_rx_use > 0:
-        patient["num_dates_early_rx_use"] += 1
-        
-    if yesterday_disconnectedness == 1:
-        patient["possibly_disconnected_day1"] = False
-    elif yesterday_disconnectedness == -1:
-        patient["disconnectedness"] = -1
-        patient["num_dates_disconnectedness"] += 1
-        if patient["possibly_disconnected_day1"] == True:
-            # Then we shift that indicator back a day and keep day1 disconnect true
-            patient["possibly_disconnected_day2"] = True
-            # We update the current variable that yes, today they were possibly_disconnected after 2 days
-            # of 0 adherence / not in Pillsy data
-            patient["possibly_disconnected"] = True
-            # We increment the number of times this patient was flagged for possibly disconnected
-            patient["num_dates_possibly_disconnected"] += 1
-            # We add yesterday's date to the possibly disconnected date 
-            patient["possibly_disconnected_date"] = yesterday
-            #patient["dates_possibly_disconnected"].append(yesterday)
-        else:
-            patient["possibly_disconnected_day1"] = True
-            patient["possibly_disconnected_day2"] = False
-    patient['trial_day_counter'] += 1
-    return patient # this function can either return the updated row of data
-    # or just update in place but dont know how dataframes work for pass by ref vs pass by val
 
 def find_disconnections_control(pt_data_control, pillsy_control, run_time):
     """
@@ -215,41 +120,26 @@ def find_disconnections_control(pt_data_control, pillsy_control, run_time):
     return control_pt_data
 
 
-# def write_disconnected_report(pt_data_control, run_time):
-#     disconnected_report_filename = str(run_time.date()) + "_disconnected_report_control" + '.csv'
-#     disconnected_report_filepath = os.path.join("..",  "DisconnectedHistoryControl", disconnected_report_filename)
-
-#     # Subset updated_pt_dict to what we need for reward calls and put in dataframe
-#     # create an Empty DataFrame object
-#     column_values = ['record_id','disconnectedness','num_dates_disconnectedness', 'possibly_disconnected', 'num_dates_possibly_disconnected','early_rx_use','num_dates_early_rx_use', 'trial_day_counter', 'censor_date']
-#     disconnected_report_df = pd.DataFrame(columns=column_values)
-
-#     for pt, data in pt_data_control.iterrows():
-#         # Reward value, Rank_Id's
-#         new_row = [data["record_id"], data["disconnectedness"],data["num_dates_disconnectedness"],  data["possibly_disconnected"], 
-#                    data["num_dates_possibly_disconnected"], data["early_rx_use"], data["num_dates_early_rx_use"], data["trial_day_counter"], str(data['censor_date'])]
-#         disconnected_report_df.loc[len(disconnected_report_df)] = new_row
-#     # Writes CSV for RA to send text messages.
-#     disconnected_report_df.to_csv(disconnected_report_filepath)
-#     return
-
-
 def export_pt_data_control(pt_data_control, runtime):
     filesave = str(runtime.date()) + "_pt_data_control" + '.csv'
     filepath = os.path.join("..", "PatientDataControl", filesave)
     pt_data_control.to_csv(filepath, index=False)
 
-def check_control_disconnectedness(run_time):
+def check_control_disconnectedness(run_time, pillsy, pt_data_control, redcap_control):
     #TODO can i just make a new column by calling it and assigning it a value in a row? or nah?
     # @Joe - need help to think through for whole project where we instantiate a pt_data df cause rn its made on the fly
-    pillsy_control = import_Pillsy_control(run_time)
-    pt_data_control = import_pt_data_control(run_time)
-
-    if not pillsy_control.empty and not pt_data_control.empty:
-        pt_data_control = find_disconnections_control(pt_data_control, pillsy_control, run_time)
-        # write_disconnected_report(pt_data_control, run_time)
-        
-    redcap_control = import_redcap_control(run_time)
+    
+    if not pillsy.empty and not pt_data_control.empty:
+        pt_data_control = find_rewards(pillsy, pt_data_control, run_time)
+    
+    pt_data_control = update_pt_data_with_redcap(redcap_data, pt_data, run_time)
+    
+    ranked_pt_data = new_empty_pt_data()
+    for index, patient in pt_data_control.iterrows():
+        if patient["censor"] != 1 and patient["censor_date"] > run_time.date():
+            patient = run_ranking(patient, client, run_time)
+            ranked_pt_data = ranked_pt_data.append(patient)
+            
     redcap_study_ids = get_study_ids(redcap_control)
     study_ids_list = get_study_ids(pt_data_control)
     for id in redcap_study_ids:
@@ -266,9 +156,6 @@ def check_control_disconnectedness(run_time):
                                  'disconnectedness':False,
                                  'num_dates_disconnectedness': 0,
                                  'num_dates_early_rx_use': 0,
-                                 'possibly_disconnected':False,
-                                 'possibly_disconnected_day1':False,
-                                 'possibly_disconnected_day2':False,
                                  'num_pillsy_meds_t0': redcap_row["bottles"]}, name=id)
             pt_data_control = pt_data_control.append(new_row)
     export_pt_data_control(pt_data_control, run_time)

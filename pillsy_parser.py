@@ -188,7 +188,6 @@ def calc_avg_adherence(patient):
         patient["avg_adherence_1day"] = patient["adherence_day1"]
     return patient
 
-
     
 
 def find_patient_rewards(pillsy_subset, patient, run_time):
