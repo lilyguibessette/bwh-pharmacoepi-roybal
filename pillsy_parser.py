@@ -281,7 +281,7 @@ def find_patient_rewards(pillsy_subset, patient, run_time):
     
     # if we didn't send reward for 2 days ago yesterday, we send it today
     if patient["flag_send_reward_value_t1"] == False:
-        patient["flag_send_reward_value_t0"] = True   
+        patient["flag_send_reward_value_t1"] = True   
     
     # now we check to see if we should send yesterday's reward today 
     if len(observed_num_drugs) == patient["num_pillsy_meds_t0"]:
