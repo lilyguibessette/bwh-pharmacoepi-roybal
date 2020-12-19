@@ -186,9 +186,6 @@ def update_pt_data_with_redcap(redcap_data, pt_data, run_time):
                                  'total_dichot_adherence_past7':0,
                                  'flag_send_reward_value_t0':False,
                                  'flag_send_reward_value_t1':False,
-                                 'possibly_disconnected': False,
-                                 'possibly_disconnected_day1':False,
-                                 'possibly_disconnected_day2':False,
                                  'num_dates_disconnectedness': 0,
                                  'num_dates_early_rx_use':0,}, name=id)
             pt_data = pt_data.append(new_row)

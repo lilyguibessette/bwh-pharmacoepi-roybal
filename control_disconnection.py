@@ -86,4 +86,4 @@ def check_control_disconnectedness(pillsy, redcap_data, pt_data, run_time):
             ranked_pt_data = ranked_pt_data.append(patient)
             
    
-    ranked_pt_data.to_csv(build_path("PatientData", str(run_time.date()) + "_pt_data_control.csv"),   index=False)
+    ranked_pt_data.to_csv(build_path("PatientDataControl", str(run_time.date()) + "_pt_data_control.csv"),   index=False)
