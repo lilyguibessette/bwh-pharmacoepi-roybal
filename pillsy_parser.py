@@ -155,6 +155,7 @@ def compute_taken_over_expected(patient, timeframe_pillsy_subset, num_pillsy_med
     :return:
     """
     timeframe_drugs = get_drugName_list(timeframe_pillsy_subset)
+    print("timeframe_drugs:", timeframe_drugs)
     timeframe_adherence_by_drug = [0] * len(timeframe_drugs)
     drug_num = 0
     for drug in timeframe_drugs:
@@ -166,6 +167,7 @@ def compute_taken_over_expected(patient, timeframe_pillsy_subset, num_pillsy_med
     if not patient.empty and num_pillsy_meds > 0:
         sum_timeframe_adherence = sum(timeframe_adherence_by_drug)
         taken_over_expected = sum_timeframe_adherence / num_pillsy_meds
+        print("timeframe_adherence_by_drug:", timeframe_adherence_by_drug)
         print("sum_timeframe_adherence:", sum_timeframe_adherence)
         print("num_pillsy_meds:", num_pillsy_meds)
         print("taken_over_expected:", taken_over_expected)
