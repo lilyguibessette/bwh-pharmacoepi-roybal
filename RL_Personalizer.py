@@ -1,11 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# ## Reinforcement Learning for SMS Messaging to Improve Medication Adherence - Roybal
-
-# In[1]:
-
-
 import sys
 import time
 import dateutil
@@ -26,10 +21,6 @@ import pytz
 import os
 import re
 
-
-# In[2]:
-
-
 from patient_data import import_pt_data, new_empty_pt_data
 from pillsy_parser import import_Pillsy, find_rewards
 from driverReward import get_reward_update,send_rewards
@@ -37,6 +28,7 @@ from redcap_parser import import_redcap, update_pt_data_with_redcap
 from driverRank import run_ranking, write_sms_history
 from control_disconnection import check_control_disconnectedness, import_redcap_control, import_pt_data_control
 from exe_functions import build_path
+
 
 ## 1. Get date
 
@@ -61,10 +53,19 @@ run_time = pytz.timezone("America/New_York").localize(run_time)
 print("successful date entered\nrun_time: {}".format(run_time))
 #########################################
 
-## 2. Ask if first day of trial
+## 2. Check if program has been run today
+
+fp = build_path("ProgramLog", str(run_time.date()) + "_RL_Personalizer_log.txt")
+if os.path.isfile(fp): 
+    input("\nALREADY RAN TODAY, {}.\n".format(run_time.strftime("%d %B, %Y"))
+          + "Please contact the other RAs to confirm someone else has already run it today.\n"
+          + "Press Enter to exit the program and close this window.")
+    sys.exit()
+
+## 3. Ask if first day of trial
 
 while True:
-    first_day = input("Is today the trial initiation?\n" 
+    first_day = input("\nIs today the trial initiation?\n" 
                       + "If today is the first day, type 'yes' then hit Enter.\n"
                       + "Otherwise type 'no' then hit Enter.\n"
                       + "Answer here: ").lower()
@@ -74,7 +75,7 @@ while True:
     else:
         print("Input was not 'yes' or 'no'. Please try again.")
 
-## 3. Check for (non)existence of files
+## 4. Check for (non)existence of files
 
 pt_data = import_pt_data(run_time, first_day)
 pt_data_control = import_pt_data_control(run_time, first_day)
@@ -121,19 +122,13 @@ redcap_control = import_redcap_control(run_time)
 #         time.sleep(15)
 #         sys.exit()
 
-## 4. Start log for program
+## 5. Start log for program
 
-fp = build_path("ProgramLog", str(run_time.date()) + "_RL_Personalizer_log.txt")
-if os.path.isfile(fp): 
-    input("ALREADY RAN TODAY, {}.".format(run_time.strftime("%d %B, %Y"))
-          + "Contact the other program runners to confirm someone else has already run it today."
-          + "Press Enter to exit the program and close this window.")
-    sys.exit()
 old_stdout = sys.stdout        
 log_file = open(fp, "w")
 sys.stdout = log_file
 
-## 5. Start main body of program
+## 6. Start main body of program
 
 start_time = time.time()
 print("-----------------------------BEGIN PROGRAM----------------------------")
