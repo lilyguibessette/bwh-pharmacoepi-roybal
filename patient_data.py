@@ -10,7 +10,7 @@ def import_pt_data(run_time, first_day):
         pt_data = pd.read_csv(fp, sep=',', parse_dates=date_cols)
     except FileNotFoundError:
         if not first_day:
-            input(str(import_date) + "_pt_data.csv in the PatientData folder not found.\n"
+            input("\n" + str(import_date) + "_pt_data.csv in the PatientData folder not found.\n"
                   + "This file should always exist with yesterday's date in the name. Please contact Lily.\n"
                   + "Press Enter to exit the program and close this window.")
             sys.exit()

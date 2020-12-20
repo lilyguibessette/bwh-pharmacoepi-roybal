@@ -57,7 +57,7 @@ print("successful date entered\nrun_time: {}".format(run_time))
 
 fp = build_path("ProgramLog", str(run_time.date()) + "_RL_Personalizer_log.txt")
 if os.path.isfile(fp): 
-    input("\nALREADY RAN TODAY, {}.\n".format(run_time.strftime("%d %B, %Y"))
+    input("\nALREADY RAN TODAY: {}.\n".format(run_time.strftime("%B %d, %Y"))
           + "Please contact the other RAs to confirm someone else has already run it today.\n"
           + "Press Enter to exit the program and close this window.")
     sys.exit()
@@ -130,9 +130,7 @@ sys.stdout = log_file
 
 ## 6. Start main body of program
 
-start_time = time.time()
 print("-----------------------------BEGIN PROGRAM----------------------------")
-print(start_time)
 print(run_time)
 
 ## Set Up MS Azure Personalizer Client

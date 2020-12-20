@@ -24,3 +24,6 @@ SMSHistory/
 ARCHIVE/
 debugging/
 PillsyControl/
+build/
+dist/
+RL_Personalizer.spec
