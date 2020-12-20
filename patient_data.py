@@ -2,16 +2,18 @@ import os
 import pandas as pd
 from exe_functions import build_path
 
-def import_pt_data(run_time):
+def import_pt_data(run_time, first_day):
     import_date = (run_time - pd.Timedelta("1 day")).date()
     fp = build_path("PatientData", str(import_date) + "_pt_data.csv")
     date_cols = ["start_date", "censor_date"]
     try:
         pt_data = pd.read_csv(fp, sep=',', parse_dates=date_cols)
-    except FileNotFoundError as fnfe:
-        print("in patient_data.py, in import_pt_data")
-        print("fp file not found, fp = {}".format(os.path.abspath(fp)))
-        print("error = {}".format(fnfe))
+    except FileNotFoundError:
+        if not first_day:
+            input(str(import_date) + "_pt_data.csv in the PatientData folder not found.\n"
+                  + "This file should always exist with yesterday's date in the name. Please contact Lily.\n"
+                  + "Press Enter to exit the program and close this window.")
+            sys.exit()
         pt_data = new_empty_pt_data()
         return pt_data
     return pt_data

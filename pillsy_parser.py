@@ -12,7 +12,7 @@ from patient_data import get_study_ids, new_empty_pt_data
 from exe_functions import build_path
 
 
-def import_Pillsy(run_time):
+def import_Pillsy(run_time, first_day):
     """Import Pillsy pill taking history as pd.DataFrame from CSV
     """
     
@@ -22,12 +22,16 @@ def import_Pillsy(run_time):
 
     try:
         pillsy = pd.read_csv(fp)
-    except FileNotFoundError as fnfe:
-        print("in pillsy_parser.py, in import_Pillsy")
-        print("fp file not found, fp = {}".format(os.path.abspath(fp)))
-        print("error = {}".format(fnfe))
-        #fp = os.path.join("..", "Pillsy", "empty_pillsy_start.csv")
-        #pillsy = pd.read_csv(fp)
+    except FileNotFoundError:
+        if not first_day:
+            input(str(import_date) + "_pillsy.csv was not found in the Pillsy folder.\n"
+                  + "This should be yesterday's date in YYYY-MM-DD format followed by _pillsy.csv\n"
+                  + "and this must be placed in the Pillsy folder.\n"
+                  + "For example, if today is December 6th, 2020, this should be 2020-12-05_pillsy.csv.\n"
+                  + "Please make sure this data has been downloaded and named properly.\n"
+                  + "Please run the program again after fixing the file name.\n"
+                  + "Press Enter to exit the program and close this window.")
+            sys.exit()
         return None
     
     tz_ref = {

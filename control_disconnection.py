@@ -23,28 +23,29 @@ def import_pt_data_control(run_time):
     try:
         pt_data = pd.read_csv(fp, sep=',', parse_dates=date_cols)
     except FileNotFoundError as fnfe:
-        print("in patient_data.py, in import_pt_data")
-        print("fp file not found, fp = {}".format(os.path.abspath(fp)))
-        print("error = {}".format(fnfe))
+        if not first_day:
+            input(str(import_date) + "_pt_data_control.csv not found in the PatientDataControl folder.\n"
+                  + "This file should always exist with yesterday's date in the name. Please contact Lily.\n"
+                  + "Press Enter to exit the program and close this window.")
+            sys.exit()
         pt_data = new_empty_pt_data()
         return pt_data
     return pt_data
 
 def import_redcap_control(run_time):
-    import_date = run_time.date()
-    # Imports REDCap patients that are enrolling on an ongoing basis as a pandas data frame from a CSV
-    fp = build_path("REDCapControl", str(import_date) + "_redcap_control.csv")
+    fp = build_path("REDCapControl", str(run_time.date()) + "_redcap_control.csv")
     date_cols = ["start_date"]
-    # Reads in the csv file into a pandas data frame and ensures that the date_cols are imported as datetime.datetime objects
-    # TODO potentially need to be careful here due to use of the data in redcap.py -> might want to ensure record_id column is a string, currently I think it defaults to an int - might bee fine to keep int
-    redcap = pd.read_csv(fp, sep=',', parse_dates=date_cols)
-    # Returns the pandas dataframe of REDCap patient data that is read in
-    # Note: The REDCap data does not contain observed feedback.
-    # Hence why we do not overwrite our previous patient dictionary based on this data.
-    # This is used to update patient dictionary data about:
-    #   -   Whether patients are censored (i.e. due to death, consent withdrawal,
-    #   -   Changes in Pillsy medications that a patient is taking
-    #   -   Add entirely new patients initiating in the study to our patient dictionary by creating new patient objects
+    try:
+        redcap = pd.read_csv(fp, sep=',', parse_dates=date_cols)
+    except FileNotFoundError:
+        input(str(run_time.date()) + "_redcap_control.csv was not found in the REDCapControl folder.\n"
+              + "This should be today's date in YYYY-MM-DD format followed by _redcap_control.csv\n"
+              + "and this must be placed in the REDCapControl folder.\n"
+              + "For example, if today is December 6th, 2020, this should be 2020-12-06_redcap.csv.\n"
+              + "Please make sure this data has been downloaded and named properly.\n"
+              + "Please run the program again after fixing the file name.\n"
+              + "Press Enter to exit the program and close this window.")
+        sys.exit()
     return redcap
 
 def find_disconnections_control(pt_data_control, pillsy_control, run_time):
