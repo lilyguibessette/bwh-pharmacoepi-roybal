@@ -155,15 +155,12 @@ def compute_taken_over_expected(patient, timeframe_pillsy_subset, num_pillsy_med
     """
     timeframe_drugs = get_drugName_list(timeframe_pillsy_subset)
     print("timeframe_drugs:", timeframe_drugs)
-    timeframe_adherence_by_drug = [0] * len(timeframe_drugs)
-    drug_num = 0
+    timeframe_adherence_by_drug = []
     for drug in timeframe_drugs:
-        drug_num += 1
         drug_subset = timeframe_pillsy_subset[timeframe_pillsy_subset['drugName'] == drug]
         this_drug_adherence = find_taken_events(drug, drug_subset)
         timeframe_adherence_by_drug.append(this_drug_adherence)
-    taken_over_expected = 0
-    if not patient.empty and num_pillsy_meds > 0:
+    if not timeframe_pillsy_subset.empty and num_pillsy_meds > 0:
         sum_timeframe_adherence = sum(timeframe_adherence_by_drug)
         taken_over_expected = sum_timeframe_adherence / num_pillsy_meds
         print("timeframe_adherence_by_drug:", timeframe_adherence_by_drug)
@@ -259,8 +256,7 @@ def find_patient_rewards(pillsy_subset, patient, run_time):
     pillsy_yesterday_disconnectedness_subset = pillsy_subset[pillsy_subset["eventTime"] < today_current_time]
     pillsy_yesterday_disconnectedness_subset = pillsy_yesterday_subset[pillsy_yesterday_subset["eventTime"] >= yesterday_12am]
     
-    print("-----------------------------BEGIN CHECKING REWARDS FOR PT ", patient["record_id"], "----------------------------")
-    print("record_id:", patient["record_id"])
+    print("\nBEGIN CHECKING REWARDS FOR PT " + str(patient["record_id"] + "\n"))
     
     print("Computing... reward_value_t0 in pillsy_yesterday_subset with # med:", patient["num_pillsy_meds_t0"])
     reward_value_t0 = compute_taken_over_expected(patient, pillsy_yesterday_subset, patient["num_pillsy_meds_t0"])
