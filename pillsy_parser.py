@@ -142,6 +142,8 @@ def find_taken_events(drug, drug_subset):
             else:
                 if last_event['eventTime'] + pd.Timedelta('2 hours, 45 minutes') < event['eventTime']:
                     return 1.0 # must be second taken event
+    if waiting_after_close:
+        return 0.0
     return 0.5
 
 def compute_taken_over_expected(patient, timeframe_pillsy_subset, num_pillsy_meds):
