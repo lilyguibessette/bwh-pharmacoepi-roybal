@@ -256,7 +256,7 @@ def find_patient_rewards(pillsy_subset, patient, run_time):
     pillsy_yesterday_disconnectedness_subset = pillsy_subset[pillsy_subset["eventTime"] < today_current_time]
     pillsy_yesterday_disconnectedness_subset = pillsy_yesterday_subset[pillsy_yesterday_subset["eventTime"] >= yesterday_12am]
     
-    print("\nBEGIN CHECKING REWARDS FOR PT " + str(patient["record_id"] + "\n"))
+    print("\nBEGIN CHECKING REWARDS FOR PT " + str(patient["record_id"]) + "\n")
     
     print("Computing... reward_value_t0 in pillsy_yesterday_subset with # med:", patient["num_pillsy_meds_t0"])
     reward_value_t0 = compute_taken_over_expected(patient, pillsy_yesterday_subset, patient["num_pillsy_meds_t0"])
