@@ -273,7 +273,7 @@ def find_patient_rewards(pillsy_subset, patient, run_time):
     adherence_day6 = compute_taken_over_expected(patient, pillsy_three_day_ago_subset, patient["num_pillsy_meds_t5"])
     adherence_day7 = compute_taken_over_expected(patient, pillsy_three_day_ago_subset, patient["num_pillsy_meds_t6"])
    
-    
+
     print("Computing... early_rx_use in pillsy_early_today_subset with # med:", patient["num_pillsy_meds_t0"])
     early_rx_use = compute_taken_over_expected(patient, pillsy_early_today_subset, patient["num_pillsy_meds_t0"])
     print("early_rx_use:", early_rx_use)
@@ -285,7 +285,9 @@ def find_patient_rewards(pillsy_subset, patient, run_time):
     # if we didn't send reward for 2 days ago yesterday, we send it today
     if patient["flag_send_reward_value_t1"] == False:
         patient["flag_send_reward_value_t1"] = True   
-    
+    else:
+        patient["flag_send_reward_value_t1"] == False
+        
     # now we check to see if we should send yesterday's reward today 
     if len(observed_num_drugs) == patient["num_pillsy_meds_t0"]:
         yesterday_disconnectedness = 1
