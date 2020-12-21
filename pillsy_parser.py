@@ -120,7 +120,7 @@ def find_taken_events(drug, drug_subset):
     drug_freq = identify_drug_freq(drug)
     taken = 0
     last_event = None
-    waiting_after_close = True
+    waiting_after_close = False
     for index, event in drug_subset.iterrows():
         if last_event is None:
             if event['eventValue'] == "OPEN":
