@@ -16,13 +16,23 @@ from redcap_parser import update_pt_data_with_redcap
 # For date time
 #https://realpython.com/python-datetime/
 
-def import_pt_data_control(run_time, first_day):
+def import_pt_data_control(run_time):
     import_date = (run_time - pd.Timedelta("1 day")).date()
     fp = build_path("000_PatientDataControl", str(import_date) + "_pt_data_control.csv")
     date_cols = ["start_date", "censor_date"]
     try:
         pt_data = pd.read_csv(fp, sep=',', parse_dates=date_cols)
     except FileNotFoundError as fnfe:
+        while True:
+            first_day = input("\nIs today the trial initiation?\n" 
+                      + "If today is the first day, type 'yes' then hit Enter.\n"
+                      + "Otherwise type 'no' then hit Enter.\n"
+                      + "Answer here: ").lower()
+            if first_day in ["yes", "no"]:
+                first_day = first_day == "yes"
+                break
+            else:
+                print("Input was not 'yes' or 'no'. Please try again.")
         if not first_day:
             input("\n" + str(import_date) + "_pt_data_control.csv not found in the 000_PatientDataControl folder.\n"
                   + "This file should always exist with yesterday's date in the name. Please contact Lily.\n"

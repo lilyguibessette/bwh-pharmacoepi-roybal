@@ -62,24 +62,25 @@ if os.path.isfile(fp):
           + "Press Enter to exit the program and close this window.")
     sys.exit()
 
-## 3. Ask if first day of trial
+## 3. Ask if first day of trial 
 
-while True:
-    first_day = input("\nIs today the trial initiation?\n" 
-                      + "If today is the first day, type 'yes' then hit Enter.\n"
-                      + "Otherwise type 'no' then hit Enter.\n"
-                      + "Answer here: ").lower()
-    if first_day in ["yes", "no"]:
-        first_day = first_day == "yes"
-        break
-    else:
-        print("Input was not 'yes' or 'no'. Please try again.")
+# Embedded this into the import_pt_data, import_pt_data_control, import_Pillsy functions
+# while True:
+#     first_day = input("\nIs today the trial initiation?\n" 
+#                       + "If today is the first day, type 'yes' then hit Enter.\n"
+#                       + "Otherwise type 'no' then hit Enter.\n"
+#                       + "Answer here: ").lower()
+#     if first_day in ["yes", "no"]:
+#         first_day = first_day == "yes"
+#         break
+#     else:
+#         print("Input was not 'yes' or 'no'. Please try again.")
 
 ## 4. Check for (non)existence of files
 
-pt_data = import_pt_data(run_time, first_day)
-pt_data_control = import_pt_data_control(run_time, first_day)
-new_pillsy_data = import_Pillsy(run_time, first_day)
+pt_data = import_pt_data(run_time)
+pt_data_control = import_pt_data_control(run_time)
+new_pillsy_data = import_Pillsy(run_time)
 redcap_data = import_redcap(run_time)
 redcap_control = import_redcap_control(run_time)
 
@@ -170,4 +171,8 @@ print("-------------------------------------------------------------------------
 log_file.close()
 sys.stdout = old_stdout
 
-
+print("---------------------------------PROGRAM SUCCESSFULLY RAN--------------------------")
+input("SUCCESSFULLY RAN TODAY: {} \n".format(run_time.strftime("%B %d, %Y"))
+        + "Now, send messages to patients from /000_SMS_TO_SEND/" + str(run_time.date()) + "_sms_history.csv"
+        + "\nPress Enter to exit the program and close this window.")
+sys.exit()

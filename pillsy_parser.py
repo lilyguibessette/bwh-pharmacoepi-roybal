@@ -12,10 +12,9 @@ from patient_data import get_study_ids, new_empty_pt_data
 from exe_functions import build_path
 
 
-def import_Pillsy(run_time, first_day):
+def import_Pillsy(run_time):
     """Import Pillsy pill taking history as pd.DataFrame from CSV
     """
-    
     import_date = (run_time - pd.Timedelta("1 day")).date()
     pillsy_filename = str(import_date) + "_pillsy.csv"
     fp = build_path("000_Pillsy", pillsy_filename)
@@ -23,6 +22,16 @@ def import_Pillsy(run_time, first_day):
     try:
         pillsy = pd.read_csv(fp)
     except FileNotFoundError:
+        while True:
+            first_day = input("\nIs today the trial initiation?\n" 
+                      + "If today is the first day, type 'yes' then hit Enter.\n"
+                      + "Otherwise type 'no' then hit Enter.\n"
+                      + "Answer here: ").lower()
+            if first_day in ["yes", "no"]:
+                first_day = first_day == "yes"
+                break
+            else:
+                print("Input was not 'yes' or 'no'. Please try again.")
         if not first_day:
             input("\n" + str(import_date) + "_pillsy.csv was not found in the 000_Pillsy folder.\n"
                   + "This should be yesterday's date in YYYY-MM-DD format followed by _pillsy.csv\n"

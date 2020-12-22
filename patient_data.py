@@ -3,15 +3,25 @@ import pandas as pd
 from exe_functions import build_path
 import sys
 
-def import_pt_data(run_time, first_day):
+def import_pt_data(run_time):
     import_date = (run_time - pd.Timedelta("1 day")).date()
     fp = build_path("000_PatientData", str(import_date) + "_pt_data.csv")
     date_cols = ["start_date", "censor_date"]
     try:
         pt_data = pd.read_csv(fp, sep=',', parse_dates=date_cols)
     except FileNotFoundError:
+        while True:
+            first_day = input("\nIs today the trial initiation?\n" 
+                      + "If today is the first day, type 'yes' then hit Enter.\n"
+                      + "Otherwise type 'no' then hit Enter.\n"
+                      + "Answer here: ").lower()
+            if first_day in ["yes", "no"]:
+                first_day = first_day == "yes"
+                break
+            else:
+                print("Input was not 'yes' or 'no'. Please try again.")
         if not first_day:
-            input("\n" + str(import_date) + "_pt_data.csv in the PatientData folder not found.\n"
+            input("\n" + str(import_date) + "_pt_data.csv in the 000_PatientData folder not found.\n"
                   + "This file should always exist with yesterday's date in the name. Please contact Lily.\n"
                   + "Press Enter to exit the program and close this window.")
             sys.exit()
