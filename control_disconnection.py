@@ -24,7 +24,7 @@ def import_pt_data_control(run_time, first_day):
         pt_data = pd.read_csv(fp, sep=',', parse_dates=date_cols)
     except FileNotFoundError as fnfe:
         if not first_day:
-            input("\n" + str(import_date) + "_pt_data_control.csv not found in the PatientDataControl folder.\n"
+            input("\n" + str(import_date) + "_pt_data_control.csv not found in the 000_PatientDataControl folder.\n"
                   + "This file should always exist with yesterday's date in the name. Please contact Lily.\n"
                   + "Press Enter to exit the program and close this window.")
             sys.exit()
@@ -33,14 +33,14 @@ def import_pt_data_control(run_time, first_day):
     return pt_data
 
 def import_redcap_control(run_time):
-    fp = build_path("_REDCapControl", str(run_time.date()) + "_redcap_control.csv")
+    fp = build_path("000_REDCapControl", str(run_time.date()) + "_redcap_control.csv")
     date_cols = ["start_date"]
     try:
         redcap = pd.read_csv(fp, sep=',', parse_dates=date_cols)
     except FileNotFoundError:
         input("\n" + str(run_time.date()) + "_redcap_control.csv was not found in the REDCapControl folder.\n"
               + "This should be today's date in YYYY-MM-DD format followed by _redcap_control.csv\n"
-              + "and this must be placed in the REDCapControl folder.\n"
+              + "and this must be placed in the 000_REDCapControl folder.\n"
               + "Please make sure this data has been downloaded and named properly.\n"
               + "Please run the program again after fixing the file name.\n"
               + "Press Enter to exit the program and close this window.")

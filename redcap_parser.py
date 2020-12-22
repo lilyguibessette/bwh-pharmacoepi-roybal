@@ -20,7 +20,7 @@ def import_redcap(run_time):
     try:
         redcap = pd.read_csv(fp, sep=',', parse_dates=date_cols)
     except FileNotFoundError:
-        input("\n" + str(run_time.date()) + "_redcap.csv was not found in the REDCap folder.\n"
+        input("\n" + str(run_time.date()) + "_redcap.csv was not found in the 000_REDCap folder.\n"
               + "This should be today's date in YYYY-MM-DD format followed by _redcap.csv\n"
               + "and this must be placed in the REDCap folder.\n"
               + "Please make sure this data has been downloaded and named properly.\n"

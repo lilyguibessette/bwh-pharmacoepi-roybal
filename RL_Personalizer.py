@@ -159,7 +159,7 @@ for index, patient in pt_data.iterrows():
 print("---------------------------------EXPORT SMS FILE---------------------------------")
 write_sms_history(ranked_pt_data, run_time)
 ranked_pt_data.to_csv(
-    build_path("PatientData", str(run_time.date()) + "_pt_data.csv"), 
+    build_path("000_PatientData", str(run_time.date()) + "_pt_data.csv"), 
     index=False
 )
 # one liner right here^ to replace export_pt_data below

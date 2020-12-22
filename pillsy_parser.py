@@ -24,7 +24,7 @@ def import_Pillsy(run_time, first_day):
         pillsy = pd.read_csv(fp)
     except FileNotFoundError:
         if not first_day:
-            input("\n" + str(import_date) + "_pillsy.csv was not found in the Pillsy folder.\n"
+            input("\n" + str(import_date) + "_pillsy.csv was not found in the 000_Pillsy folder.\n"
                   + "This should be yesterday's date in YYYY-MM-DD format followed by _pillsy.csv\n"
                   + "and this must be placed in the Pillsy folder.\n"
                   + "Please make sure this data has been downloaded and named properly.\n"
