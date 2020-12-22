@@ -55,7 +55,7 @@ print("successful date entered\nrun_time: {}".format(run_time))
 
 ## 2. Check if program has been run today
 
-fp = build_path("ProgramLog", str(run_time.date()) + "_RL_Personalizer_log.txt")
+fp = build_path("_ProgramLog", str(run_time.date()) + "_RL_Personalizer_log.txt")
 if os.path.isfile(fp): 
     input("\nALREADY RAN TODAY: {}.\n".format(run_time.strftime("%B %d, %Y"))
           + "Please contact the other RAs to confirm someone else has already run it today.\n"
@@ -82,45 +82,6 @@ pt_data_control = import_pt_data_control(run_time, first_day)
 new_pillsy_data = import_Pillsy(run_time, first_day)
 redcap_data = import_redcap(run_time)
 redcap_control = import_redcap_control(run_time)
-# if first_day:
-#     yesterday = (run_time - pd.Timedelta("1 day")).date()
-#     if not pt_data.empty:
-#         input("There should not be a file named {}_pt_data.csv in the PatientData folder.\n".format(yesterday)
-#               + "Yesterday's patient data should not exist yet on the first day.\n"
-#               + "If saying that today is the trial initiation was incorrect, just run the program again.\n"
-#               + "Otherwise please contact Lily!\n"
-#               + "Either way, press Enter to exit the program and close this window.")
-#     elif not pt_data_control.empty:
-#         input("There should not be a file named {}_pt_data_control.csv in the PatientDataControl folder.\n".format(yesterday)
-#               + "Yesterday's patient data should not exist yet on the first day.\n"
-#               + "If saying that today is the trial initiation was incorrect, just run the program again.\n"
-#               + "Otherwise please contact Lily!\n"
-#               + "Either way, press Enter to exit the program and close this window.")
-#     sys.exit()
-
-# file_not_found = False
-# if pt_data.empty:
-#     print("pt_data.empty")
-#     file_not_found = True
-# if new_pillsy_data is None:
-#     print("new_pillsy_data = None")
-#     file_not_found = True
-# if redcap_data.empty:
-#     print("redcap_data.empty")
-#     file_not_found = True
-# if pt_data_control.empty:
-#     print("pt_data_control.empty")
-#     file_not_found = True    
-# if redcap_control.empty:
-#     print("redcap_control.empty")
-#     file_not_found = True    
-# if file_not_found == True:    
-#     print("ERROR - FILE NOT FOUND")
-#     start = input("\nIs today the trial initiation? Y/N: ")
-#     if start.lower().startswith("n"):
-#         print("ERROR - FILE NOT FOUND NOT ANTICIPATED")
-#         time.sleep(15)
-#         sys.exit()
 
 ## 5. Start log for program
 
@@ -210,8 +171,3 @@ log_file.close()
 sys.stdout = old_stdout
 
 
-# To Do List:
-#   *  Reward Received check? - Could do through platform
-#   *  International Time Zones
-#   *  More testing
-# 

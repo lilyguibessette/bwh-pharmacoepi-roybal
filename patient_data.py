@@ -5,7 +5,7 @@ import sys
 
 def import_pt_data(run_time, first_day):
     import_date = (run_time - pd.Timedelta("1 day")).date()
-    fp = build_path("PatientData", str(import_date) + "_pt_data.csv")
+    fp = build_path("000_PatientData", str(import_date) + "_pt_data.csv")
     date_cols = ["start_date", "censor_date"]
     try:
         pt_data = pd.read_csv(fp, sep=',', parse_dates=date_cols)
@@ -20,7 +20,7 @@ def import_pt_data(run_time, first_day):
     return pt_data
 
 def new_empty_pt_data():
-    fp = build_path("PatientData", "empty_start.csv")
+    fp = build_path("000_PatientData", "empty_start.csv")
     date_cols = ["start_date", "censor_date"]
     pt_data = pd.read_csv(fp, sep=',', header=0, parse_dates=date_cols)
     return pt_data

@@ -18,7 +18,7 @@ from redcap_parser import update_pt_data_with_redcap
 
 def import_pt_data_control(run_time, first_day):
     import_date = (run_time - pd.Timedelta("1 day")).date()
-    fp = build_path("PatientDataControl", str(import_date) + "_pt_data_control.csv")
+    fp = build_path("000_PatientDataControl", str(import_date) + "_pt_data_control.csv")
     date_cols = ["start_date", "censor_date"]
     try:
         pt_data = pd.read_csv(fp, sep=',', parse_dates=date_cols)
@@ -33,7 +33,7 @@ def import_pt_data_control(run_time, first_day):
     return pt_data
 
 def import_redcap_control(run_time):
-    fp = build_path("REDCapControl", str(run_time.date()) + "_redcap_control.csv")
+    fp = build_path("_REDCapControl", str(run_time.date()) + "_redcap_control.csv")
     date_cols = ["start_date"]
     try:
         redcap = pd.read_csv(fp, sep=',', parse_dates=date_cols)
@@ -86,4 +86,4 @@ def check_control_disconnectedness(pillsy, redcap_data, pt_data, run_time):
             ranked_pt_data = ranked_pt_data.append(patient)
             
    
-    ranked_pt_data.to_csv(build_path("PatientDataControl", str(run_time.date()) + "_pt_data_control.csv"),   index=False)
+    ranked_pt_data.to_csv(build_path("000_PatientDataControl", str(run_time.date()) + "_pt_data_control.csv"),   index=False)

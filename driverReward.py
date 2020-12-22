@@ -21,7 +21,7 @@ import http.client, urllib.request, urllib.parse, urllib.error, base64
 from exe_functions import build_path
 
 def get_reward_update(pt_data, run_time):
-    fp = build_path("RewardData", str(run_time.date()) + "_reward_updates.csv")
+    fp = build_path("000_RewardData", str(run_time.date()) + "_reward_updates.csv")
     today = run_time.date()
     two_day_ago = (run_time - timedelta(days=2)).date()
     yesterday = (run_time - timedelta(days=1)).date()

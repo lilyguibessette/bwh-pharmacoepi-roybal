@@ -14,7 +14,7 @@ from exe_functions import build_path
 
 
 def write_sms_history(pt_data, run_time):
-    fp = build_path("SMSHistory", str(run_time.date()) + "_sms_history.csv")
+    fp = build_path("000_SMS_TO_SEND", str(run_time.date()) + "_sms_history.csv")
     # Subset updated_pt_dict to what we need for reward calls and put in dataframe
     # create an Empty DataFrame object
     column_values = ['record_id','sms_msg_today', 'factor_set', 'text_number',  'trial_day_counter','censor_date']
@@ -220,7 +220,7 @@ def update_num_day_sms(patient):
 
 # Computes and updates the SMS text message to send to this patient today.
 def updated_sms_today(patient):
-    fp = build_path("SMSChoices", "sms_choices.csv")
+    fp = build_path("_SMSChoices", "sms_choices.csv")
     sms_choices = pd.read_csv(fp)
     framing = patient["framing_sms"]
     history = patient["history_sms"]

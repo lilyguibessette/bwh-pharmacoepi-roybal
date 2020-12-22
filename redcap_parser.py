@@ -15,7 +15,7 @@ def import_redcap(run_time):
     Does not overwrite old pt_data object since we calculate additional features based on historical data that should not be overwritten.
     This new data will be used to update existing patients: if censored, changes in pillsy rx
     """
-    fp = build_path("REDCap", str(run_time.date()) + "_redcap.csv")
+    fp = build_path("000_REDCap", str(run_time.date()) + "_redcap.csv")
     date_cols = ["start_date"]
     try:
         redcap = pd.read_csv(fp, sep=',', parse_dates=date_cols)

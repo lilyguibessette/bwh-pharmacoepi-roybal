@@ -18,7 +18,7 @@ def import_Pillsy(run_time, first_day):
     
     import_date = (run_time - pd.Timedelta("1 day")).date()
     pillsy_filename = str(import_date) + "_pillsy.csv"
-    fp = build_path("Pillsy", pillsy_filename)
+    fp = build_path("000_Pillsy", pillsy_filename)
 
     try:
         pillsy = pd.read_csv(fp)

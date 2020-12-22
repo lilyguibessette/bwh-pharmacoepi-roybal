@@ -27,3 +27,13 @@ PillsyControl/
 build/
 dist/
 RL_Personalizer.spec
+000_PatientData/
+000_PatientDataControl/
+000_Pillsy/
+000_ProgramLog/
+000_REDCap/
+000_REDCapControl/
+000_RewardData/
+000_SMS_TO_SEND/
+_ProgramLog/
+_SMSChoices/
