@@ -37,3 +37,5 @@ RL_Personalizer.spec
 000_SMS_TO_SEND/
 _ProgramLog/
 _SMSChoices/
+protocol_docs/
+taken_algo.py
