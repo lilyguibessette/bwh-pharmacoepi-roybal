@@ -62,12 +62,12 @@ def check_control_disconnectedness(pillsy, redcap_data, pt_data, run_time):
     # @Joe - need help to think through for whole project where we instantiate a pt_data df cause rn its made on the fly
     
     if not pt_data.empty and pillsy is not None:
-        pt_data_control = find_rewards(pillsy, pt_data, run_time)
+        pt_data = find_rewards(pillsy, pt_data, run_time)
     
-    pt_data_control = update_pt_data_with_redcap(redcap_data, pt_data_control, run_time)
+    pt_data = update_pt_data_with_redcap(redcap_data, pt_data, run_time)
     
     ranked_pt_data = new_empty_pt_data()
-    for index, patient in pt_data_control.iterrows():
+    for index, patient in pt_data.iterrows():
         if patient["censor"] != 1 and patient["censor_date"] > run_time.date():
             patient= shift_t0_t1_rank_ids(patient)
             patient["trial_day_counter"] += 1
