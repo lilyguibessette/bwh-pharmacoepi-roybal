@@ -64,9 +64,10 @@ def send_rewards(reward_updates, client):
         row = reward_updates[i, :]
         reward_val = row[0] 
         for j in range(1,6):
-            print("reward_val: ", reward_val)
-            print("event_id: ", row[j])
-            client.events.reward(event_id=row[j], value=reward_val)
+            if isinstance(row[j],str):
+                print("reward_val: ", reward_val)
+                print("event_id: ", row[j])
+                client.events.reward(event_id=row[j], value=reward_val)
             
             # headers = {
             #     # Request headers
