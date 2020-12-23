@@ -341,6 +341,8 @@ def find_patient_rewards(pillsy_subset, patient, run_time):
     patient["dichot_adherence_day3"] +
     patient["dichot_adherence_day2"] +
     patient["dichot_adherence_day1"] )
+    
+    patient["disconnectedness"] = yesterday_disconnectedness
    
     # We update the avg adherences at days 1,3,7 with updated shifted daily adherence values:
     patient = calc_avg_adherence(patient)
