@@ -325,17 +325,19 @@ def get_pillsy_med_features(patient):
 
 def get_observed_feedback_features(patient):
     observed_feedback_features = {}
-    observed_feedback_features["disconnectedness"] = patient["disconnectedness"]
-    if patient["early_rx_use"] != None:
+    if patient["disconnectedness"] != None and patient["trial_day_counter"] > 1:
+        observed_feedback_features["disconnectedness"] = patient["disconnectedness"]
+    if patient["early_rx_use"] != None and patient["trial_day_counter"] > 1:
         observed_feedback_features["early_rx_use"] = patient["early_rx_use"]
-    if patient["avg_adherence_1day"] != None:
+    if (patient["avg_adherence_1day"] != None) and patient["trial_day_counter"] > 1:
         observed_feedback_features["avg_adherence_1day"] = patient["avg_adherence_1day"]
-        if (patient["avg_adherence_3day"] != None) and patient["trial_day_counter"] > 3:
-            observed_feedback_features["avg_adherence_3day"] = patient["avg_adherence_3day"]
-        if (patient["avg_adherence_7day"] != None) and patient["trial_day_counter"] > 7:
-            observed_feedback_features["avg_adherence_7day"] = patient["avg_adherence_7day"]
-        observed_feedback_features_dict = {"observed_feedback_features": observed_feedback_features}
+    if (patient["avg_adherence_3day"] != None) and patient["trial_day_counter"] > 3:
+        observed_feedback_features["avg_adherence_3day"] = patient["avg_adherence_3day"]
+    if (patient["avg_adherence_7day"] != None) and patient["trial_day_counter"] > 7:
+        observed_feedback_features["avg_adherence_7day"] = patient["avg_adherence_7day"]
+    observed_feedback_features_dict = {"observed_feedback_features": observed_feedback_features}
     return observed_feedback_features_dict
+
 
 
 def get_num_days_since_features(patient):
