@@ -6,6 +6,7 @@ import pickle
 import os
 import re
 import sys
+from patient_data import new_empty_pt_data
 
 from exe_functions import build_path
 
@@ -99,7 +100,7 @@ def update_pt_data_with_redcap(redcap_data, pt_data, run_time):
     """
     unique_study_ids_list_redcap = get_unique_study_ids(redcap_data)   
     unique_study_ids_list_pt_data = get_unique_study_ids(pt_data)
-
+    new_pt_data = new_empty_pt_data()
     # Updating existing patients
     if not pt_data.empty:
         for index, patient in pt_data.iterrows():
@@ -124,7 +125,7 @@ def update_pt_data_with_redcap(redcap_data, pt_data, run_time):
             patient["num_pillsy_meds_t2"] = patient["num_pillsy_meds_t1"]
             patient["num_pillsy_meds_t1"] = patient["num_pillsy_meds_t0"]
             patient["num_pillsy_meds_t0"] = row["bottles"]
-    
+            new_pt_data = new_pt_data.append(patient)
 
     # Adding new patients
     for id in unique_study_ids_list_redcap:
@@ -193,9 +194,9 @@ def update_pt_data_with_redcap(redcap_data, pt_data, run_time):
                                  'flag_send_reward_value_t1':False,
                                  'num_dates_disconnectedness': 0,
                                  'num_dates_early_rx_use':0,}, name=id)
-            pt_data = pt_data.append(new_row)
+            new_pt_data = new_pt_data.append(new_row)
 
-    return pt_data
+    return new_pt_data
 
 def get_unique_study_ids(df):
     # Subsets the redcap data into the record_id column
