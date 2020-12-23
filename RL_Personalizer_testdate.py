@@ -163,8 +163,8 @@ ranked_pt_data.to_csv(
     build_path("000_PatientData", str(run_time.date()) + "_pt_data.csv"), 
     index=False
 )
-# one liner right here^ to replace export_pt_data below
-# export_pt_data(ranked_pt_data, run_time, "final") # input for tomorrow
+
+
 print("---------------------------------CHECKING CONTROLS---------------------------------")
 check_control_disconnectedness(new_pillsy_data,redcap_control,pt_data_control,run_time) # check whether controls have connection problems
 print("-----------------------------------------------------------------------------------")

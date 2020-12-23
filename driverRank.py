@@ -3,8 +3,6 @@ from azure.cognitiveservices.personalizer import PersonalizerClient
 from azure.cognitiveservices.personalizer.models import RankRequest
 from msrest.authentication import CognitiveServicesCredentials
 from Actions import get_framing_actions, get_history_actions, get_social_actions, get_content_actions, get_reflective_actions
-# from data_classes.Patient import Patient
-# import data_classes.ContextFeatures
 from datetime import datetime, date, timedelta
 import pytz
 import os
@@ -229,7 +227,6 @@ def updated_sms_today(patient):
     reflective = patient["reflective_sms"]
     print("records_id: ", patient["record_id"]," rankresult: ", framing, history, social, content, reflective)
 
-    # TODO ask joe if this takes into account if the sms_choices 0,0,0,0,0 then will it return rows = None -> if so code is all set I modified, if not make sure it wont throw an error or fix the if else clause
     rows = sms_choices[sms_choices['framing_sms'] == framing]
     rows = rows[rows['history_sms'] == history]
     rows = rows[rows['social_sms'] == social]

@@ -58,9 +58,6 @@ def import_redcap_control(run_time):
     return redcap
 
 def check_control_disconnectedness(pillsy, redcap_data, pt_data, run_time):
-    #TODO can i just make a new column by calling it and assigning it a value in a row? or nah?
-    # @Joe - need help to think through for whole project where we instantiate a pt_data df cause rn its made on the fly
-    
     if not pt_data.empty and pillsy is not None:
         pt_data = find_rewards(pillsy, pt_data, run_time)
     

@@ -70,7 +70,6 @@ def import_Pillsy(run_time):
     inplace=True)
     #https://hackersandslackers.com/pandas-dataframe-drop/
     
-    #TODO: Here we need to drop the empty rows.
     pillsy["eventTime"] = pd.to_datetime(pd.Series([converter(str_dt) for str_dt in pillsy["eventTime"]])) #, utc=True)
     # Note: In this dataset our study_id is actually 'firstname', hence the drop of patientId
     # Note: firstname is currently read in as int64 dtype
