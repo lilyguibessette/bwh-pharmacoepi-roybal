@@ -42,7 +42,7 @@ Likewise, the control group should have the following set of folders with file n
 
 The parent directory should also have these folders for the program to export to:
 
-`000_SMSHistory`
+`000_SMS_TO_SEND`
 - contains all SMS messaging history generated from the decisions of the rank calls to Personalizer
 - For a particular SMSHistory file
     - exists as csv of data for each day
