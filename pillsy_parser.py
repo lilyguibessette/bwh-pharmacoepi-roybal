@@ -202,7 +202,7 @@ def calc_avg_adherence(patient):
         patient["avg_adherence_1day"] = patient["adherence_day1"]
     return patient
 
-    
+  
 
 def find_patient_rewards(pillsy_subset, patient, run_time):
     # From pillsy_subset, get timezone of patient, then use that to calculate the time cut points so that it is relative to the
@@ -332,6 +332,15 @@ def find_patient_rewards(pillsy_subset, patient, run_time):
     patient["dichot_adherence_day3"] = (adherence_day3 > 0)*1
     patient["dichot_adherence_day2"] = (reward_value_t1 > 0)*1
     patient["dichot_adherence_day1"] = (reward_value_t0 > 0)*1
+
+
+    patient["total_dichot_adherence_past7"] = (patient["dichot_adherence_day7"] +
+    patient["dichot_adherence_day6"] +
+    patient["dichot_adherence_day5"] +
+    patient["dichot_adherence_day4"] +
+    patient["dichot_adherence_day3"] +
+    patient["dichot_adherence_day2"] +
+    patient["dichot_adherence_day1"] )
    
     # We update the avg adherences at days 1,3,7 with updated shifted daily adherence values:
     patient = calc_avg_adherence(patient)
