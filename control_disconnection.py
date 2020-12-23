@@ -64,7 +64,7 @@ def check_control_disconnectedness(pillsy, redcap_data, pt_data, run_time):
     if not pt_data.empty and pillsy is not None:
         pt_data_control = find_rewards(pillsy, pt_data, run_time)
     
-    pt_data_control = update_pt_data_with_redcap(redcap_data, pt_data, run_time)
+    pt_data_control = update_pt_data_with_redcap(redcap_data, pt_data_control, run_time)
     
     ranked_pt_data = new_empty_pt_data()
     for index, patient in pt_data_control.iterrows():
