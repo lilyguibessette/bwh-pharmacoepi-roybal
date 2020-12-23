@@ -35,8 +35,10 @@ The parent directory of this code repository should contain 3 folders containing
 Likewise, the control group should have the following set of folders with file naming conventions as above:
 
 `000_PatientDataControl`
+- with naming convention: "YYYY-MM-DD_pt_data_control"
 
 `000_REDCapControl`
+- with naming convention: "YYYY-MM-DD_redcap_control"
 
 The parent directory should also have these folders for the program to export to:
 
