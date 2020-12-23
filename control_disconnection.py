@@ -57,28 +57,6 @@ def import_redcap_control(run_time):
         sys.exit()
     return redcap
 
-def find_disconnections_control(pt_data_control, pillsy_control, run_time):
-    """
-    find_rewards function iteratees through the patients in pt_data to update their adherence measurements
-    (daily and cumulative) and thereby reward values; also updates diconnectedness and early_rx_use features
-    :param pillsy:
-    :param pillsy_study_ids_list:
-    :param pt_data:
-    :param run_time:
-    :return:
-    """
-    control_pt_data = new_empty_pt_data()
-    study_ids_list = get_study_ids(pt_data_control)
-    for study_id in study_ids_list:
-        patient = pt_data_control[pt_data_control["record_id"] == study_id].iloc[0]
-        # Filter by firstname = study_id to get data for just this one patient
-        patient_pillsy_subset = pillsy_control[pillsy_control["firstname"] == study_id]
-        # This function will update the patient attributes with the updated adherence data that we will find from pillsy
-        patient = find_patient_rewards_control(patient, patient_pillsy_subset, run_time)
-        control_pt_data = control_pt_data.append(patient)
-    #TODO ask joe how pandas df is manipulated in a function i.e. pass by val or ref?
-    return control_pt_data
-
 def check_control_disconnectedness(pillsy, redcap_data, pt_data, run_time):
     #TODO can i just make a new column by calling it and assigning it a value in a row? or nah?
     # @Joe - need help to think through for whole project where we instantiate a pt_data df cause rn its made on the fly
