@@ -33,24 +33,24 @@ from exe_functions import build_path
 ## 1. Get date
 
 ############# For real deal #############
-# run_time = datetime.now()
-# run_time = pytz.timezone("America/New_York").localize(run_time)
+run_time = datetime.now()
+run_time = pytz.timezone("America/New_York").localize(run_time)
 #########################################
 
 ############## For testing ##############
-while True:
-    try:
-        run_time = datetime.strptime(input("Enter YYYY-MM-DD testing date (time will be 9:30 AM): "), "%Y-%m-%d")
-        if run_time.year in [2020, 2021]:
-            run_time = run_time + timedelta(hours=9, minutes=30)
-            break
-        else:
-            print("testing year must be 2020 or 2021")
-    except ValueError as ve:
-        print(ve)
-# run_time = pytz.timezone("America/New_York").localize(dateutil.parser.parse("10:30 AM 2020-12-15"))
-run_time = pytz.timezone("America/New_York").localize(run_time)
-print("successful date entered\nrun_time: {}".format(run_time))
+# while True:
+#     try:
+#         run_time = datetime.strptime(input("Enter YYYY-MM-DD testing date (time will be 9:30 AM): "), "%Y-%m-%d")
+#         if run_time.year in [2020, 2021]:
+#             run_time = run_time + timedelta(hours=9, minutes=30)
+#             break
+#         else:
+#             print("testing year must be 2020 or 2021")
+#     except ValueError as ve:
+#         print(ve)
+# # run_time = pytz.timezone("America/New_York").localize(dateutil.parser.parse("10:30 AM 2020-12-15"))
+# run_time = pytz.timezone("America/New_York").localize(run_time)
+# print("successful date entered\nrun_time: {}".format(run_time))
 #########################################
 
 ## 2. Check if program has been run today

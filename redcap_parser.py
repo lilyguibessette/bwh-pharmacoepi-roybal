@@ -140,7 +140,7 @@ def update_pt_data_with_redcap(redcap_data, pt_data, run_time):
                 race_other = 1
             else:
                 race_other = 0
-            censor_date = (redcap_row["start_date"] + timedelta(days=180)).date() ##TODO check trial length
+            censor_date = (redcap_row["start_date"] + timedelta(days=183)).date() ##TODO check trial length
             new_row = pd.Series({'record_id': id,
                                  'trial_day_counter': 0,
                                  'age': redcap_row["age"],
