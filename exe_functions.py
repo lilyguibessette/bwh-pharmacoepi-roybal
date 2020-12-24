@@ -1,6 +1,13 @@
-from os import path
+import os
 import sys
+from os import path
 
 def build_path(folder, fname):
-	bundle_dir = getattr(sys, '_MEIPASS', path.abspath(path.dirname(__file__)))
+#basedir = getattr(sys.executable, path.abspath(path.dirname(__file__)))
+	basedir = sys.executable
+	#print("basedir: ", basedir)
+	#print("sys.executable: ", sys.executable)
+	bundle_dir = path.dirname(basedir)
+	# Original
 	return path.abspath(path.join(bundle_dir, folder, fname))
+   
