@@ -25,7 +25,7 @@ from patient_data import import_pt_data, new_empty_pt_data
 from pillsy_parser import import_Pillsy, find_rewards
 from driverReward import get_reward_update,send_rewards
 from redcap_parser import import_redcap, update_pt_data_with_redcap
-from driverRank import run_ranking, write_sms_history
+from driverRank import run_ranking, write_sms_history, new_empty_rank_log, write_rank_log
 from control_disconnection import check_control_disconnectedness, import_redcap_control, import_pt_data_control
 from exe_functions import build_path
 
@@ -145,15 +145,18 @@ pt_data = update_pt_data_with_redcap(redcap_data, pt_data, run_time)
 
 
 ranked_pt_data = new_empty_pt_data()
+ranking_log = new_empty_rank_log(run_time)
 print("---------------------------------RANKING PATIENTS---------------------------------")
 for index, patient in pt_data.iterrows():
     if patient["censor"] != 1 and patient["censor_date"] > run_time.date():
-        patient = run_ranking(patient, client, run_time)
+        patient, pt_rank_log = run_ranking(patient, client, run_time)
         ranked_pt_data = ranked_pt_data.append(patient)
+        ranking_log = ranking_log.append(pt_rank_log)
 
 
 # ## Output SMS and Patient Data
-
+print("---------------------------------EXPORT RANK LOG FILE-----------------------------")
+write_rank_log(ranking_log, run_time)
 # In[8]:
 
 

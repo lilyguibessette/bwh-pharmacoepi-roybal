@@ -11,6 +11,17 @@ import pandas as pd
 from exe_functions import build_path
 
 
+
+def new_empty_rank_log(run_time):
+    fp = build_path("000_RankData", "empty_rank_log.csv")
+    date_cols = ["start_date", "censor_date"]
+    ranking_log = pd.read_csv(fp, sep=',', header=0, parse_dates=date_cols)
+    return ranking_log
+
+def write_rank_log(ranking_log, run_time):
+    fp = build_path("000_RankData", str(run_time.date()) + "_rank_log.csv")
+    ranking_log.to_csv(fp, index=False)
+
 def write_sms_history(pt_data, run_time):
     fp = build_path("000_SMS_TO_SEND", str(run_time.date()) + "_sms_history.csv")
     # Subset updated_pt_dict to what we need for reward calls and put in dataframe
@@ -46,8 +57,8 @@ def run_ranking(patient, client, run_time):
     actions = get_framing_actions()
 
     frame_rank_request = RankRequest(actions=actions, context_features=context, event_id=rank_id_framing)
-    response = client.rank(rank_request=frame_rank_request)
-    framing_ranked = response.reward_action_id
+    frame_response = client.rank(rank_request=frame_rank_request)
+    framing_ranked = frame_response.reward_action_id
 
     patient = update_framing_ranking(patient, framing_ranked)
 
@@ -62,11 +73,13 @@ def run_ranking(patient, client, run_time):
         history_rank_request = RankRequest(actions=actions, context_features=context, event_id=rank_id_history)
         history_response = client.rank(rank_request=history_rank_request)
         history_ranked = history_response.reward_action_id
+        history_response_flag = True
 
     else:
         rank_id_history = None
         patient["rank_id_history_t0"] = None
         history_ranked = "noHistory"
+        history_response_flag = False
         
         
     patient = update_history_ranking(patient, history_ranked)
@@ -109,10 +122,88 @@ def run_ranking(patient, client, run_time):
     patient = update_reflective_ranking(patient, reflective_ranked)
     print('RANKING RUN WITH CONTEXT :', context)
 
+    rm_cols = ['num_pillsy_meds_t1', 'num_pillsy_meds_t2', 'num_pillsy_meds_t3', 'num_pillsy_meds_t4', 'num_pillsy_meds_t5', 'num_pillsy_meds_t6',
+    'flag_send_reward_value_t0', 'reward_value_t0', 'rank_id_framing_t1' , 'rank_id_history_t1',  'rank_id_social_t1' ,  'rank_id_content_t1' ,
+    'rank_id_reflective_t1' ,  'flag_send_reward_value_t1'  , 'reward_value_t1','adherence_day1','adherence_day2',  'adherence_day3',  'adherence_day4',
+    'adherence_day5', 'adherence_day6', 'adherence_day7','dichot_adherence_day1', 'dichot_adherence_day2', 'dichot_adherence_day3', 'dichot_adherence_day4',
+    'dichot_adherence_day5', 'dichot_adherence_day6', 'dichot_adherence_day7', 'total_dichot_adherence_past7', 'num_dates_early_rx_use', 'num_dates_disconnectedness',
+    'num_days_continuously_disconnected',  'contact_disconnected', 'sms_msg_today', 'factor_set',  'text_number', 'text_message', 'framing_sms',
+    'history_sms', 'social_sms',  'content_sms', 'reflective_sms',  'quantitative_sms',   'doctor_sms' , 'lifestyle_sms']
+    pt_rank_log = patient.drop(rm_cols)
+
+
+    #Framing
+    if frame_response.ranking[0].id == 'posFrame':
+        pt_rank_log['posFrame'] = frame_response.ranking[0].probability
+    elif frame_response.ranking[0].id == 'negFrame':
+        pt_rank_log['negFrame'] = frame_response.ranking[0].probability
+    else:
+        pt_rank_log['neutFram'] = frame_response.ranking[0].probability
+    
+    if frame_response.ranking[1].id == 'posFrame':
+        pt_rank_log['posFrame'] = frame_response.ranking[1].probability
+    elif frame_response.ranking[1].id == 'negFrame':
+        pt_rank_log['negFrame'] = frame_response.ranking[1].probability
+    else:
+        pt_rank_log['neutFram'] = frame_response.ranking[1].probability
+
+    if frame_response.ranking[2].id == 'posFrame':
+        pt_rank_log['posFrame'] = frame_response.ranking[2].probability
+    elif frame_response.ranking[2].id == 'negFrame':
+        pt_rank_log['negFrame'] = frame_response.ranking[2].probability
+    else:
+        pt_rank_log['neutFram'] = frame_response.ranking[2].probability
+
+    # History
+    if history_response_flag:
+        if history_response.ranking[0].id == 'yesHistory':               
+            pt_rank_log['yesHistory'] = history_response.ranking[0].probability
+        else: 
+            pt_rank_log['noHistory'] = history_response.ranking[0].probability
+        if history_response.ranking[1].id == 'yesHistory':               
+            pt_rank_log['yesHistory'] = history_response.ranking[1].probability
+        else: 
+            pt_rank_log['noHistory'] = history_response.ranking[1].probability
+    
+    # Social
+    if social_response.ranking[0].id == 'yesSocial':
+        pt_rank_log['yesSocial'] = social_response.ranking[0].probability
+    else: 
+        pt_rank_log['noSocial'] = social_response.ranking[0].probability
+    if social_response.ranking[1].id == 'yesSocial':
+        pt_rank_log['yesSocial'] = social_response.ranking[1].probability
+    else: 
+        pt_rank_log['noSocial'] = social_response.ranking[1].probability
+
+    # Content
+    if content_response.ranking[0].id == 'yesContent':
+        pt_rank_log['yesContent'] = content_response.ranking[0].probability
+    else: 
+        pt_rank_log['noContent'] = content_response.ranking[0].probability
+    if content_response.ranking[1].id == 'yesContent':
+        pt_rank_log['yesContent'] = content_response.ranking[1].probability
+    else: 
+        pt_rank_log['noContent'] = content_response.ranking[1].probability
+
+    # Reflective
+    if reflective_response.ranking[0].id == 'yesReflective':
+        pt_rank_log['yesReflective'] = reflective_response.ranking[0].probability
+    else: 
+        pt_rank_log['noReflective'] = reflective_response.ranking[0].probability
+    if reflective_response.ranking[1].id == 'yesReflective':
+        pt_rank_log['yesReflective'] = reflective_response.ranking[1].probability
+    else: 
+        pt_rank_log['noReflective'] = reflective_response.ranking[1].probability
+   
+
+    print(pt_rank_log)
+
     patient = update_num_day_sms(patient)
     patient = updated_sms_today(patient)
     patient["trial_day_counter"] += 1
-    return patient
+    return patient, pt_rank_log
+
+
 
 def shift_t0_t1_rank_ids(patient):
     # shift these values for the next rank to store t0 values  
@@ -327,15 +418,15 @@ def get_pillsy_med_features(patient):
 
 def get_observed_feedback_features(patient):
     observed_feedback_features = {}
-    if patient["disconnectedness"] != None and patient["trial_day_counter"] > 1:
+    if patient["disconnectedness"] != None and patient["trial_day_counter"] >= 1:
         observed_feedback_features["disconnectedness"] = patient["disconnectedness"]
-    if patient["early_rx_use"] != None and patient["trial_day_counter"] > 1:
+    if patient["early_rx_use"] != None and patient["trial_day_counter"] >= 1:
         observed_feedback_features["early_rx_use"] = patient["early_rx_use"]
-    if (patient["avg_adherence_1day"] != None) and patient["trial_day_counter"] > 1:
+    if (patient["avg_adherence_1day"] != None) and patient["trial_day_counter"] >= 1:
         observed_feedback_features["avg_adherence_1day"] = patient["avg_adherence_1day"]
-    if (patient["avg_adherence_3day"] != None) and patient["trial_day_counter"] > 3:
+    if (patient["avg_adherence_3day"] != None) and patient["trial_day_counter"] >= 3:
         observed_feedback_features["avg_adherence_3day"] = patient["avg_adherence_3day"]
-    if (patient["avg_adherence_7day"] != None) and patient["trial_day_counter"] > 7:
+    if (patient["avg_adherence_7day"] != None) and patient["trial_day_counter"] >= 7:
         observed_feedback_features["avg_adherence_7day"] = patient["avg_adherence_7day"]
     observed_feedback_features_dict = {"observed_feedback_features": observed_feedback_features}
     return observed_feedback_features_dict
