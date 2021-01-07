@@ -15,12 +15,12 @@ def write_sms_history(pt_data, run_time):
     fp = build_path("000_SMS_TO_SEND", str(run_time.date()) + "_sms_history.csv")
     # Subset updated_pt_dict to what we need for reward calls and put in dataframe
     # create an Empty DataFrame object
-    column_values = ['record_id','sms_msg_today', 'factor_set', 'text_number',  'trial_day_counter','censor_date']
+    column_values = ['record_id','sms_msg_today', 'factor_set', 'text_number',  'trial_day_counter','censor_date', 'num_days_continuously_disconnected','contact_disconnected']
     sms_history_dataframe = pd.DataFrame(columns=column_values)
 
     for pt, data in pt_data.iterrows():
         # Reward value, Rank_Id's
-        sms_history_dataframe.loc[len(sms_history_dataframe)] = [data["record_id"], data["sms_msg_today"], data["factor_set"], data["text_number"], data["trial_day_counter"], str(data["censor_date"])]
+        sms_history_dataframe.loc[len(sms_history_dataframe)] = [data["record_id"], data["sms_msg_today"], data["factor_set"], data["text_number"], data["trial_day_counter"], str(data["censor_date"]), data["num_days_continuously_disconnected"], data["contact_disconnected"]]
     # Writes CSV for RA to send text messages.
     sms_history_dataframe.to_csv(fp, index=False)
 
@@ -101,12 +101,14 @@ def run_ranking(patient, client, run_time):
     context = get_reflective_context(patient)
     actions = get_reflective_actions()
 
+
     reflective_rank_request = RankRequest(actions=actions, context_features=context, event_id=rank_id_reflective)
     reflective_response = client.rank(rank_request=reflective_rank_request)
     reflective_ranked = reflective_response.reward_action_id
 
     patient = update_reflective_ranking(patient, reflective_ranked)
-    
+    print('RANKING RUN WITH CONTEXT :', context)
+
     patient = update_num_day_sms(patient)
     patient = updated_sms_today(patient)
     patient["trial_day_counter"] += 1

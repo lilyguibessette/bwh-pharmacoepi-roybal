@@ -131,27 +131,13 @@ def find_taken_events(drug, drug_subset):
     waiting_after_close = False
     for index, event in drug_subset.iterrows():
         if last_event is None:
-            if event['eventValue'] == "OPEN":
-                if drug_freq == 1:
-                    return 1.0
-                taken += 1
-                last_event = event
-            else:
-                last_event = event
-                waiting_after_close = True
+            if drug_freq == 1:
+                return 1.0
+            taken += 1
+            last_event = event
         else:
-            if waiting_after_close:
-                if last_event['eventTime'] + pd.Timedelta('15 minutes') > event['eventTime']:
-                    if drug_freq == 1:
-                        return 1.0
-                    taken += 1
-                    last_event = event
-                waiting_after_close = False # either way, 15 min passed or taken event occurred
-            else:
-                if last_event['eventTime'] + pd.Timedelta('2 hours, 45 minutes') < event['eventTime']:
+            if last_event['eventTime'] + pd.Timedelta('2 hours, 45 minutes') < event['eventTime']:
                     return 1.0 # must be second taken event
-    if waiting_after_close:
-        return 0.0
     return 0.5
 
 def compute_taken_over_expected(patient, timeframe_pillsy_subset, num_pillsy_meds):
@@ -276,10 +262,10 @@ def find_patient_rewards(pillsy_subset, patient, run_time):
     print("reward_value_t1:", reward_value_t1)
 
     adherence_day3 = compute_taken_over_expected(patient, pillsy_three_day_ago_subset, patient["num_pillsy_meds_t2"])
-    adherence_day4 = compute_taken_over_expected(patient, pillsy_three_day_ago_subset, patient["num_pillsy_meds_t3"])
-    adherence_day5 = compute_taken_over_expected(patient, pillsy_three_day_ago_subset, patient["num_pillsy_meds_t4"])
-    adherence_day6 = compute_taken_over_expected(patient, pillsy_three_day_ago_subset, patient["num_pillsy_meds_t5"])
-    adherence_day7 = compute_taken_over_expected(patient, pillsy_three_day_ago_subset, patient["num_pillsy_meds_t6"])
+    adherence_day4 = compute_taken_over_expected(patient, pillsy_four_day_ago_subset, patient["num_pillsy_meds_t3"])
+    adherence_day5 = compute_taken_over_expected(patient, pillsy_five_day_ago_subset, patient["num_pillsy_meds_t4"])
+    adherence_day6 = compute_taken_over_expected(patient, pillsy_six_day_ago_subset, patient["num_pillsy_meds_t5"])
+    adherence_day7 = compute_taken_over_expected(patient, pillsy_seven_day_ago_subset, patient["num_pillsy_meds_t6"])
    
 
     print("Computing... early_rx_use in pillsy_early_today_subset with # med:", patient["num_pillsy_meds_t0"])
@@ -341,6 +327,13 @@ def find_patient_rewards(pillsy_subset, patient, run_time):
     patient["dichot_adherence_day2"] +
     patient["dichot_adherence_day1"] )
     
+    if patient["disconnectedness"] == -1:
+        patient["num_days_continuously_disconnected"]  += 1
+    if patient["num_days_continuously_disconnected"] > 6:
+        patient["contact_disconnected"] = True
+    else:
+        patient["contact_disconnected"] = False
+
     patient["disconnectedness"] = yesterday_disconnectedness
    
     # We update the avg adherences at days 1,3,7 with updated shifted daily adherence values:
