@@ -32,6 +32,14 @@ def write_sms_history(pt_data, run_time):
     for pt, data in pt_data.iterrows():
         # Reward value, Rank_Id's
         sms_history_dataframe.loc[len(sms_history_dataframe)] = [data["record_id"], data["sms_msg_today"], data["factor_set"], data["text_number"], data["trial_day_counter"], str(data["censor_date"]), data["num_days_continuously_disconnected"], data["contact_disconnected"]]
+    date_cols = ["start_date", "censor_date"]
+    control_fp = build_path("000_PatientDataControl", str(run_time.date()) + "_pt_data_control.csv")
+    controls = pd.read_csv(control_fp, sep=',', header=0, parse_dates=date_cols)
+
+    for pt, data in controls.iterrows():
+        # Reward value, Rank_Id's
+        sms_history_dataframe.loc[len(sms_history_dataframe)] = [data["record_id"], 'CONTROL', 'CONTROL', 'CONTROL', data["trial_day_counter"], str(data["censor_date"]), data["num_days_continuously_disconnected"], data["contact_disconnected"]]
+    
     # Writes CSV for RA to send text messages.
     sms_history_dataframe.to_csv(fp, index=False)
 

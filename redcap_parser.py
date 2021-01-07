@@ -105,27 +105,29 @@ def update_pt_data_with_redcap(redcap_data, pt_data, run_time):
     if not pt_data.empty:
         for index, patient in pt_data.iterrows():
             record_id = patient["record_id"]
-            row = redcap_data[redcap_data["record_id"] == record_id].iloc[0]
-            # need to make sure via iterating it updates this data in the df
-            patient["censor"] = row["censor"]
-            patient["num_twice_daily_pillsy_meds"] = row["num_twice_daily_pillsy_meds"]
-            patient["pillsy_meds_agi"] = row["pillsy_meds___1"]
-            patient["pillsy_meds_dpp4"] = row["pillsy_meds___2"]
-            patient["pillsy_meds_glp1"] = row["pillsy_meds___3"]
-            patient["pillsy_meds_meglitinide"] = row["pillsy_meds___4"]
-            patient["pillsy_meds_metformin"] = row["pillsy_meds___5"]
-            patient["pillsy_meds_sglt2"] = row["pillsy_meds___6"]
-            patient["pillsy_meds_sulfonylurea"] = row["pillsy_meds___7"]
-            patient["pillsy_meds_thiazolidinedione"] = row["pillsy_meds___8"]
-            # Shift previous number of meds over a day for measurement of backfilling of data 
-            patient["num_pillsy_meds_t6"] = patient["num_pillsy_meds_t5"]
-            patient["num_pillsy_meds_t5"] = patient["num_pillsy_meds_t4"]
-            patient["num_pillsy_meds_t4"] = patient["num_pillsy_meds_t3"]
-            patient["num_pillsy_meds_t3"] = patient["num_pillsy_meds_t2"]
-            patient["num_pillsy_meds_t2"] = patient["num_pillsy_meds_t1"]
-            patient["num_pillsy_meds_t1"] = patient["num_pillsy_meds_t0"]
-            patient["num_pillsy_meds_t0"] = row["bottles"]
-            new_pt_data = new_pt_data.append(patient)
+            row = redcap_data[redcap_data["record_id"] == record_id]
+            if not row.empty:
+                row = row.iloc[0]
+                # need to make sure via iterating it updates this data in the df
+                patient["censor"] = row["censor"]
+                patient["num_twice_daily_pillsy_meds"] = row["num_twice_daily_pillsy_meds"]
+                patient["pillsy_meds_agi"] = row["pillsy_meds___1"]
+                patient["pillsy_meds_dpp4"] = row["pillsy_meds___2"]
+                patient["pillsy_meds_glp1"] = row["pillsy_meds___3"]
+                patient["pillsy_meds_meglitinide"] = row["pillsy_meds___4"]
+                patient["pillsy_meds_metformin"] = row["pillsy_meds___5"]
+                patient["pillsy_meds_sglt2"] = row["pillsy_meds___6"]
+                patient["pillsy_meds_sulfonylurea"] = row["pillsy_meds___7"]
+                patient["pillsy_meds_thiazolidinedione"] = row["pillsy_meds___8"]
+                # Shift previous number of meds over a day for measurement of backfilling of data 
+                patient["num_pillsy_meds_t6"] = patient["num_pillsy_meds_t5"]
+                patient["num_pillsy_meds_t5"] = patient["num_pillsy_meds_t4"]
+                patient["num_pillsy_meds_t4"] = patient["num_pillsy_meds_t3"]
+                patient["num_pillsy_meds_t3"] = patient["num_pillsy_meds_t2"]
+                patient["num_pillsy_meds_t2"] = patient["num_pillsy_meds_t1"]
+                patient["num_pillsy_meds_t1"] = patient["num_pillsy_meds_t0"]
+                patient["num_pillsy_meds_t0"] = row["bottles"]
+                new_pt_data = new_pt_data.append(patient)
 
     # Adding new patients
     for id in unique_study_ids_list_redcap:
@@ -134,9 +136,8 @@ def update_pt_data_with_redcap(redcap_data, pt_data, run_time):
             redcap_row = redcap_data[redcap_data['record_id'] == id].iloc[0]
             if redcap_row['censor'] == 1:
                 continue # skips this patient in the for loop and continues to the next patient
-            if redcap_row['start_date'] > run_time.date(): # ask joe about this thought - 
-                #we can assume clean data here or control for some nuances to make RA life easier
-                continue # basically we only add them in if today is their startdate
+            if redcap_row['start_date'] > run_time.date(): 
+                continue 
             if redcap_row["race___5"] == 1 or redcap_row["race___6"] == 1 or redcap_row["race___7"] == 1:
                 race_other = 1
             else:

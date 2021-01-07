@@ -112,9 +112,6 @@ client = PersonalizerClient(
 # * Pillsy data from yesterday to determine reward
 # If this is study initiation, this step will just load an empty patient dictionary and null pillsy dataset.
 
-# In[5]:
-
-
 
 if not pt_data.empty and new_pillsy_data is not None:
     print("----------------------------IMPORT PILLSY AND PT DATA SUCCESS---------------------------")
@@ -131,18 +128,11 @@ if not pt_data.empty and new_pillsy_data is not None:
 
 # ## Import/Update Patients
 
-# In[6]:
-
-
 print("-----------------------------IMPORT REDCAP AND PT DATA----------------------------")
 pt_data = update_pt_data_with_redcap(redcap_data, pt_data, run_time)
 
-
 # ## Rank Step
 # Call Personalizer to rank action features to find the correct text message to send today.
-
-# In[7]:
-
 
 ranked_pt_data = new_empty_pt_data()
 ranking_log = new_empty_rank_log(run_time)
@@ -153,23 +143,20 @@ for index, patient in pt_data.iterrows():
         ranked_pt_data = ranked_pt_data.append(patient)
         ranking_log = ranking_log.append(pt_rank_log)
 
-
-# ## Output SMS and Patient Data
 print("---------------------------------EXPORT RANK LOG FILE-----------------------------")
 write_rank_log(ranking_log, run_time)
-# In[8]:
+# ## Output SMS and Patient Data
 
+print("---------------------------------CHECKING CONTROLS---------------------------------")
+check_control_disconnectedness(new_pillsy_data,redcap_control,pt_data_control,run_time) # check whether controls have connection problems
 
-print("---------------------------------EXPORT SMS FILE---------------------------------")
+print("---------------------------------EXPORT SMS FILE----------------------------------")
 write_sms_history(ranked_pt_data, run_time)
 ranked_pt_data.to_csv(
     build_path("000_PatientData", str(run_time.date()) + "_pt_data.csv"), 
     index=False
 )
 
-
-print("---------------------------------CHECKING CONTROLS---------------------------------")
-check_control_disconnectedness(new_pillsy_data,redcap_control,pt_data_control,run_time) # check whether controls have connection problems
 print("-----------------------------------------------------------------------------------")
 log_file.close()
 sys.stdout = old_stdout

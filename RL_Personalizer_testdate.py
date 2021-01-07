@@ -158,6 +158,8 @@ write_rank_log(ranking_log, run_time)
 # ## Output SMS and Patient Data
 
 # In[8]:
+print("---------------------------------CHECKING CONTROLS---------------------------------")
+check_control_disconnectedness(new_pillsy_data,redcap_control,pt_data_control,run_time) # check whether controls have connection problems
 
 print("---------------------------------EXPORT SMS FILE----------------------------------")
 write_sms_history(ranked_pt_data, run_time)
@@ -167,8 +169,7 @@ ranked_pt_data.to_csv(
 )
 
 
-print("---------------------------------CHECKING CONTROLS---------------------------------")
-check_control_disconnectedness(new_pillsy_data,redcap_control,pt_data_control,run_time) # check whether controls have connection problems
+
 print("-----------------------------------------------------------------------------------")
 log_file.close()
 sys.stdout = old_stdout

@@ -329,6 +329,9 @@ def find_patient_rewards(pillsy_subset, patient, run_time):
     
     if patient["disconnectedness"] == -1:
         patient["num_days_continuously_disconnected"]  += 1
+    else:
+        patient["num_days_continuously_disconnected"]  = 0
+        
     if patient["num_days_continuously_disconnected"] > 6:
         patient["contact_disconnected"] = True
     else:
