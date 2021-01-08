@@ -56,6 +56,14 @@ The parent directory should also have these folders for the program to export to
     - exists as csv of data for each day
     - named "YYYY-MM-DD_reward_updates" with date prepended in format as indicated
     - date used is of when reward data is generated from computation from Pillsy data and patient dictionary and sent to Personalizer (i.e. today)
+    
+`000_RankData`
+- contains all context features sent to Personalizer via rank calls and the resulting ranked actions with their corresponding probabilities
+- these context are the reward calls that we make to Personalizer to indicate how well it predicted an appropriate SMS message based on a patient's medication adherence from the last run to midnight
+- For a particular RankData file
+    - exists as csv of data for each day
+    - named "YYYY-MM-DD_rank_log" with date prepended in format as indicated
+    - date used is of when rank data is generated from computation from Pillsy data and combined with updated REDCap data in the patient dictionary and sent to Personalizer (i.e. today)
 
 `_ProgramLog`
 - contains a log from running the program to record error messages and program status
