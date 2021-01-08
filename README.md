@@ -44,6 +44,7 @@ The parent directory should also have these folders for the program to export to
 
 `000_SMS_TO_SEND`
 - contains all SMS messaging history generated from the decisions of the rank calls to Personalizer
+- also contains indicators for exposed and control patients for number of consecutive possibly disconnected days
 - For a particular SMSHistory file
     - exists as csv of data for each day
     - named "YYYY-MM-DD_sms_history" with date prepended in format as indicated
