@@ -40,3 +40,5 @@ _SMSChoices/
 protocol_docs/
 taken_algo.py
 RL_Personalizer_testing.py
+production_environments/
+testing_program_version/

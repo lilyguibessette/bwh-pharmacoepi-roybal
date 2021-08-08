@@ -1,0 +1,2 @@
+{'timeStamp': '2021-01-12T00:00:00Z', 'ipsEstimatorNumerator': 186.43109, 'ipsEstimatorDenominator': 2636.0, 'snipsEstimatorDenominator': 2492.0422, 'aggregateTimeWindow': 'PT0S', 'nonZeroProbability': 2636.0, 'confidenceInterval': 2.1666675, 'sumOfSquares': 134.30336}
+-----------------------------------------------------------------------------------
